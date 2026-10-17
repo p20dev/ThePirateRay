@@ -18,9 +18,26 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "assets" / "branding" / "the-pirate-ray-logo.png"
 OUTPUT = ROOT / "assets" / "branding" / "generated"
+BRANDING_README = ROOT / "assets" / "branding" / "README.md"
 SOURCE_SHA256 = "afcd7e457b5bf9cf92a7222b3ab8a2850d75c05bc2c37d242c959cd7569e6fa4"
 PNG_SIZES = (16, 20, 24, 32, 40, 48, 64, 72, 96, 128, 144, 152, 180, 192, 256, 384, 512, 1024)
 APP_SIZES = (16, 32, 48, 64, 128, 256, 512, 1024)
+
+
+CATALOG_GROUPS = (
+    ("png/transparent/", "PNG — transparent, full-bleed"),
+    ("png/on-black/", "PNG — opaque on black"),
+    ("png/safe-zone/", "PNG — transparent safe-zone"),
+    ("png/monochrome-white/", "PNG — monochrome white"),
+    ("png/monochrome-black/", "PNG — monochrome black"),
+    ("web/", "Web and PWA"),
+    ("windows/", "Windows"),
+    ("macos/", "macOS"),
+    ("ios/", "iOS and iPadOS"),
+    ("android/", "Android"),
+    ("linux/", "Linux / freedesktop"),
+    ("social/", "Social media"),
+)
 
 
 def sha256(path: Path) -> str:
@@ -53,6 +70,215 @@ def monochrome(source: Image.Image, size: int, color: tuple[int, int, int]) -> I
     image = Image.new("RGBA", (size, size), (*color, 0))
     image.putalpha(alpha)
     return image
+
+
+def catalog_background(relative: str) -> str:
+    if any(part in relative for part in ("on-black/", "maskable-", "social/", "store/")):
+        return "Opaque black"
+    if relative.startswith(("ios/", "macos/")) or relative == "windows/app.ico":
+        return "Opaque black, padded"
+    if "/ic_launcher.png" in relative or "/ic_launcher_round.png" in relative:
+        return "Opaque black, padded"
+    if "monochrome-white/" in relative:
+        return "Transparent; white silhouette"
+    if "monochrome-black/" in relative:
+        return "Transparent; black silhouette"
+    if "safe-zone/" in relative:
+        return "Transparent, 11% margin"
+    if "foreground" in relative:
+        return "Transparent adaptive foreground"
+    return "Transparent"
+
+
+def catalog_usage(relative: str, width: int | None = None) -> str:
+    name = Path(relative).name
+    if relative.startswith("png/transparent/"):
+        if width and width <= 48:
+            return "Small UI, browser chrome, or tray use where full artwork may reach the edge."
+        if width and width <= 192:
+            return "General UI, documentation, avatars, and compact placements on any background."
+        return "General high-resolution placement, print/layout source, and manual exports."
+    if relative.startswith("png/on-black/"):
+        return "Use where transparency is unsupported or a guaranteed black brand background is required."
+    if relative.startswith("png/safe-zone/"):
+        return "App chrome, launchers, or UI containers that may crop or round the image."
+    if "monochrome-white/" in relative:
+        return "Dark system bars, notification glyphs, vinyl/stencil work, or one-color output."
+    if "monochrome-black/" in relative:
+        return "Light system bars, print, engraving masks, or one-color output."
+    if relative == "web/favicon.ico":
+        return "Multi-resolution legacy browser favicon (16, 32, and 48 px)."
+    if name.startswith("favicon-"):
+        return f"Browser tab/favicon at {width} px; reference from HTML with rel=icon."
+    if name == "apple-touch-icon.png":
+        return "iOS/iPadOS home-screen bookmark; reference with rel=apple-touch-icon."
+    if name.startswith("maskable-icon-"):
+        return "PWA manifest icon with extra safe area; set purpose to maskable."
+    if relative.startswith("web/icon-"):
+        return "Standard PWA/web-app manifest icon; set purpose to any."
+    if relative == "windows/app.ico":
+        return "Windows executable, installer, shortcut, and window icon (16–256 px)."
+    if name == "BadgeLogo.png":
+        return "Windows package badge asset."
+    if name == "StoreLogo.png":
+        return "Microsoft Store package logo."
+    if name == "Wide310x150Logo.png":
+        return "Wide Windows Start tile/package visual."
+    if relative.startswith("windows/store/"):
+        return "Windows package/Start tile asset matching the size encoded in its filename."
+    if relative == "macos/AppIcon.icns":
+        return "Ready-to-use macOS app-bundle icon containing platform resolutions."
+    if relative.startswith("macos/AppIcon.iconset/"):
+        return "macOS iconset source; keep the filename unchanged for Xcode or iconutil."
+    if relative.startswith("ios/"):
+        if name == "icon-1024.png":
+            return "App Store marketing icon."
+        point_size = name.removeprefix("icon-").split("@")[0]
+        role = {"20": "notifications", "29": "Settings", "40": "Spotlight", "60": "iPhone app", "76": "iPad app", "83.5": "iPad Pro app"}.get(point_size, "app")
+        return f"iOS/iPadOS {role} icon; use through the included AppIcon asset catalog."
+    if "ic_launcher_foreground" in relative:
+        return "Android adaptive-icon foreground for the density named in the parent folder."
+    if "ic_launcher_round" in relative:
+        return "Legacy round Android launcher icon for the named display density."
+    if relative.startswith("android/"):
+        return "Legacy Android launcher icon for the named display density."
+    if relative.startswith("linux/"):
+        return "Linux desktop/app-menu icon; install in the matching hicolor size directory."
+    if name == "profile-400.png":
+        return "Square account, organization, repository, or social profile image."
+    if name == "open-graph-1200x630.png":
+        return "Open Graph/link-preview image for websites, repositories, and social sharing."
+    return "Platform-specific project logo asset."
+
+
+def write_branding_readme(files: list[dict[str, object]]) -> None:
+    image_files = [
+        record for record in files
+        if Path(str(record["path"])).suffix.lower() in {".png", ".ico", ".icns"}
+    ]
+    support_files = [record for record in files if record not in image_files]
+    lines = [
+        "# The Pirate Ray branding",
+        "",
+        "The official project name is **The Pirate Ray**.",
+        "",
+        "`the-pirate-ray-logo.png` is the original transparent project logo supplied by",
+        "the project owner for use by this project. It is stored without resizing,",
+        "re-encoding, or other modification.",
+        "",
+        "- Dimensions: 1254 x 1254 pixels",
+        "- Format: 32-bit ARGB PNG",
+        f"- SHA-256: `{SOURCE_SHA256}`",
+        "",
+        "Use the transparent original by default. If a derivative needs an opaque",
+        "background, the background must be black. Do not use another background",
+        "color.",
+        "",
+        "## Quick selection guide",
+        "",
+        "| Need | Recommended asset |",
+        "|---|---|",
+        "| General logo with transparency | `generated/png/transparent/` at the nearest suitable size |",
+        "| Icon that may be rounded or cropped | `generated/png/safe-zone/` |",
+        "| PWA/installable website | `generated/web/site.webmanifest` and `maskable-icon-*` |",
+        "| Windows application | `generated/windows/app.ico` |",
+        "| macOS application | `generated/macos/AppIcon.icns` |",
+        "| iPhone/iPad application | `generated/ios/AppIcon.appiconset/` |",
+        "| Android application | `generated/android/` |",
+        "| Linux desktop application | `generated/linux/hicolor/` |",
+        "| Tray, notification, stencil, or engraving | `generated/png/monochrome-white/` or `monochrome-black/` |",
+        "| Social profile or link preview | `generated/social/` |",
+        "",
+        f"The catalog below lists all {len(image_files)} generated image files individually.",
+        "",
+        "## Canonical artwork",
+        "",
+        "| Preview | File | Dimensions | Background / safe area | Recommended use |",
+        "|---|---|---:|---|---|",
+        '<img src="the-pirate-ray-logo.png" width="64" alt="Original The Pirate Ray logo"> | [`the-pirate-ray-logo.png`](the-pirate-ray-logo.png) | 1254 x 1254 | Transparent, full-bleed | Canonical master. Use for new derivatives and full-resolution layouts; never overwrite or re-encode it. |',
+    ]
+
+    for prefix, title in CATALOG_GROUPS:
+        records = [record for record in image_files if str(record["path"]).startswith(prefix)]
+        records.sort(key=lambda record: (record.get("width", 0), str(record["path"])))
+        if not records:
+            continue
+        lines.extend([
+            "",
+            f"## {title}",
+            "",
+            "| Preview | File | Dimensions | Background / safe area | Recommended use |",
+            "|---|---|---:|---|---|",
+        ])
+        for record in records:
+            relative = str(record["path"])
+            width = record.get("width")
+            height = record.get("height")
+            if width and height:
+                dimensions = f"{width} x {height}"
+            elif relative == "windows/app.ico":
+                dimensions = "16–256 px"
+            elif relative == "web/favicon.ico":
+                dimensions = "16–48 px"
+            else:
+                dimensions = "16–1024 px"
+            preview_relative = {
+                "web/favicon.ico": "web/favicon-32x32.png",
+                "windows/app.ico": "windows/store/Square150x150Logo.png",
+                "macos/AppIcon.icns": "macos/AppIcon.iconset/icon_128x128.png",
+            }.get(relative, relative)
+            preview_style = ""
+            if "monochrome-white/" in relative:
+                preview_style = ' style="background:#222;padding:4px"'
+            elif "monochrome-black/" in relative:
+                preview_style = ' style="background:#eee;padding:4px"'
+            preview = f'<img src="generated/{preview_relative}" width="48" alt="Preview of {Path(relative).name}"{preview_style}>'
+            link = f"[`{relative}`](generated/{relative})"
+            lines.append(
+                f"{preview} | {link} | {dimensions} | {catalog_background(relative)} | {catalog_usage(relative, width if isinstance(width, int) else None)} |"
+            )
+
+    lines.extend([
+        "",
+        "## Supporting manifests and configuration",
+        "",
+        "These files are not logos themselves, but make the image sets copy-ready for",
+        "their target platforms.",
+        "",
+        "| File | Purpose |",
+        "|---|---|",
+        "[`manifest.json`](generated/manifest.json) | Inventory with byte sizes, dimensions, and SHA-256 for every generated file. |",
+    ])
+    support_usage = {
+        "web/site.webmanifest": "Ready-to-adapt PWA manifest with regular and maskable icon declarations.",
+        "ios/AppIcon.appiconset/Contents.json": "Xcode asset-catalog mapping for every iOS and iPadOS icon.",
+        "android/mipmap-anydpi-v26/ic_launcher.xml": "Android adaptive launcher icon declaration.",
+        "android/mipmap-anydpi-v26/ic_launcher_round.xml": "Android adaptive round launcher icon declaration.",
+        "android/values/ic_launcher_background.xml": "Required black Android adaptive-icon background color.",
+    }
+    for record in support_files:
+        relative = str(record["path"])
+        purpose = support_usage.get(relative, "Platform support/configuration file.")
+        lines.append(f"[`{relative}`](generated/{relative}) | {purpose} |")
+
+    lines.extend([
+        "",
+        "## Regeneration and integrity",
+        "",
+        "The complete catalog is generated deterministically from the canonical logo.",
+        "`generated/manifest.json` records every derivative's dimensions and SHA-256.",
+        "Regenerate the assets and this README from the repository root with:",
+        "",
+        "```powershell",
+        "uv run --with pillow python scripts/generate_brand_assets.py",
+        "```",
+        "",
+        "The repository does not yet have a project license. This directory records",
+        "the asset's provenance and approved presentation; it does not independently",
+        "grant broader rights or select a license.",
+        "",
+    ])
+    BRANDING_README.write_text("\n".join(lines), encoding="utf-8", newline="\n")
 
 
 def generate_ios(source: Image.Image) -> None:
@@ -242,6 +468,7 @@ def generate() -> None:
     (OUTPUT / "manifest.json").write_text(
         json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
     )
+    write_branding_readme(files)
 
 
 if __name__ == "__main__":

@@ -71,6 +71,15 @@ class BrandAssetsTests(unittest.TestCase):
             (GENERATED / "ios" / "AppIcon.appiconset" / "Contents.json").read_text(encoding="utf-8")
         )
 
+    def test_branding_readme_catalogs_every_image(self):
+        readme = (BRANDING / "README.md").read_text(encoding="utf-8")
+        image_suffixes = {".png", ".ico", ".icns"}
+        for record in self.manifest["files"]:
+            relative = record["path"]
+            if Path(relative).suffix.lower() in image_suffixes:
+                with self.subTest(path=relative):
+                    self.assertIn(f"generated/{relative}", readme)
+
 
 if __name__ == "__main__":
     unittest.main()
