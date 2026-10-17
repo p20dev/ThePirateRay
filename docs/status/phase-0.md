@@ -18,6 +18,10 @@ Last updated: 2026-10-17
 - A fresh clone of both remotes passed `git fsck`; the private clone additionally
   passed `git lfs fsck` and reproduced the expected file and byte counts.
 - The public test suite and leak guard pass against the fresh private deny-list.
+- Passive Windows enumeration of the connected controller confirmed device
+  description `USBLMCV4`, USB VID/PID `9588:9899`, vendor-specific class, and
+  USB revision descriptor `0005`. No compatible function driver is installed
+  on the development computer; no endpoint was opened.
 - No vendor executable, plugin, DLL, or driver was run. No USB capture, framing,
   machine command, or laser output was performed.
 
@@ -33,7 +37,7 @@ Consequently, these items remain pending from the actual control machine:
 - Device Settings screenshots;
 - known-working `.lbrn2` examples;
 - safe exterior hardware/label photographs and startup/interlock notes;
-- live Windows Device Manager confirmation of USB VID/PID and driver.
+- stock-driver identity and version from the actual LightBurn control computer.
 
 Collect them directly into a dated directory under PrivateStash by following
 the [LightBurn checklist](../collection/lightburn.md). Do not use Google Drive

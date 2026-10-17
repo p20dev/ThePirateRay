@@ -25,8 +25,13 @@ lightburn:
 usb:
   vid: "9588"
   pid: "9899"
-  driver: Lmcv2u
-  status: installer-metadata-observed-pending-live-verification
+  device_description: USBLMCV4
+  device_revision_descriptor: "0005"
+  interface_class: vendor-specific
+  stock_driver_family_from_installer: Lmcv2u
+  development_computer_driver: null
+  development_computer_problem_code: 28
+  status: live-enumeration-confirmed-no-compatible-driver-installed
 safety:
   phase_0_hardware_commands_allowed: false
   phase_0_laser_output_allowed: false
@@ -43,3 +48,5 @@ evidence:
 notes:
   - No complete serial numbers or private source locators are stored here.
   - Incorrect galvo or source configuration can damage hardware; values are not inferred by trial and error.
+  - USB identity was confirmed by passive Windows PnP enumeration on 2026-10-17; no device endpoint was opened.
+  - USB revision 0005 is a descriptor value, not a proven board or firmware version.
