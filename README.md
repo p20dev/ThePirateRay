@@ -32,5 +32,10 @@ python -m unittest discover -s tests -v
 python scripts/check_public_repo.py .
 ```
 
+`scripts/materialize_private_drive_files.ps1` is the bounded transport used by
+the acquisition workflow. It accepts authenticated download references over
+standard input, rejects path traversal, and verifies byte sizes before files
+enter PrivateStash. It never prints download credentials.
+
 No project license has been selected yet. Until that decision is recorded,
 the contents are not offered under an open-source license.

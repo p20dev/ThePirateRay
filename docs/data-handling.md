@@ -31,3 +31,7 @@ project artifact is created, edited, renamed, or reorganized there.
 4. Create a sanitized derivative in the public repository.
 5. Run automated guards and manually review the staged diff.
 6. Commit and push the private evidence before the public claim that cites it.
+
+During Drive acquisition, authenticated download references are ephemeral and
+must be passed to the bounded materializer over standard input. They must not be
+written to scripts, manifests, command history, or Git.
