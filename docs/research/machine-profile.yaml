@@ -1,0 +1,40 @@
+schema_version: 1
+profile_id: makerspace-naestved-jpt-e2-mopa-100w
+status: collection-in-progress
+machine:
+  source_family: JPT
+  source_model: E2/M7
+  nominal_power_w: 100
+  technology: mopa-fiber
+controller:
+  family: JCZ
+  stock_software: EZCAD2
+  stock_software_version_observed: 2.14.16
+optics:
+  active_field_mm:
+    width: 110
+    height: 110
+    status: assumed-pending-physical-verification
+  other_configurations_observed_mm:
+    - width: 300
+      height: 300
+lightburn:
+  version: null
+  build: null
+  status: pending-collection
+usb:
+  vid: null
+  pid: null
+  driver: null
+  status: pending-collection
+safety:
+  phase_0_hardware_commands_allowed: false
+  phase_0_laser_output_allowed: false
+evidence:
+  - artifact_id: pending-installer-110-markcfg7
+    sha256: null
+  - artifact_id: pending-installer-300-markcfg7
+    sha256: null
+notes:
+  - No complete serial numbers or private source locators are stored here.
+  - Incorrect galvo or source configuration can damage hardware; values are not inferred by trial and error.

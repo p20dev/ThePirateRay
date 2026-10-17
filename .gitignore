@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.uv-cache/
+
+# Sensitive/raw acquisition data belongs in ThePirateRay-PrivateStash.
+/raw/
+/private/
+*.lbprefs
+*.lbzip
+prefs.ini
+prefs.old
+
+# Local reports are reproducible and must not be committed accidentally.
+/reports/

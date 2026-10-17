@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://git.p20.dev/christian/ThePirateRay/schemas/artifact-manifest.schema.json",
+  "title": "The Pirate Ray artifact manifest entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_id",
+    "sha256",
+    "size_bytes",
+    "observed_at_utc",
+    "media_type",
+    "origin",
+    "classification",
+    "analysis_refs"
+  ],
+  "properties": {
+    "artifact_id": {
+      "type": "string",
+      "pattern": "^sha256-[0-9a-f]{20}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "size_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "observed_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "media_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "origin": {
+      "type": "string",
+      "minLength": 1
+    },
+    "classification": {
+      "enum": ["public", "private-sensitive", "private-third-party"]
+    },
+    "analysis_refs": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_locator": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
