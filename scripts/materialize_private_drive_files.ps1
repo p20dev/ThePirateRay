@@ -1,22 +1,20 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $true)]
-    [string]$Root
+    [string]$Root,
+
+    [Parameter(Mandatory = $false)]
+    [string]$RequestBase64
 )
 
 $ErrorActionPreference = 'Stop'
 $rootPath = (Resolve-Path -LiteralPath $Root).Path
 $rootPrefix = $rootPath.TrimEnd([IO.Path]::DirectorySeparatorChar) + [IO.Path]::DirectorySeparatorChar
 
-while (($line = [Console]::In.ReadLine()) -ne $null) {
-    if ($line -eq '__END__') {
-        break
-    }
-    if ([string]::IsNullOrWhiteSpace($line)) {
-        continue
-    }
+function Receive-Artifact {
+    param([Parameter(Mandatory = $true)]$Item)
 
-    $item = $line | ConvertFrom-Json
+    $item = $Item
     if (-not $item.relative_path -or -not $item.download_url) {
         throw 'Each input line must contain relative_path and download_url.'
     }
@@ -44,4 +42,20 @@ while (($line = [Console]::In.ReadLine()) -ne $null) {
     }
 
     Write-Output ("OK`t{0}`t{1}" -f $actualSize, $item.relative_path)
+}
+
+if ($RequestBase64) {
+    $json = [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($RequestBase64))
+    Receive-Artifact -Item ($json | ConvertFrom-Json)
+    exit 0
+}
+
+while (($line = [Console]::In.ReadLine()) -ne $null) {
+    if ($line -eq '__END__') {
+        break
+    }
+    if ([string]::IsNullOrWhiteSpace($line)) {
+        continue
+    }
+    Receive-Artifact -Item ($line | ConvertFrom-Json)
 }

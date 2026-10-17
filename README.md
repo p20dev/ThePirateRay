@@ -37,5 +37,9 @@ the acquisition workflow. It accepts authenticated download references over
 standard input, rejects path traversal, and verifies byte sizes before files
 enter PrivateStash. It never prints download credentials.
 
+For non-interactive orchestration it also accepts one UTF-8 JSON request as a
+Base64 parameter. This prevents shell metacharacters in signed references from
+being interpreted as commands.
+
 No project license has been selected yet. Until that decision is recorded,
 the contents are not offered under an open-source license.
