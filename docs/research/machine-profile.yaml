@@ -23,18 +23,23 @@ lightburn:
   build: null
   status: pending-collection
 usb:
-  vid: null
-  pid: null
-  driver: null
-  status: pending-collection
+  vid: "9588"
+  pid: "9899"
+  driver: Lmcv2u
+  status: installer-metadata-observed-pending-live-verification
 safety:
   phase_0_hardware_commands_allowed: false
   phase_0_laser_output_allowed: false
 evidence:
-  - artifact_id: pending-installer-110-markcfg7
-    sha256: null
-  - artifact_id: pending-installer-300-markcfg7
-    sha256: null
+  - artifact_id: sha256-4bc09e50d3d0de8652df
+    sha256: 4bc09e50d3d0de8652dfd0d4617bc69c85e5be22b1598eab097e042339f8fcbd
+    role: ezcad2-110-markcfg7
+  - artifact_id: sha256-f5a88d31a882a56bcfd9
+    sha256: f5a88d31a882a56bcfd9f69af9112438cbb8b21e50fa8c8d546ff1060f9a7ffd
+    role: ezcad2-300-markcfg7
+  - artifact_id: sha256-ebfe631958b9522533ff
+    sha256: ebfe631958b9522533ffb1e78c8961073e3549039053ea0d56e4c82cfe8bff83
+    role: jcz-windows-driver-metadata
 notes:
   - No complete serial numbers or private source locators are stored here.
   - Incorrect galvo or source configuration can damage hardware; values are not inferred by trial and error.

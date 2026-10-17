@@ -21,6 +21,7 @@ Start with:
 - [Data handling policy](docs/data-handling.md)
 - [LightBurn collection checklist](docs/collection/lightburn.md)
 - [Sanitized machine profile](docs/research/machine-profile.yaml)
+- [110/300 configuration comparison](docs/research/config-comparison.md)
 - [Repository boundary decision](docs/adr/0001-public-private-repository-boundary.md)
 
 ## Validation
