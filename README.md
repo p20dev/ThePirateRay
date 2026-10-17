@@ -23,7 +23,9 @@ Start with:
 - [LightBurn collection checklist](docs/collection/lightburn.md)
 - [Sanitized machine profile](docs/research/machine-profile.yaml)
 - [110/300 configuration comparison](docs/research/config-comparison.md)
+- [Open-source reuse landscape](docs/research/open-source-landscape.md)
 - [Repository boundary decision](docs/adr/0001-public-private-repository-boundary.md)
+- [Proposed Rayforge/BalorMK reuse decision](docs/adr/0002-reuse-rayforge-and-balormk.md)
 - [Current Phase 0 status](docs/status/phase-0.md)
 
 ## Validation

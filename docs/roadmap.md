@@ -83,25 +83,35 @@ Exit criteria:
 - sanitized metadata and new analysis are committed publicly;
 - both repositories pass their clean-clone validation.
 
-### M1 — Offline application core
+### M1 — Reuse validation and offline JCZ vertical slice
 
-Define technology-independent domain models before choosing hardware APIs:
+Ecosystem research found that Rayforge already implements most of the desired
+application and MeerK40t BalorMK already implements the relevant controller.
+Validate those assets before defining competing application architecture. See
+the [open-source landscape](research/open-source-landscape.md) and
+[proposed ADR 0002](adr/0002-reuse-rayforge-and-balormk.md).
 
-- versioned machine-profile, project, operation, and material-preset schemas;
-- explicit physical units and coordinate transforms;
-- geometry bounds and parameter validation;
-- deterministic job planning and simulation interfaces;
-- an append-only diagnostic/event model with automatic redaction;
-- a controller interface with a simulator as its only implementation;
-- tests built from synthetic fixtures and sanitized evidence.
+The first work is entirely offline:
 
-A small desktop technology spike should compare candidate stacks using one
-vertical slice: open a project, render it, validate it, and run it against the
-simulator. The stack decision belongs in an ADR after the spike, not before it.
+- evaluate stock MeerK40t against a synthetic MOPA job using only its mock
+  controller;
+- prove an external Rayforge addon can register and package a binary
+  no-device driver on Windows;
+- map a Rayforge operation stream into a deterministic JCZ command trace and
+  compare it with BalorMK output;
+- test existing LightBurn import with synthetic and private known-working
+  galvo projects;
+- identify only the missing profile, validation, diagnostic and safety
+  concepts instead of designing replacements for existing ones.
 
-Exit criteria: a user can complete a representative JPT job workflow offline,
-and automated tests prove that no production controller backend is linked or
-reachable.
+The architecture decision remains proposed until these spikes produce
+evidence. An independent app requires a documented gap analysis showing why
+neither existing platform can be extended responsibly.
+
+Exit criteria: a representative JPT job survives import/planning, MOPA
+parameters and units, validation and deterministic mock encoding; the chosen
+host architecture is recorded in an accepted ADR; and automated tests prove
+that no production controller backend is reachable.
 
 ### M2 — Configuration understanding
 
@@ -122,13 +132,13 @@ Exit criteria: the app can report a configuration, explain which claims are
 observed versus inferred, and detect a wrong-lens or unknown-profile condition
 without writing to the machine.
 
-### M3 — Protocol discovery and read-only controller access
+### M3 — Controller validation and read-only access
 
 This is a new, explicitly approved hardware-research phase. Begin with focused
-research into documented APIs and existing clean-room implementations, then
-use passive observation of known software where necessary. Captures and raw
-third-party material stay private; derived protocol notes and synthetic tests
-are public.
+validation of the existing independent BalorMK implementation. Use passive
+observation of known software only for specific unresolved behavior. Captures
+and raw third-party material stay private; derived protocol notes and
+synthetic tests are public.
 
 The first real backend capabilities are limited to device enumeration,
 identity, firmware/capability discovery, and status. Every operation receives
@@ -194,16 +204,16 @@ imply compatible safety or control behavior on either CO2 machine.
 The next work package should be small enough to review in a few commits:
 
 1. collect the pending LightBurn data from the control PC as one local archive;
-2. record an ADR for the neutral job model and isolated controller backends;
-3. define v1 schemas for machine profiles and offline projects;
-4. implement validation plus a deterministic simulated controller;
-5. build a minimal desktop vertical slice and use it to decide the UI/runtime
-   stack;
-6. separately produce a written M3 hardware-research protocol before any USB
-   capture or controller command.
+2. run the stock MeerK40t mock-controller evaluation;
+3. prove the Rayforge external-addon and binary-driver registration seam;
+4. build one no-I/O Rayforge-to-JCZ encoder spike and golden trace comparison;
+5. test Rayforge's existing LightBurn import against galvo/MOPA fixtures;
+6. accept, amend or reject ADR 0002 from the results;
+7. separately produce a written M3 hardware-research protocol before any USB
+   access or controller command.
 
-Items 2–5 can proceed while item 1 is pending. Hardware work cannot proceed
-until item 6 is reviewed and the physical setup is ready.
+Items 2–6 can proceed while item 1 is pending. Hardware work cannot proceed
+until item 7 is reviewed and the physical setup is ready.
 
 ## Decision rules
 
