@@ -22,6 +22,9 @@ project artifact is created, edited, renamed, or reorganized there.
 - Never commit LightBurn Support Data to the public repository.
 - Do not execute software acquired from the installer stick during analysis.
 - Run the public repository guard before each public push.
+- When PrivateStash is available, pass its private deny-list to the public
+  guard so known serials, source IDs, and local identifiers are checked without
+  storing those values publicly.
 
 ## Redaction flow
 

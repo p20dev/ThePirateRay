@@ -30,7 +30,7 @@ def tracked_files(root: Path) -> list[Path]:
     return [root / item.decode("utf-8") for item in result.stdout.split(b"\0") if item]
 
 
-def check(root: Path) -> list[str]:
+def check(root: Path, deny_patterns: tuple[str, ...] = ()) -> list[str]:
     failures: list[str] = []
     for path in tracked_files(root):
         relative = path.relative_to(root).as_posix()
@@ -48,14 +48,36 @@ def check(root: Path) -> list[str]:
         for label, pattern in SENSITIVE_TEXT.items():
             if pattern.search(content):
                 failures.append(f"{label} found in {relative}")
+        folded = content.casefold()
+        for pattern in deny_patterns:
+            if pattern.casefold() in folded:
+                failures.append(f"private deny-list token found in {relative}")
     return failures
+
+
+def load_deny_patterns(path: Path | None) -> tuple[str, ...]:
+    if path is None:
+        return ()
+    patterns = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        candidate = line.strip()
+        if candidate and not candidate.startswith("#"):
+            patterns.append(candidate)
+    return tuple(patterns)
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root", type=Path, nargs="?", default=Path.cwd())
+    parser.add_argument(
+        "--deny-pattern-file",
+        type=Path,
+        help="private newline-delimited literal tokens that must not appear publicly",
+    )
     args = parser.parse_args()
-    failures = check(args.root.resolve())
+    failures = check(
+        args.root.resolve(), load_deny_patterns(args.deny_pattern_file)
+    )
     if failures:
         for failure in failures:
             print(f"ERROR: {failure}")
