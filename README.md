@@ -18,6 +18,7 @@ separate private `ThePirateRay-PrivateStash` repository.
 Start with:
 
 - [Project charter](docs/project-charter.md)
+- [Product and research roadmap](docs/roadmap.md)
 - [Data handling policy](docs/data-handling.md)
 - [LightBurn collection checklist](docs/collection/lightburn.md)
 - [Sanitized machine profile](docs/research/machine-profile.yaml)

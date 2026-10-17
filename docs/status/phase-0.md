@@ -41,3 +41,8 @@ as an intermediate project workspace and do not generate Support Data.
 
 Phase 0 remains open until these control-machine artifacts are hashed,
 committed, pushed, and represented by sanitized public evidence.
+
+The work that does not depend on this acquisition can proceed in parallel.
+The [product and research roadmap](../roadmap.md) defines the offline application
+core, configuration analysis, protocol research, gated hardware experiments,
+and workshop release as separate milestones.

@@ -1,0 +1,221 @@
+# Product and research roadmap
+
+Last updated: 2026-10-17
+
+## Destination
+
+The long-term destination is an open-source desktop application that can
+prepare and run laser jobs on Makerspace Næstved's equipment. It should offer
+the useful core of a LightBurn-like workflow without copying proprietary code,
+assets, or license-protected behavior:
+
+1. import or create geometry;
+2. arrange it on an accurate representation of the work area;
+3. assign process parameters and reusable material presets;
+4. preview the resulting tool path and estimated job behavior;
+5. validate the job against a machine profile and safety policy;
+6. connect, frame, and run through an independently implemented machine
+   backend.
+
+The first hardware target is the JPT 100 W E2/M7 MOPA fiber laser with its
+JCZ/EZCAD2 controller and 110 x 110 mm lens. CO2 and additional laser backends
+come later. The project is not considered successful merely because it can
+emit a laser command: it must make unsafe or mismatched configurations hard to
+use accidentally.
+
+## First useful product
+
+The first useful release is deliberately smaller than a LightBurn clone. It is
+an offline **galvo job workbench** that can:
+
+- load a sanitized JPT machine profile;
+- import a small, documented vector subset;
+- represent layers and MOPA parameters without losing their units;
+- show the field boundary, geometry, hatch, order, and an approximate path;
+- reject out-of-field geometry and invalid parameter combinations;
+- save a portable, versioned project document;
+- run the complete workflow against a deterministic simulated controller.
+
+This produces useful application architecture and test fixtures before any
+hardware command is possible. The real controller backend remains absent or
+physically gated until its protocol and safety behavior are supported by
+evidence.
+
+## What the installer snapshot gives us
+
+The collected installer snapshot establishes:
+
+- the JCZ/EZCAD2 controller and `Lmcv2u` driver family;
+- vendor-declared USB VID/PID values, pending live confirmation;
+- known-good 110 mm and 300 mm configuration trees;
+- exact hashes for the opaque, lens-specific `markcfg7` profiles;
+- a shared correction file and observable workspace differences;
+- software, manuals, and configuration artifacts that can be studied offline.
+
+It does **not** yet establish:
+
+- the command sequence used to discover or initialize the controller;
+- how geometry, hatch settings, MOPA parameters, or timing are encoded on the
+  wire;
+- which values are controller settings versus laser-source settings;
+- status, interlock, error, abort, and recovery behavior;
+- whether an apparently harmless query can move a galvo or arm emission;
+- the exact LightBurn version and known-working LightBurn device profile.
+
+Consequently, treating a vendor DLL or opaque profile as a callable black box
+would be premature and would make the safety boundary impossible to audit.
+
+## Milestones
+
+### M0 — Evidence baseline (current)
+
+Preserve and hash the installer snapshot, publish sanitized findings, and keep
+public/private provenance verifiable. Complete M0 with one local collection
+from the actual LightBurn control computer. The preferred transfer is a single
+ZIP or a directly accessible local folder; Google Drive is not part of the
+workflow.
+
+Exit criteria:
+
+- exact LightBurn version, bundle, preferences, screenshots, and working
+  project examples are present in PrivateStash;
+- mounted lens, startup, interlock, and USB device identity are confirmed;
+- sanitized metadata and new analysis are committed publicly;
+- both repositories pass their clean-clone validation.
+
+### M1 — Offline application core
+
+Define technology-independent domain models before choosing hardware APIs:
+
+- versioned machine-profile, project, operation, and material-preset schemas;
+- explicit physical units and coordinate transforms;
+- geometry bounds and parameter validation;
+- deterministic job planning and simulation interfaces;
+- an append-only diagnostic/event model with automatic redaction;
+- a controller interface with a simulator as its only implementation;
+- tests built from synthetic fixtures and sanitized evidence.
+
+A small desktop technology spike should compare candidate stacks using one
+vertical slice: open a project, render it, validate it, and run it against the
+simulator. The stack decision belongs in an ADR after the spike, not before it.
+
+Exit criteria: a user can complete a representative JPT job workflow offline,
+and automated tests prove that no production controller backend is linked or
+reachable.
+
+### M2 — Configuration understanding
+
+Build read-only parsers and structural comparison tools for the relevant
+EZCAD2 and LightBurn artifacts. Unknown binary fields remain unknown; the code
+must preserve that distinction rather than infer values by trial and error.
+
+Priorities:
+
+1. parse documented text configuration and material libraries;
+2. inspect known-working LightBurn projects and exports;
+3. map equivalent concepts into the application's neutral domain model;
+4. characterize opaque configuration files using comparisons across known
+   lens profiles and controlled, user-made setting changes;
+5. publish only independently derived format notes and sanitized fixtures.
+
+Exit criteria: the app can report a configuration, explain which claims are
+observed versus inferred, and detect a wrong-lens or unknown-profile condition
+without writing to the machine.
+
+### M3 — Protocol discovery and read-only controller access
+
+This is a new, explicitly approved hardware-research phase. Begin with focused
+research into documented APIs and existing clean-room implementations, then
+use passive observation of known software where necessary. Captures and raw
+third-party material stay private; derived protocol notes and synthetic tests
+are public.
+
+The first real backend capabilities are limited to device enumeration,
+identity, firmware/capability discovery, and status. Every operation receives
+an evidence level and a safety classification. Unknown messages are recorded,
+not replayed.
+
+Before touching the connected machine, write a test protocol that specifies:
+
+- how emission is physically prevented;
+- which motion is possible and how the work area is cleared;
+- an observer and accessible emergency stop;
+- the precise allowed USB operations;
+- abort conditions and rollback/recovery steps;
+- what is captured and how it is sanitized.
+
+Exit criteria: the app recognizes the correct controller and reports status
+without moving a galvo, arming the source, modifying persistent state, or
+requiring proprietary executable code in the public build.
+
+### M4 — Controlled motion and marking experiments
+
+Add capabilities one at a time behind explicit feature gates:
+
+1. upload a synthetic no-output job, if supported;
+2. exercise abort and recovery without emission;
+3. perform controlled framing only after its galvo behavior is understood;
+4. mark a minimal calibration primitive at a conservative, reviewed setting;
+5. verify coordinate scale, orientation, timing, and MOPA parameters;
+6. compare planned versus observed behavior and retain a test record.
+
+Machine limits and source parameters come from known-good evidence and physical
+verification. They are never discovered through broad value sweeps.
+
+Exit criteria: a reviewed integration test can mark a known calibration job
+repeatedly, stop safely, and reject incorrect machine/lens profiles.
+
+### M5 — Workshop-usable JPT release
+
+Turn the proven vertical slice into a workshop tool:
+
+- practical SVG/DXF import and editing;
+- layers, hatch/fill, ordering, transforms, text strategy, and presets;
+- framing, start/pause/abort, progress, and understandable diagnostics;
+- configuration backup and recovery;
+- onboarding, compatibility matrix, signed releases, and operator guidance;
+- usability and safety tests with makerspace users.
+
+Advanced LightBurn features are selected from real workshop needs rather than
+copied feature-for-feature.
+
+Exit criteria: trained users can prepare and run ordinary JPT jobs without
+LightBurn, within a documented support envelope.
+
+### M6 — Additional laser backends
+
+Use the neutral job model and safety architecture to add the Eduard x1550 and
+Bodor BCL503MU. Each controller family gets its own evidence, protocol,
+capability, and hardware-validation track. A successful JPT backend does not
+imply compatible safety or control behavior on either CO2 machine.
+
+## Immediate next work package
+
+The next work package should be small enough to review in a few commits:
+
+1. collect the pending LightBurn data from the control PC as one local archive;
+2. record an ADR for the neutral job model and isolated controller backends;
+3. define v1 schemas for machine profiles and offline projects;
+4. implement validation plus a deterministic simulated controller;
+5. build a minimal desktop vertical slice and use it to decide the UI/runtime
+   stack;
+6. separately produce a written M3 hardware-research protocol before any USB
+   capture or controller command.
+
+Items 2–5 can proceed while item 1 is pending. Hardware work cannot proceed
+until item 6 is reviewed and the physical setup is ready.
+
+## Decision rules
+
+- A simulator test precedes every equivalent hardware behavior.
+- Read-only precedes state change; state change precedes motion; motion precedes
+  emission.
+- Safety-relevant values require provenance and units.
+- A profile mismatch fails closed.
+- Unknown protocol fields are never filled by guesswork.
+- Raw proprietary artifacts remain private; public tests use synthetic or
+  explicitly redistributable fixtures.
+- Any bulk external-data operation is scoped and costed before it starts. More
+  than roughly ten remote file operations require an explicit warning and a
+  cheaper bulk-transfer alternative.
+
