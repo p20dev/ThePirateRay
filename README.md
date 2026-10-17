@@ -4,34 +4,93 @@
 
 <h1 align="center">The Pirate Ray</h1>
 
-The Pirate Ray is Makerspace Næstved's clean-room project for learning how to
-interoperate with its laser equipment and, over time, building a safe desktop
-control application.
+The Pirate Ray is Makerspace Næstved's clean-room effort to build an
+open-source, safe desktop workflow for its laser equipment. The first target
+is the **JPT 100 W E2/M7 MOPA fiber laser** with a JCZ/EZCAD2-compatible
+controller and the currently assumed 110 x 110 mm lens.
 
-Phase 0 focuses on the **JPT 100 W E2/M7 MOPA** fiber laser with a JCZ/EZCAD2
-controller. It is deliberately limited to documentation and offline analysis:
-no USB capture, framing, machine commands, or laser output.
+The destination is the useful core of a LightBurn-like workflow: import or
+create geometry, assign operations and MOPA parameters, preview and validate
+the job, and eventually run it through independently auditable machine
+backends. The project is not trying to evade LightBurn licensing or copy its
+proprietary code or assets.
+
+## Where we are now
+
+Phase 0 has established a reproducible evidence and research baseline:
+
+- the original installer material is preserved privately with SHA-256
+  manifests and Git LFS;
+- sanitized analysis covers the EZCAD2 installation, 110/300 configurations,
+  correction data, material libraries, and relevant configuration files;
+- the physical controller has been passively identified by Windows as
+  `USBLMCV4`, USB `9588:9899`, with device revision descriptor `0005`;
+- the development computer has no compatible controller driver installed;
+- no USB endpoint has been opened and no controller command, galvo movement,
+  framing, marking, or laser output has occurred;
+- the public tests, provenance checks, leak guard, and clean-clone validation
+  pass.
+
+Phase 0 remains open while we collect the LightBurn bundle, preferences,
+known-working projects, device screenshots, machine photos, and operator notes
+directly from the actual control computer.
+
+## The important discovery
+
+We do not need to begin with a blank-sheet LightBurn clone:
+
+- [MeerK40t](https://github.com/meerk40t/meerk40t) already includes BalorMK,
+  an MIT-licensed JCZ/EZCAD2 galvo implementation with MOPA pulse width,
+  frequency control, status/abort behavior, and a mock USB connection. Its
+  source targets the same `9588:9899` USB identity observed on our controller.
+- [Rayforge](https://github.com/barebaric/rayforge) already supplies most of
+  the modern desktop product: editor, projects, geometry, LightBurn import,
+  material recipes, simulation, pre-flight checks, packaging, and an addon
+  architecture. Its job model already represents frequency and pulse width.
+
+The leading route is therefore either to use and improve MeerK40t directly or
+to build a Rayforge JCZ/Balor addon using the narrowest practical layer from
+BalorMK. This remains a proposed decision until the offline proofs in
+[ADR 0002](docs/adr/0002-reuse-rayforge-and-balormk.md) have passed.
+
+## Next steps
+
+The next work is deliberately offline and hardware-free:
+
+1. run a synthetic MOPA job through MeerK40t's mock controller;
+2. prove that an external Rayforge addon can register a binary no-device
+   driver on Windows;
+3. translate a small Rayforge operation stream into a deterministic JCZ trace
+   and compare it with BalorMK;
+4. test Rayforge's existing LightBurn import against galvo/MOPA fixtures;
+5. accept, revise, or reject the proposed reuse architecture from evidence;
+6. write and review a separate hardware protocol before any live controller
+   communication.
+
+An independent desktop application is the fallback only if both existing
+platforms fail concrete, documented requirements.
 
 ## Repository boundary
 
 This public repository contains source code, plans, decisions, tests, tools,
 and sanitized research. Raw machine data, serial numbers, LightBurn exports,
 and third-party material with unclear redistribution rights live in the
-separate private `ThePirateRay-PrivateStash` repository.
+separate private `ThePirateRay-PrivateStash` repository. Google Drive is not a
+project workspace or development destination.
 
-Start with:
+## Project map
 
 - [Project charter](docs/project-charter.md)
 - [Product and research roadmap](docs/roadmap.md)
-- [Data handling policy](docs/data-handling.md)
-- [LightBurn collection checklist](docs/collection/lightburn.md)
+- [Current Phase 0 status](docs/status/phase-0.md)
+- [Open-source reuse landscape](docs/research/open-source-landscape.md)
+- [Proposed Rayforge/BalorMK reuse decision](docs/adr/0002-reuse-rayforge-and-balormk.md)
+- [Live USB enumeration](docs/research/live-usb-enumeration-2026-10-17.md)
 - [Sanitized machine profile](docs/research/machine-profile.yaml)
 - [110/300 configuration comparison](docs/research/config-comparison.md)
-- [Open-source reuse landscape](docs/research/open-source-landscape.md)
-- [Live USB enumeration](docs/research/live-usb-enumeration-2026-10-17.md)
+- [Data handling policy](docs/data-handling.md)
+- [LightBurn collection checklist](docs/collection/lightburn.md)
 - [Repository boundary decision](docs/adr/0001-public-private-repository-boundary.md)
-- [Proposed Rayforge/BalorMK reuse decision](docs/adr/0002-reuse-rayforge-and-balormk.md)
-- [Current Phase 0 status](docs/status/phase-0.md)
 
 ## Validation
 
@@ -42,14 +101,20 @@ python -m unittest discover -s tests -v
 python scripts/check_public_repo.py .
 ```
 
-`scripts/materialize_private_drive_files.ps1` is the bounded transport used by
-the acquisition workflow. It accepts authenticated download references over
-standard input, rejects path traversal, and verifies byte sizes before files
-enter PrivateStash. It never prints download credentials.
+The checks verify manifest integrity, public/private evidence contracts,
+disallowed binary types, private identifiers, local user paths, and other
+likely data leaks. They do not certify hardware safety.
 
-For non-interactive orchestration it also accepts one UTF-8 JSON request as a
-Base64 parameter. This prevents shell metacharacters in signed references from
-being interpreted as commands.
+## Safety boundary
+
+- Simulation precedes equivalent hardware behavior.
+- Read-only precedes state change; state change precedes motion; motion
+  precedes emission.
+- Machine, source, lens, correction profile, units, and parameter ranges must
+  match before a job can be armed.
+- Unknown configuration or protocol fields are never guessed or replayed.
+- Vendor executables, DLLs, and drivers from the evidence snapshot are never
+  run as part of analysis.
 
 No project license has been selected yet. Until that decision is recorded,
 the contents are not offered under an open-source license.
