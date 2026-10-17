@@ -1,0 +1,1048 @@
+{
+  "schemaVersion": 1,
+  "source": "../the-pirate-ray-logo.png",
+  "sourceSha256": "afcd7e457b5bf9cf92a7222b3ab8a2850d75c05bc2c37d242c959cd7569e6fa4",
+  "generation": "uv run --with pillow python scripts/generate_brand_assets.py",
+  "files": [
+    {
+      "path": "android/drawable-hdpi/ic_launcher_foreground.png",
+      "sha256": "1816a600bcd1c10c239912439e0515cfd1b921f58934cd71a66de2448f23bf00",
+      "bytes": 22240,
+      "width": 162,
+      "height": 162,
+      "mode": "RGBA"
+    },
+    {
+      "path": "android/drawable-mdpi/ic_launcher_foreground.png",
+      "sha256": "3cbc8f59e7f991bb14c7ac27e9bfbc13f66cb4eca1de9fe79f7477193db74c4d",
+      "bytes": 11190,
+      "width": 108,
+      "height": 108,
+      "mode": "RGBA"
+    },
+    {
+      "path": "android/drawable-xhdpi/ic_launcher_foreground.png",
+      "sha256": "c4afbfbfebe08defa747eb6a13162533b64aebc27bb3438b8990e02c68313edc",
+      "bytes": 36160,
+      "width": 216,
+      "height": 216,
+      "mode": "RGBA"
+    },
+    {
+      "path": "android/drawable-xxhdpi/ic_launcher_foreground.png",
+      "sha256": "5afe88fcba0d1d90cc12d38729dd1feb91213e6352836aa411bd681ee84801fb",
+      "bytes": 69075,
+      "width": 324,
+      "height": 324,
+      "mode": "RGBA"
+    },
+    {
+      "path": "android/drawable-xxxhdpi/ic_launcher_foreground.png",
+      "sha256": "fae6a7a16287196c6a5d5fcc946202851080353867175e85f32a74cfa0897c70",
+      "bytes": 110176,
+      "width": 432,
+      "height": 432,
+      "mode": "RGBA"
+    },
+    {
+      "path": "android/mipmap-anydpi-v26/ic_launcher.xml",
+      "sha256": "e071a8516287e0bacccc1a14a62502f3e1eda8360b2aad3c88c390ccbfa77122",
+      "bytes": 275
+    },
+    {
+      "path": "android/mipmap-anydpi-v26/ic_launcher_round.xml",
+      "sha256": "e071a8516287e0bacccc1a14a62502f3e1eda8360b2aad3c88c390ccbfa77122",
+      "bytes": 275
+    },
+    {
+      "path": "android/mipmap-hdpi/ic_launcher.png",
+      "sha256": "376b0116d5288f940a40d11b4c1f405fc781c82bb6c14b0c3cc3aaf69f11f49c",
+      "bytes": 6814,
+      "width": 72,
+      "height": 72,
+      "mode": "RGBA"
+    },
+    {
+      "path": "android/mipmap-hdpi/ic_launcher_round.png",
+      "sha256": "376b0116d5288f940a40d11b4c1f405fc781c82bb6c14b0c3cc3aaf69f11f49c",
+      "bytes": 6814,
+      "width": 72,
+      "height": 72,
+      "mode": "RGBA"
+    },
+    {
+      "path": "android/mipmap-mdpi/ic_launcher.png",
+      "sha256": "325dedcfb55b8a5e292904eda8db5ed2fda029d1aa06909454411e0e34117a4f",
+      "bytes": 3384,
+      "width": 48,
+      "height": 48,
+      "mode": "RGBA"
+    },
+    {
+      "path": "android/mipmap-mdpi/ic_launcher_round.png",
+      "sha256": "325dedcfb55b8a5e292904eda8db5ed2fda029d1aa06909454411e0e34117a4f",
+      "bytes": 3384,
+      "width": 48,
+      "height": 48,
+      "mode": "RGBA"
+    },
+    {
+      "path": "android/mipmap-xhdpi/ic_launcher.png",
+      "sha256": "6fb34a616696bedd4eed9c6d8e4fbae61e3981c23551b938c409a1626de4543c",
+      "bytes": 11169,
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA"
+    },
+    {
+      "path": "android/mipmap-xhdpi/ic_launcher_round.png",
+      "sha256": "6fb34a616696bedd4eed9c6d8e4fbae61e3981c23551b938c409a1626de4543c",
+      "bytes": 11169,
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA"
+    },
+    {
+      "path": "android/mipmap-xxhdpi/ic_launcher.png",
+      "sha256": "ee6367068bcb307cd665b6f88274ba8f2d0bd3e87f71c12cbfdefcdae3c24bcd",
+      "bytes": 21952,
+      "width": 144,
+      "height": 144,
+      "mode": "RGBA"
+    },
+    {
+      "path": "android/mipmap-xxhdpi/ic_launcher_round.png",
+      "sha256": "ee6367068bcb307cd665b6f88274ba8f2d0bd3e87f71c12cbfdefcdae3c24bcd",
+      "bytes": 21952,
+      "width": 144,
+      "height": 144,
+      "mode": "RGBA"
+    },
+    {
+      "path": "android/mipmap-xxxhdpi/ic_launcher.png",
+      "sha256": "b89b636e0fe5807b2b4656967f3bb840123d62aeb6d219376d23cbc4ebc8a79e",
+      "bytes": 35938,
+      "width": 192,
+      "height": 192,
+      "mode": "RGBA"
+    },
+    {
+      "path": "android/mipmap-xxxhdpi/ic_launcher_round.png",
+      "sha256": "b89b636e0fe5807b2b4656967f3bb840123d62aeb6d219376d23cbc4ebc8a79e",
+      "bytes": 35938,
+      "width": 192,
+      "height": 192,
+      "mode": "RGBA"
+    },
+    {
+      "path": "android/values/ic_launcher_background.xml",
+      "sha256": "1ff64d109f4173e84bf4d6ed9957b6f37f3456b0db3b19bb17d3a3c1de2687e4",
+      "bytes": 125
+    },
+    {
+      "path": "ios/AppIcon.appiconset/Contents.json",
+      "sha256": "89af6a0409542706ccb6cf406a288e7ce65d4f4b3a463930674bb1569225cbd1",
+      "bytes": 2298
+    },
+    {
+      "path": "ios/AppIcon.appiconset/icon-1024.png",
+      "sha256": "e3ce647b58285ee31f777d51dab07e3d19d2e08d30c4b4c18918532f9aecf41b",
+      "bytes": 580569,
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ios/AppIcon.appiconset/icon-20@1x.png",
+      "sha256": "02576c81821b6e781544d48a55510b018287864fc012b6cbf98d6a6c1d60f90b",
+      "bytes": 897,
+      "width": 20,
+      "height": 20,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ios/AppIcon.appiconset/icon-20@2x.png",
+      "sha256": "6b4bcbfc725c79d7f414fb39fc821614a85822126790f40fc18301aac5b1dbac",
+      "bytes": 2508,
+      "width": 40,
+      "height": 40,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ios/AppIcon.appiconset/icon-20@3x.png",
+      "sha256": "f5bac31e8071f206a17f77ae95597726cb72aa51cd31f9459e52430cee501007",
+      "bytes": 5068,
+      "width": 60,
+      "height": 60,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ios/AppIcon.appiconset/icon-29@1x.png",
+      "sha256": "c56cfb91914d81d2615f222cc74c23d4340af0a14fc86e35b6200e17ba661324",
+      "bytes": 1551,
+      "width": 29,
+      "height": 29,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ios/AppIcon.appiconset/icon-29@2x.png",
+      "sha256": "b4ff6120decc7021310e79e4c897233e9e230b40a750825cb154508a254c6bc3",
+      "bytes": 4724,
+      "width": 58,
+      "height": 58,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ios/AppIcon.appiconset/icon-29@3x.png",
+      "sha256": "e329598b5a60a2f446bbd1892b5eedf4e45189275ac2203260667762e0df6019",
+      "bytes": 9475,
+      "width": 87,
+      "height": 87,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ios/AppIcon.appiconset/icon-40@1x.png",
+      "sha256": "6b4bcbfc725c79d7f414fb39fc821614a85822126790f40fc18301aac5b1dbac",
+      "bytes": 2508,
+      "width": 40,
+      "height": 40,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ios/AppIcon.appiconset/icon-40@2x.png",
+      "sha256": "8d41739237430984cf68b234b13c0472542516978c36e80a02a4e6e3b75afd02",
+      "bytes": 8097,
+      "width": 80,
+      "height": 80,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ios/AppIcon.appiconset/icon-40@3x.png",
+      "sha256": "1129c736ead60c3d64726655dfe752b4925767965431723b00054c8747560b13",
+      "bytes": 16309,
+      "width": 120,
+      "height": 120,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ios/AppIcon.appiconset/icon-60@2x.png",
+      "sha256": "1129c736ead60c3d64726655dfe752b4925767965431723b00054c8747560b13",
+      "bytes": 16309,
+      "width": 120,
+      "height": 120,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ios/AppIcon.appiconset/icon-60@3x.png",
+      "sha256": "44cf96e2795c0348cf8e629c9b205c13d3f0f545bca8a0ef3f27cadda3544216",
+      "bytes": 32100,
+      "width": 180,
+      "height": 180,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ios/AppIcon.appiconset/icon-76@1x.png",
+      "sha256": "62479d7bd6165b433b4f7ef760c7e5d3b6448a26b4890e1910f40964888d960c",
+      "bytes": 7418,
+      "width": 76,
+      "height": 76,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ios/AppIcon.appiconset/icon-76@2x.png",
+      "sha256": "5ac4cf7e13e30ccfc7189a599063e89b255b34abcda7f53ef72bc482aaf72c75",
+      "bytes": 24425,
+      "width": 152,
+      "height": 152,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ios/AppIcon.appiconset/icon-83.5@2x.png",
+      "sha256": "7e587f690eacb661ab35baebdf2ddec83f3542005005d538de790296de53ec75",
+      "bytes": 28239,
+      "width": 167,
+      "height": 167,
+      "mode": "RGBA"
+    },
+    {
+      "path": "linux/hicolor/128x128/apps/the-pirate-ray.png",
+      "sha256": "fe7219311189089037a028d96bf7ca545e9529579e971ee83a91d840acd830dd",
+      "bytes": 21383,
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA"
+    },
+    {
+      "path": "linux/hicolor/16x16/apps/the-pirate-ray.png",
+      "sha256": "ae3840d734d63395545a4771e731f84d4814a226cf806bdaecfedfd46ac8c478",
+      "bytes": 706,
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "linux/hicolor/22x22/apps/the-pirate-ray.png",
+      "sha256": "2974206692de9fbbe9c673831c7bf11375b73f0b4f930296f1dfe7b6fb073c5c",
+      "bytes": 1161,
+      "width": 22,
+      "height": 22,
+      "mode": "RGBA"
+    },
+    {
+      "path": "linux/hicolor/24x24/apps/the-pirate-ray.png",
+      "sha256": "93ee4187cb3c151ff597a5c82850edbed954ee46b1341dde274ddc3f803fa59d",
+      "bytes": 1370,
+      "width": 24,
+      "height": 24,
+      "mode": "RGBA"
+    },
+    {
+      "path": "linux/hicolor/256x256/apps/the-pirate-ray.png",
+      "sha256": "7564cbf5eabaa106034a5a3205214398c861535a790448fb2506078fa29a852e",
+      "bytes": 66123,
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA"
+    },
+    {
+      "path": "linux/hicolor/32x32/apps/the-pirate-ray.png",
+      "sha256": "c8e6f034d27ef11f90056bab9adecb96cf091a65d1b86bfcfe87276a72a46b35",
+      "bytes": 2046,
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "linux/hicolor/48x48/apps/the-pirate-ray.png",
+      "sha256": "193ff46c5005817ee7a399c8d3914995e279ba57e0b5bc978dbab4adfd1fe4f2",
+      "bytes": 3948,
+      "width": 48,
+      "height": 48,
+      "mode": "RGBA"
+    },
+    {
+      "path": "linux/hicolor/512x512/apps/the-pirate-ray.png",
+      "sha256": "8a999a737179984642cb9c0366449aed6a5befb29ff19601f9ceffbd7e71dee3",
+      "bytes": 205719,
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA"
+    },
+    {
+      "path": "linux/hicolor/64x64/apps/the-pirate-ray.png",
+      "sha256": "6e20ac9b3bbc19fba27b7007a2947f48aa0b967f112e14e32ccff295b0a657ec",
+      "bytes": 6495,
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "macos/AppIcon.icns",
+      "sha256": "4c9e220547baf8024899b9ba3dac09be40b023cf0db1dfe52d0023cd2877710a",
+      "bytes": 1130201
+    },
+    {
+      "path": "macos/AppIcon.iconset/icon_128x128.png",
+      "sha256": "bbbf7368d60be4ac5cb1a1421253e106fcd1b45c3637ea3496fc403da2043a87",
+      "bytes": 18164,
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA"
+    },
+    {
+      "path": "macos/AppIcon.iconset/icon_128x128@2x.png",
+      "sha256": "12256c82a3feaf812965924d9b5b2763bc2a237f4cc6465f48ca9472cdf5587b",
+      "bytes": 57630,
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA"
+    },
+    {
+      "path": "macos/AppIcon.iconset/icon_16x16.png",
+      "sha256": "2b8234e83238ae5880aa2a18a3686b375587564106dc697dabf569a90dc24a67",
+      "bytes": 581,
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "macos/AppIcon.iconset/icon_16x16@2x.png",
+      "sha256": "a8e47d33f984e473b9cf9639381bb88c7877979e7e26832d4e01ffac422ed4e7",
+      "bytes": 1770,
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "macos/AppIcon.iconset/icon_256x256.png",
+      "sha256": "12256c82a3feaf812965924d9b5b2763bc2a237f4cc6465f48ca9472cdf5587b",
+      "bytes": 57630,
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA"
+    },
+    {
+      "path": "macos/AppIcon.iconset/icon_256x256@2x.png",
+      "sha256": "1c499eabcf2e8e59ec5338a0e3bf493339f19ad1293bb6f96cbeb32df36839e0",
+      "bytes": 180658,
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA"
+    },
+    {
+      "path": "macos/AppIcon.iconset/icon_32x32.png",
+      "sha256": "a8e47d33f984e473b9cf9639381bb88c7877979e7e26832d4e01ffac422ed4e7",
+      "bytes": 1770,
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "macos/AppIcon.iconset/icon_32x32@2x.png",
+      "sha256": "592c974c9b45fdeaf36f8d4ed2ea69915f3d114736cb007e597be92afb0dbc5f",
+      "bytes": 5636,
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "macos/AppIcon.iconset/icon_512x512.png",
+      "sha256": "1c499eabcf2e8e59ec5338a0e3bf493339f19ad1293bb6f96cbeb32df36839e0",
+      "bytes": 180658,
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA"
+    },
+    {
+      "path": "macos/AppIcon.iconset/icon_512x512@2x.png",
+      "sha256": "e3ce647b58285ee31f777d51dab07e3d19d2e08d30c4b4c18918532f9aecf41b",
+      "bytes": 580569,
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/monochrome-black/logo-1024.png",
+      "sha256": "9c4b8508aab4760776b7764b86af6565b83f3f5b0577118b1823a36988b1398f",
+      "bytes": 49814,
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/monochrome-black/logo-128.png",
+      "sha256": "5667238f4e03ce73b63e76ef34b9ee36fb29975c1a6484d327515e2ff35272ec",
+      "bytes": 3579,
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/monochrome-black/logo-16.png",
+      "sha256": "ffe1683afa6468b75789517a350a04b6936f554fc960a2744311581e7f7b3dcc",
+      "bytes": 272,
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/monochrome-black/logo-256.png",
+      "sha256": "969a07c6f4a1d8bd39ea61d45188de65942546771fe177c0d4749a08e124047c",
+      "bytes": 8597,
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/monochrome-black/logo-32.png",
+      "sha256": "4c3640657adaab234321142d9b2ef226d05ec9d39f36fa911c90c94d0cfa9fba",
+      "bytes": 590,
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/monochrome-black/logo-48.png",
+      "sha256": "87672b25a716cdad24bbb6c9a44590a6c3d58b275ce3a8f7a6bfcc348f4d3749",
+      "bytes": 967,
+      "width": 48,
+      "height": 48,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/monochrome-black/logo-512.png",
+      "sha256": "60cd2adc21d54708f006726ccfd3952b6d64a547f736f49388fc50fd1bf58f35",
+      "bytes": 19394,
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/monochrome-black/logo-64.png",
+      "sha256": "e88257a1c0394849fef375d1f7cd0777e0a771ab14c1d1189ba318bf0e5886df",
+      "bytes": 1424,
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/monochrome-white/logo-1024.png",
+      "sha256": "533f7f498daaf6eed0a8f9e82570d85370ef022c91ae4263a09e57cb690a91f4",
+      "bytes": 49510,
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/monochrome-white/logo-128.png",
+      "sha256": "a723456bff7d3c5473e169361fafc9450be52f448a1d30ee926aea7f7b4ede1c",
+      "bytes": 3799,
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/monochrome-white/logo-16.png",
+      "sha256": "1ef36ffba7fecd69449f69594b00f5947a5ec39640e006936dcc9e5cfdfaff4b",
+      "bytes": 312,
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/monochrome-white/logo-256.png",
+      "sha256": "81c822c2281f80f759e021ce1f609fe60a6b1dd9df63bad5d8fe57cd3230bf51",
+      "bytes": 8648,
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/monochrome-white/logo-32.png",
+      "sha256": "7e49c3aafa57b65c1f716ab5293cdc131db03a60b948973ea89aaa4001e4dfc9",
+      "bytes": 672,
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/monochrome-white/logo-48.png",
+      "sha256": "96877f5355dc1557d76ffd53617387648e3e9f04e3c2df6e0a3a07fc5da4b666",
+      "bytes": 1106,
+      "width": 48,
+      "height": 48,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/monochrome-white/logo-512.png",
+      "sha256": "782cbc6a7c79a89e461f4bc11ac1dd0ea08fff5161c53918ef4b2af964436658",
+      "bytes": 19354,
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/monochrome-white/logo-64.png",
+      "sha256": "114efbc8472079cd41619cad592f6ad33c9e645a44fe6c7365a1d6445192ddff",
+      "bytes": 1598,
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-1024.png",
+      "sha256": "4c57f3b694eb2049c925d718a6dfeebdad48a8d7ee833bda0cbe6ea6d1fcdf4a",
+      "bytes": 629767,
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-128.png",
+      "sha256": "bb54fa9e30586d7b1fe59cc2eb7dd3ac631c93abdb8ad3815b35c87c94e88d53",
+      "bytes": 19649,
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-144.png",
+      "sha256": "008d59168c790e6cb6f11fe258292441f4d17adfc117bb72b6031ddca6af7890",
+      "bytes": 24024,
+      "width": 144,
+      "height": 144,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-152.png",
+      "sha256": "3b6d7cbc971a872da31b226e8e735f7d1bec024f76ac9a50597f8f95f7c09db9",
+      "bytes": 26490,
+      "width": 152,
+      "height": 152,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-16.png",
+      "sha256": "57f9f548509f7b6f59eb14a716e133e725d7916477206b50ab18fb82635488d1",
+      "bytes": 655,
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-180.png",
+      "sha256": "dbc61a0992d36f9d4ae6fdf4215ee1c78c82c78de280a1369ea6591a8a726dbb",
+      "bytes": 35080,
+      "width": 180,
+      "height": 180,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-192.png",
+      "sha256": "73697747f9b99782c4af1e9cd4bd4ad5e94091cb934318c88a402110dc50fac5",
+      "bytes": 38770,
+      "width": 192,
+      "height": 192,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-20.png",
+      "sha256": "02576c81821b6e781544d48a55510b018287864fc012b6cbf98d6a6c1d60f90b",
+      "bytes": 897,
+      "width": 20,
+      "height": 20,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-24.png",
+      "sha256": "1a1b8e44b3250fdfb9d0db7764ba290863f5581b6bb702ac7eaa5f074f850951",
+      "bytes": 1230,
+      "width": 24,
+      "height": 24,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-256.png",
+      "sha256": "b3e6664a50436a41756863a0532561a2ac812f8da0c766eb0400cd029076efc3",
+      "bytes": 61984,
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-32.png",
+      "sha256": "9e57a6f6baa0ff1da760ba44c90579907c7209eaa7baad914aee7be57ce18d8f",
+      "bytes": 1872,
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-384.png",
+      "sha256": "4e5ff9c2520c251bf0071edd9b6ad7c1a56ff4a1914fceffb7b20009dbb7ed14",
+      "bytes": 120956,
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-40.png",
+      "sha256": "99e4ca4438fa5399aa84422ecc42a820afa797c693b1be7540c54553ef604265",
+      "bytes": 2768,
+      "width": 40,
+      "height": 40,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-48.png",
+      "sha256": "a780cc6eb46a4f2c4d4d28805c44e0a0840e88abf07ae617994fb4ecb2eb8fc5",
+      "bytes": 3687,
+      "width": 48,
+      "height": 48,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-512.png",
+      "sha256": "0cb35f90d395d98d44e415ce72d4716960b464a8b22571368d929913157bead7",
+      "bytes": 195478,
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-64.png",
+      "sha256": "08fb62b954f9120e4e9865f249e2d7637ecdbf66acce0884a613ea036bc843c3",
+      "bytes": 6031,
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-72.png",
+      "sha256": "7ad81bc8e8b6ee171a0820fcfeef458f511d1c6737d665d9242ed27a6952859d",
+      "bytes": 7404,
+      "width": 72,
+      "height": 72,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/on-black/logo-96.png",
+      "sha256": "ae5cf24cd878b8ef698eeadec7fbb4bc6d61a6b287c41d54145202b15b922bbc",
+      "bytes": 12078,
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/safe-zone/logo-1024.png",
+      "sha256": "64bf943b37bd1dbba87b814912740313451c03a18a8fa8218bfc713ffdbbcd13",
+      "bytes": 606460,
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/safe-zone/logo-128.png",
+      "sha256": "3a2cbcbe4b8b3294a8f7c5dcc314a9445bdee1aeefb450a68ba7639db4e65b2d",
+      "bytes": 19686,
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/safe-zone/logo-16.png",
+      "sha256": "3204398dbf17b29c15ce3060f6d3f5e4fb0fddc3670d0e00190e2f17d8cd0bf1",
+      "bytes": 645,
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/safe-zone/logo-256.png",
+      "sha256": "ffb9285b0a147c1e4f938a36106db5630d20b1c2d6f940671eab589c130f2733",
+      "bytes": 61360,
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/safe-zone/logo-32.png",
+      "sha256": "31ca3168448d01cd029e7e382799a4cdc8276966cb1d34704bf3b5b8f58d4d8d",
+      "bytes": 1946,
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/safe-zone/logo-48.png",
+      "sha256": "3e1991cea92800880f59c33967ed9a818cfd5d6eb334b275b762b714b7171b44",
+      "bytes": 3655,
+      "width": 48,
+      "height": 48,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/safe-zone/logo-512.png",
+      "sha256": "90bd53ca67a73781b108d84961d78205d2241973c505ae9442d75802a94f3933",
+      "bytes": 189739,
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/safe-zone/logo-64.png",
+      "sha256": "60072884c9a4161153119d424394cd8bae121d69b8bf5a4f1bcb4631215ea39f",
+      "bytes": 6024,
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-1024.png",
+      "sha256": "8afd6f1d7d051011d10d243e966fd56de20ea5e9ef3857025dc538a14a49b658",
+      "bytes": 903034,
+      "width": 1024,
+      "height": 1024,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-128.png",
+      "sha256": "1a93353ecc794206a5492eb686ae82e3023d0c741b0c4d3bd88a432077c11973",
+      "bytes": 29676,
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-144.png",
+      "sha256": "02389a5d4e777f490529eb1c8af4db4f73cb72afbf32e1ed9ff908f3b7fd1b8e",
+      "bytes": 35865,
+      "width": 144,
+      "height": 144,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-152.png",
+      "sha256": "f72052ec5cde5fc289f300201ec0bafb32e1988f21c9b9d33b2428d5441f9e05",
+      "bytes": 39261,
+      "width": 152,
+      "height": 152,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-16.png",
+      "sha256": "2a62319ca86225e13042a5c757492c32661a261781943f29f1d0a8411530e7fb",
+      "bytes": 941,
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-180.png",
+      "sha256": "04766dbe0fa7cd64bf5974976d6b34d64931a35d6ad5a94da896eb4b908c3a85",
+      "bytes": 51331,
+      "width": 180,
+      "height": 180,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-192.png",
+      "sha256": "28a074289a34e4b2819546b26ad6d97ca8ab961748659efa8d6149968884a323",
+      "bytes": 57072,
+      "width": 192,
+      "height": 192,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-20.png",
+      "sha256": "8ed5443996b845c8ed08b96baca35217b115a5d08a8351678a80b3b7a0f50641",
+      "bytes": 1328,
+      "width": 20,
+      "height": 20,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-24.png",
+      "sha256": "e93d36d3f66944a2e02e965f25a8c917983deb12f8e92f36b4f0758ff4e6ac9b",
+      "bytes": 1761,
+      "width": 24,
+      "height": 24,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-256.png",
+      "sha256": "261c8ffc8b4f9e2ecfd2dc8ca119c1575983d375b670d3bc9e1192199b09b384",
+      "bytes": 90168,
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-32.png",
+      "sha256": "aafc73caeb2f9ce6839347bcfc0b013747bf969792cdc8c681965cb6d992d39c",
+      "bytes": 2834,
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-384.png",
+      "sha256": "ee7aada6f44f09001e6d4e53ef15e7d44ebe16d0927ac5884714db367643d48e",
+      "bytes": 175403,
+      "width": 384,
+      "height": 384,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-40.png",
+      "sha256": "1dff1d55df8eba0cce6f810599f512afd2583b1707e4452bce697a410ea0e2ba",
+      "bytes": 4129,
+      "width": 40,
+      "height": 40,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-48.png",
+      "sha256": "fce71bf86d6846b2771d44f81a1e872b2034e14efc245ceb4c34050e16929d8b",
+      "bytes": 5573,
+      "width": 48,
+      "height": 48,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-512.png",
+      "sha256": "4cd9d66b4fb37a1df3c158e0276528d3725eee5d784c13b69f0469fbbf077cad",
+      "bytes": 280574,
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-64.png",
+      "sha256": "e5bb7eec121bbd66dd13fdef4d0047d3c994d792c8345d2373c8602f8ad42020",
+      "bytes": 9213,
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-72.png",
+      "sha256": "40edc004315c512db8057abd4d14fc3f92c0109418e1e6e766e235f820670b7c",
+      "bytes": 11215,
+      "width": 72,
+      "height": 72,
+      "mode": "RGBA"
+    },
+    {
+      "path": "png/transparent/logo-96.png",
+      "sha256": "8475485a0689bda32bec42fd08cd151ef043b4f2df52b71df9a1c9dc232e210f",
+      "bytes": 18201,
+      "width": 96,
+      "height": 96,
+      "mode": "RGBA"
+    },
+    {
+      "path": "social/open-graph-1200x630.png",
+      "sha256": "8a8e439bfb2b4233166c229191ae5f1a695d98ad1ac1ec24fb4d4828fe7cc76b",
+      "bytes": 246951,
+      "width": 1200,
+      "height": 630,
+      "mode": "RGBA"
+    },
+    {
+      "path": "social/profile-400.png",
+      "sha256": "467942a171fc7812663213b97cff57639aed7bb5f62c470c9fb34face7021f57",
+      "bytes": 129179,
+      "width": 400,
+      "height": 400,
+      "mode": "RGBA"
+    },
+    {
+      "path": "web/apple-touch-icon.png",
+      "sha256": "44cf96e2795c0348cf8e629c9b205c13d3f0f545bca8a0ef3f27cadda3544216",
+      "bytes": 32100,
+      "width": 180,
+      "height": 180,
+      "mode": "RGBA"
+    },
+    {
+      "path": "web/favicon-16x16.png",
+      "sha256": "2a62319ca86225e13042a5c757492c32661a261781943f29f1d0a8411530e7fb",
+      "bytes": 941,
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "web/favicon-32x32.png",
+      "sha256": "aafc73caeb2f9ce6839347bcfc0b013747bf969792cdc8c681965cb6d992d39c",
+      "bytes": 2834,
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "web/favicon.ico",
+      "sha256": "4558e248f8aacab19766bdcc3051af6e418f58e332bbb358ab28de69d00bd793",
+      "bytes": 9600
+    },
+    {
+      "path": "web/icon-192.png",
+      "sha256": "24431268e96012f3734578a74b46a871679c2c2ae170f3aa509a3506656647a3",
+      "bytes": 48481,
+      "width": 192,
+      "height": 192,
+      "mode": "RGBA"
+    },
+    {
+      "path": "web/icon-512.png",
+      "sha256": "bc8edb93285789f32c54436d857cc4c22d24f6e3ac6a9e0c750b07e89acf9fdd",
+      "bytes": 238093,
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA"
+    },
+    {
+      "path": "web/maskable-icon-192.png",
+      "sha256": "e9bd7ca1bcb743d3c198f71f39c5a7b05f2ce63751e3c450dbfd95a6d0353341",
+      "bytes": 27423,
+      "width": 192,
+      "height": 192,
+      "mode": "RGBA"
+    },
+    {
+      "path": "web/maskable-icon-512.png",
+      "sha256": "5c633a48bf967c1ba1669bf0217a87b25e2015a9bf9c23fad72f962fdaaa5fb2",
+      "bytes": 138386,
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA"
+    },
+    {
+      "path": "web/site.webmanifest",
+      "sha256": "ca7277912f7c8ccb373ca252c88050eecc217c355b05d5d6687517947812a32a",
+      "bytes": 699
+    },
+    {
+      "path": "windows/app.ico",
+      "sha256": "5a02b658c5835acc589ecb32fcc02734b0bdb4a1b704e164175e0a33ff4863ce",
+      "bytes": 95793
+    },
+    {
+      "path": "windows/store/BadgeLogo.png",
+      "sha256": "7da4a1a8111b82980bb1f41bb5433c148435f4f34f44abc1d3568478b19512f3",
+      "bytes": 990,
+      "width": 24,
+      "height": 24,
+      "mode": "RGBA"
+    },
+    {
+      "path": "windows/store/Square150x150Logo.png",
+      "sha256": "040e7c85595ebae3297dd25b7b5e00847c091aeaa212e6e8eb0fe91da18409af",
+      "bytes": 20743,
+      "width": 150,
+      "height": 150,
+      "mode": "RGBA"
+    },
+    {
+      "path": "windows/store/Square310x310Logo.png",
+      "sha256": "de27b369902c65fcd254155289d8ce14f972700ce8e406321f3347f0f48fa6d4",
+      "bytes": 69008,
+      "width": 310,
+      "height": 310,
+      "mode": "RGBA"
+    },
+    {
+      "path": "windows/store/Square44x44Logo.png",
+      "sha256": "8a31b7fa359e31512a4ca95e1712f47cb6eaa7f62f3ec3bea6d60450c4f3460a",
+      "bytes": 2669,
+      "width": 44,
+      "height": 44,
+      "mode": "RGBA"
+    },
+    {
+      "path": "windows/store/Square71x71Logo.png",
+      "sha256": "7cef372b74b919fa7850036521fbf96e691da3e6b62beb2dbdc696354d88fa74",
+      "bytes": 5869,
+      "width": 71,
+      "height": 71,
+      "mode": "RGBA"
+    },
+    {
+      "path": "windows/store/StoreLogo.png",
+      "sha256": "61ef2a88eef8595a39edc5c38331edfe49901be5cb298e315ddae3dde723eb3e",
+      "bytes": 3234,
+      "width": 50,
+      "height": 50,
+      "mode": "RGBA"
+    },
+    {
+      "path": "windows/store/Wide310x150Logo.png",
+      "sha256": "fd6e2f00ee6ff8c80de5de0383de430ba675f911318652bf665b0b2509f6428c",
+      "bytes": 21485,
+      "width": 310,
+      "height": 150,
+      "mode": "RGBA"
+    }
+  ]
+}
