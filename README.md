@@ -1,4 +1,8 @@
-# The Pirate Ray
+<p align="center">
+  <img src="assets/branding/the-pirate-ray-logo.png" alt="The Pirate Ray logo" width="320">
+</p>
+
+<h1 align="center">The Pirate Ray</h1>
 
 The Pirate Ray is Makerspace Næstved's clean-room project for learning how to
 interoperate with its laser equipment and, over time, building a safe desktop
