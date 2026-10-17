@@ -23,6 +23,7 @@ Start with:
 - [Sanitized machine profile](docs/research/machine-profile.yaml)
 - [110/300 configuration comparison](docs/research/config-comparison.md)
 - [Repository boundary decision](docs/adr/0001-public-private-repository-boundary.md)
+- [Current Phase 0 status](docs/status/phase-0.md)
 
 ## Validation
 
