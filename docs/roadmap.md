@@ -107,9 +107,14 @@ The first work is entirely offline:
 The first controller-level part of the MeerK40t mock evaluation is recorded in
 [the mock MOPA spike](research/meerk40t-mock-mopa-spike.md). It confirms
 deterministic frequency, pulse-width and square-geometry command-list encoding
-through BalorMK's forced mock transport. Full cut-plan/spooler and hatch
-coverage remains open, so this does not yet complete the stock-application
-evaluation or settle ADR 0002.
+through BalorMK's forced mock transport. That first spike left cut-plan,
+spooler and hatch coverage open and did not settle ADR 0002.
+
+[The hatch cut-plan and mock-spooler follow-up](research/meerk40t-hatch-cutplan-spike.md)
+now confirms that stock planning turns a synthetic hatch into Balor geometry,
+preserves frequency and pulse width, and completes through `MockConnection`
+with USB access trapped. Graphical workflow, import, correction, cancellation
+and recovery coverage remain open.
 
 The first Rayforge addon proof is recorded in
 [the external binary-driver addon spike](research/rayforge-addon-spike.md).

@@ -1,0 +1,40 @@
+{
+  "upstream": "meerk40t/meerk40t",
+  "commit": "d511944e08788e88077727f682957759884ff5ca",
+  "transport": "MockConnection",
+  "usb_access": "trapped; none attempted",
+  "input": {
+    "geometry": "synthetic 2 mm square with default hatch effect",
+    "power_per_mille": 500,
+    "speed_mm_per_s": 250.0,
+    "frequency_khz": 40.0,
+    "pulse_width_ns": 200
+  },
+  "cutplan": {
+    "command_count": 15,
+    "mark_count": 1,
+    "contains_frequency": true,
+    "contains_pulse_width": true
+  },
+  "spooler": {
+    "completed": true,
+    "mock_packets_observed": true
+  },
+  "trace": [
+    "listReadyMark        0000 0000 0000 0000 0000",
+    "listDelayTime        0320 0000 0000 0000 0000",
+    "listWritePort        0001 0000 0000 0000 0000",
+    "listJumpSpeed        04a7 0000 0000 0000 0000",
+    "listFiberYLPMPulseWidth 00c8 0000 0000 0000 0000",
+    "listQSwitchPeriod    01f4 0000 0000 0000 0000",
+    "listMarkCurrent      0800 0000 0000 0000 0000",
+    "listMarkSpeed        0094 0000 0000 0000 0000",
+    "listLaserOnDelay     0064 0000 0000 0000 0000",
+    "listLaserOffDelay    0064 0000 0000 0000 0000",
+    "listPolygonDelay     000a 0000 0000 0000 0000",
+    "listJumpTo           7fff 8253 0000 0253 0000",
+    "listMarkTo           7fff 7dac 0000 04a7 0000",
+    "listDelayTime        001e 0000 0000 0000 0000",
+    "listEndOfList        0000 0000 0000 0000 0000"
+  ]
+}

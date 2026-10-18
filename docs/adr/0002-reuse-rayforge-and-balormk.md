@@ -89,6 +89,9 @@ Subsequent offline evidence:
 
 - [MeerK40t mock MOPA spike](../research/meerk40t-mock-mopa-spike.md):
   deterministic controller-level frequency, pulse-width and square encoding;
+- [MeerK40t hatch cut-plan and mock-spooler spike](../research/meerk40t-hatch-cutplan-spike.md):
+  stock planning and spooling preserve a synthetic hatch and MOPA settings on
+  forced mock transport;
 - [Rayforge addon spike](../research/rayforge-addon-spike.md): external binary
   driver load and lifecycle are viable, with a documented registry API gap.
 - [Rayforge-to-JCZ equivalence spike](../research/rayforge-jcz-equivalence-spike.md):
