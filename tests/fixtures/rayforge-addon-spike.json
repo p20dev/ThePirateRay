@@ -1,0 +1,24 @@
+{
+  "upstream": "barebaric/rayforge",
+  "commit": "c28918c87f8273dd1d244f5a057addc192807fa5",
+  "rayforge_api_version": 23,
+  "addon": "the_pirate_ray_jcz",
+  "driver": "PirateRayJCZNoDeviceDriver",
+  "uses_gcode": false,
+  "discovery": null,
+  "transport": null,
+  "binary_payload_hex": "5b7b22636f6d6d616e64223a226f66666c696e655f70726f6265227d5d",
+  "lifecycle": [
+    "load",
+    "disable",
+    "enable",
+    "reload",
+    "disable"
+  ],
+  "packaged_files": [
+    "pirate_ray_jcz/__init__.py",
+    "pirate_ray_jcz/worker.py",
+    "rayforge-addon.yaml"
+  ],
+  "registration_seam": "worker import side effect + on_unload cleanup"
+}

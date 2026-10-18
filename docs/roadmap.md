@@ -1,6 +1,6 @@
 # Product and research roadmap
 
-Last updated: 2026-10-17
+Last updated: 2026-10-18
 
 ## Destination
 
@@ -103,6 +103,41 @@ The first work is entirely offline:
   galvo projects;
 - identify only the missing profile, validation, diagnostic and safety
   concepts instead of designing replacements for existing ones.
+
+The first controller-level part of the MeerK40t mock evaluation is recorded in
+[the mock MOPA spike](research/meerk40t-mock-mopa-spike.md). It confirms
+deterministic frequency, pulse-width and square-geometry command-list encoding
+through BalorMK's forced mock transport. Full cut-plan/spooler and hatch
+coverage remains open, so this does not yet complete the stock-application
+evaluation or settle ADR 0002.
+
+The first Rayforge addon proof is recorded in
+[the external binary-driver addon spike](research/rayforge-addon-spike.md).
+An external addon can register a no-discovery, no-transport binary driver and
+survive load, disable, enable and reload without patching Rayforge core. The
+working registration path is an import-time call to the module-level driver
+registry plus explicit unload cleanup, not the documented
+`register_machines(machine_manager)` hook. Full application packaging and a
+stable addon-aware unregister API remain open.
+
+[The Rayforge-to-JCZ equivalence spike](research/rayforge-jcz-equivalence-spike.md)
+confirms deterministic semantic agreement with the pinned BalorMK mock trace
+for power, speed, frequency, MOPA pulse width, square coordinates and a one
+millisecond dwell. It deliberately stops before production packet encoding,
+lens correction or transport and records an upstream pulse-width unit
+documentation conflict that must be resolved explicitly.
+
+[Negative JCZ encoder cases](research/rayforge-jcz-negative-cases.md) now prove
+fail-closed handling for a synthetic profile mismatch, out-of-field geometry,
+power outside Rayforge's fraction range, non-positive frequency and pulse
+width, and unsupported Ops. Hardware-specific upper limits remain unknown and
+are deliberately not guessed.
+
+[The transport-free JCZ record spike](research/rayforge-jcz-packet-spike.md)
+packs the same operation stream into deterministic little-endian 12-byte
+records whose opcodes, values, coordinates and distances match the pinned
+BalorMK mock evidence. It deliberately omits list buffering and all transport;
+controller-safe state ordering remains an explicit evidence gap.
 
 The architecture decision remains proposed until these spikes produce
 evidence. An independent app requires a documented gap analysis showing why

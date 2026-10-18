@@ -316,7 +316,9 @@ def generate_ios(source: Image.Image) -> None:
     contents = {"images": images, "info": {"author": "xcode", "version": 1}}
     directory.mkdir(parents=True, exist_ok=True)
     (directory / "Contents.json").write_text(
-        json.dumps(contents, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+        json.dumps(contents, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+        newline="\n",
     )
 
 
@@ -348,8 +350,12 @@ def generate_android(source: Image.Image) -> None:
 """
     anydpi = OUTPUT / "android" / "mipmap-anydpi-v26"
     anydpi.mkdir(parents=True, exist_ok=True)
-    (anydpi / "ic_launcher.xml").write_text(adaptive_xml, encoding="utf-8")
-    (anydpi / "ic_launcher_round.xml").write_text(adaptive_xml, encoding="utf-8")
+    (anydpi / "ic_launcher.xml").write_text(
+        adaptive_xml, encoding="utf-8", newline="\n"
+    )
+    (anydpi / "ic_launcher_round.xml").write_text(
+        adaptive_xml, encoding="utf-8", newline="\n"
+    )
     values = OUTPUT / "android" / "values"
     values.mkdir(parents=True, exist_ok=True)
     (values / "ic_launcher_background.xml").write_text(
@@ -359,6 +365,7 @@ def generate_android(source: Image.Image) -> None:
 </resources>
 """,
         encoding="utf-8",
+        newline="\n",
     )
 
 
@@ -434,7 +441,9 @@ def generate() -> None:
         "display": "standalone",
     }
     (web / "site.webmanifest").write_text(
-        json.dumps(webmanifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+        json.dumps(webmanifest, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+        newline="\n",
     )
 
     generate_windows(source)
@@ -466,7 +475,9 @@ def generate() -> None:
         "files": files,
     }
     (OUTPUT / "manifest.json").write_text(
-        json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+        json.dumps(manifest, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+        newline="\n",
     )
     write_branding_readme(files)
 

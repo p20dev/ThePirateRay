@@ -1,0 +1,50 @@
+{
+  "rayforge_commit": "c28918c87f8273dd1d244f5a057addc192807fa5",
+  "balormk_commit": "d511944e08788e88077727f682957759884ff5ca",
+  "transport": null,
+  "synthetic_field_mm": 110.0,
+  "rayforge_ops_count": 13,
+  "semantic_trace": [
+    {"command": "job_start"},
+    {"command": "power", "fraction": 0.5, "balor_word": 2048},
+    {"command": "mark_speed", "mm_per_s": 250.0, "balor_word": 148},
+    {"command": "jump_speed", "mm_per_s": 2000.0, "balor_word": 1191},
+    {"command": "frequency", "hz": 40000.0, "balor_qswitch_period": 500},
+    {"command": "pulse_width", "nanoseconds": 200.0},
+    {"command": "jump", "x": 28672, "y": 28672},
+    {"command": "mark", "x": 28928, "y": 28672},
+    {"command": "mark", "x": 28928, "y": 28928},
+    {"command": "mark", "x": 28672, "y": 28928},
+    {"command": "mark", "x": 28672, "y": 28672},
+    {"command": "laser_on_point", "duration_ms": 1.0, "balor_10us_units": 100},
+    {"command": "job_end"}
+  ],
+  "command_records_hex": [
+    "128000080000000000000000",
+    "0c8094000000000000000000",
+    "0680a7040000000000000000",
+    "1b80f4010000000000000000",
+    "2680c8000000000000000000",
+    "0180007000700000a0160000",
+    "058000710070000000010000",
+    "058000710071000000010000",
+    "058000700071000000010000",
+    "058000700070000000010000",
+    "038064000000000000000000",
+    "028000000000000000000000"
+  ],
+  "balormk_equivalence": {
+    "power_50_percent": true,
+    "speed_250_mm_s": true,
+    "frequency_40_khz": true,
+    "pulse_width_200_ns": true,
+    "square_coordinates": true,
+    "dwell_1_ms": true
+  },
+  "limitations": [
+    "12-byte command records only; no list buffering or transport",
+    "record ordering follows the Rayforge Ops stream",
+    "synthetic field mapping; no lens correction",
+    "pulse width treated as nanoseconds from LaserStep UI contract"
+  ]
+}

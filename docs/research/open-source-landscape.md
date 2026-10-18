@@ -158,8 +158,9 @@ Source inspection found particularly relevant implementation details:
 - imported LightBurn cut settings are mapped into Rayforge workflows,
   including speed, power, passes, offsets, raster interval/angle and dither;
 - `.lbdev` device profiles have a separate importer;
-- laser steps and recipes serialize `frequency` in Hz and `pulse_width` in
-  microseconds;
+- laser steps and recipes serialize `frequency` in Hz; the laser-step UI
+  describes `pulse_width` as nanoseconds, while the Ruida encoder calls the
+  same Ops value microseconds, so the unit contract requires clarification;
 - the neutral `Ops` command set contains frequency and pulse-width commands;
 - binary rather than G-code drivers are supported through an `OpsEncoder`;
 - driver state, cancel/hold, discovery, machine profiles, simulator and

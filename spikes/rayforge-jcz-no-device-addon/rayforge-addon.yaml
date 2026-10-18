@@ -1,0 +1,12 @@
+name: the_pirate_ray_jcz
+display_name: The Pirate Ray JCZ (offline spike)
+description: Hardware-free binary-driver registration proof for Rayforge.
+version: 0.1.0
+api_version: 23
+depends:
+  - rayforge>=1.0.0
+author:
+  name: The Pirate Ray contributors
+provides:
+  worker: pirate_ray_jcz.worker
+maturity: experimental

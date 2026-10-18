@@ -1,0 +1,38 @@
+{
+  "rayforge_commit": "c28918c87f8273dd1d244f5a057addc192807fa5",
+  "profile": "synthetic-jpt-mopa-110-v1",
+  "transport": null,
+  "cases": [
+    {
+      "case": "profile_mismatch",
+      "result": "rejected",
+      "reason": "profile mismatch: encoder refuses to produce a JCZ trace"
+    },
+    {
+      "case": "out_of_field_geometry",
+      "result": "rejected",
+      "reason": "coordinate is outside the synthetic 110 mm field"
+    },
+    {
+      "case": "power_above_one",
+      "result": "rejected",
+      "reason": "power must be between 0 and 1"
+    },
+    {
+      "case": "non_positive_frequency",
+      "result": "rejected",
+      "reason": "frequency must be positive"
+    },
+    {
+      "case": "non_positive_pulse_width",
+      "result": "rejected",
+      "reason": "pulse width must be positive"
+    },
+    {
+      "case": "unsupported_ops_command",
+      "result": "rejected",
+      "reason": "unsupported Ops command: CUSTOM"
+    }
+  ],
+  "all_failed_closed": true
+}

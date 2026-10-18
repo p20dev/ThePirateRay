@@ -85,3 +85,23 @@ workflow. Record evidence before choosing a standalone app.
 See [Open-source landscape](../research/open-source-landscape.md) for the
 candidate matrix, inspected commits, risks and detailed spike plan.
 
+Subsequent offline evidence:
+
+- [MeerK40t mock MOPA spike](../research/meerk40t-mock-mopa-spike.md):
+  deterministic controller-level frequency, pulse-width and square encoding;
+- [Rayforge addon spike](../research/rayforge-addon-spike.md): external binary
+  driver load and lifecycle are viable, with a documented registry API gap.
+- [Rayforge-to-JCZ equivalence spike](../research/rayforge-jcz-equivalence-spike.md):
+  the required MOPA and geometry semantics survive a real Rayforge `Ops`
+  stream and match the pinned BalorMK mock trace.
+- [JCZ negative cases](../research/rayforge-jcz-negative-cases.md): the encoder
+  boundary rejects profile mismatch, invalid values, out-of-field geometry and
+  unsupported commands without a transport.
+- [JCZ 12-byte record spike](../research/rayforge-jcz-packet-spike.md): the
+  external encoder deterministically packs controller-shaped command records
+  matching the pinned BalorMK mock values, while retaining no transport.
+
+These results support continuing toward complete list buffering and production
+integration, but they do not yet satisfy every proof obligation or change this
+ADR's proposed status.
+
