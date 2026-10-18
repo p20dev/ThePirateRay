@@ -100,6 +100,9 @@ Subsequent offline evidence:
 - [JCZ 12-byte record spike](../research/rayforge-jcz-packet-spike.md): the
   external encoder deterministically packs controller-shaped command records
   matching the pinned BalorMK mock values, while retaining no transport.
+- [Synthetic LightBurn MOPA import spike](../research/rayforge-lightburn-mopa-import-spike.md):
+  geometry and common settings survive, but frequency is not mapped to the
+  workflow and pulse-width representation still lacks fixture evidence.
 
 These results support continuing toward complete list buffering and production
 integration, but they do not yet satisfy every proof obligation or change this

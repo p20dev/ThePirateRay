@@ -139,6 +139,14 @@ records whose opcodes, values, coordinates and distances match the pinned
 BalorMK mock evidence. It deliberately omits list buffering and all transport;
 controller-safe state ordering remains an explicit evidence gap.
 
+[The synthetic LightBurn MOPA import spike](research/rayforge-lightburn-mopa-import-spike.md)
+confirms that Rayforge preserves geometry, power, speed and passes and retains
+an observed LightBurn frequency value in raw source metadata. Frequency is not
+mapped into workflow settings, and no evidence-backed pulse-width field was
+found, so the job deliberately fails the JCZ encoding gate. A private
+known-working galvo fixture is required before implementing the missing MOPA
+mapping.
+
 The architecture decision remains proposed until these spikes produce
 evidence. An independent app requires a documented gap analysis showing why
 neither existing platform can be extended responsibly.
