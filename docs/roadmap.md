@@ -306,6 +306,12 @@ without machine code or transport. This is a headless UI-contract and pipeline
 proof, not a completed human GTK test. Packaged Windows interaction with the
 external addon remains open before item 5 or ADR 0002 can close.
 
+The first Windows launch preflight is recorded separately. It fails closed
+because the available spike venv has no PyGObject `gi` module and this machine
+has no MSYS2/UCRT64 Rayforge runtime. No dependencies were installed and no
+GUI success is claimed. The packaged interaction test therefore remains
+blocked on a reviewed Windows GTK runtime, not on controller behavior.
+
 ## Decision rules
 
 - A simulator test precedes every equivalent hardware behavior.

@@ -1,0 +1,23 @@
+{
+  "checks": {
+    "application_entry_present": true,
+    "msys2_ucrt64_shell_present": false,
+    "no_device_addon_present": true,
+    "pinned_source_present": true,
+    "pygobject_gi_available": false,
+    "python_environment_present": true,
+    "rayforge_msys2_environment_present": false
+  },
+  "controller_backend_reachable": false,
+  "installation_performed": false,
+  "missing_requirements": [
+    "pygobject_gi_available",
+    "msys2_ucrt64_shell_present",
+    "rayforge_msys2_environment_present"
+  ],
+  "next_action": "provide a reviewed Rayforge Windows GTK runtime or approve its installation",
+  "observed_launch_error": "ModuleNotFoundError: No module named 'gi'",
+  "ready_for_manual_gui_test": false,
+  "status": "blocked",
+  "transport": null
+}
