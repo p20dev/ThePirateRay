@@ -57,3 +57,32 @@ The work that does not depend on this acquisition can proceed in parallel.
 The [product and research roadmap](../roadmap.md) defines the offline application
 core, configuration analysis, protocol research, gated hardware experiments,
 and workshop release as separate milestones.
+
+## Offline M1 status
+
+The Rayforge/MeerK40t reuse track has now produced public, transport-free
+evidence for:
+
+- deterministic MeerK40t BalorMK mock MOPA encoding, hatch planning and mock
+  spooling;
+- an external Rayforge no-device addon with profile import, fixed-size list
+  buffering, safe state ordering, cancellation and explicit recovery;
+- semantic and 12-byte-record agreement between a Rayforge `Ops` stream and
+  the pinned BalorMK mock values;
+- fail-closed profile and encoder negative cases;
+- Rayforge workflow-model serialization and preview behavior for power,
+  frequency and pulse width.
+
+The remaining M1 gates are deliberately explicit:
+
+- a private known-working `.lbrn2` project is still required before mapping
+  project-level `QPulseWidth` into workflow settings;
+- packaged Windows/GTK interaction is blocked until a reviewed Rayforge
+  runtime with PyGObject and MSYS2/UCRT64 is available;
+- graphical workflow, import, lens correction and controller protocol
+  behavior remain unproven at the physical boundary;
+- ADR 0002 remains **Proposed** until those gaps are resolved or rejected by
+  evidence.
+
+No item in this section authorizes USB access, controller commands or laser
+output.
