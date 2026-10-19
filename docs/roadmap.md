@@ -297,7 +297,14 @@ The cancellation half of item 5 now has an asynchronous no-device proof:
 hold/resume work through the Rayforge driver contract, cancel clears every
 pending list buffer, restart fails until explicit recovery, and a separately
 encoded follow-up job can then complete. Physical stop/reset commands remain
-absent. Graphical workflow assessment is still open.
+absent.
+
+The first graphical-workflow assessment now confirms that Rayforge's existing
+generated settings UI exposes frequency and pulse width with Hz/ns contracts,
+the values survive step serialization, and the preview artifact is populated
+without machine code or transport. This is a headless UI-contract and pipeline
+proof, not a completed human GTK test. Packaged Windows interaction with the
+external addon remains open before item 5 or ADR 0002 can close.
 
 ## Decision rules
 

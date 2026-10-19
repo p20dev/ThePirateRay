@@ -106,6 +106,10 @@ Subsequent offline evidence:
 - [Synthetic LightBurn MOPA import spike](../research/rayforge-lightburn-mopa-import-spike.md):
   geometry and common settings survive, but frequency is not mapped to the
   workflow and pulse-width representation still lacks fixture evidence.
+- [Graphical workflow model spike](../research/rayforge-graphical-workflow-spike.md):
+  Rayforge's generated settings contract exposes frequency and pulse width,
+  preserves them through step serialization and supplies preview Ops without
+  transport; packaged GTK interaction remains untested.
 
 These results support continuing toward complete list buffering and production
 integration, but they do not yet satisfy every proof obligation or change this

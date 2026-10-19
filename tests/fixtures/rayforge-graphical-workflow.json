@@ -1,0 +1,58 @@
+{
+  "assessment_scope": "headless model, UI contract, and preview artifact",
+  "conclusion": "Rayforge's existing workflow model and generated settings UI expose frequency and pulse width, preserve them in project-step serialization, and provide a preview operation stream without transport; packaged GTK interaction remains a manual evidence gap",
+  "controller_backend_reachable": false,
+  "preview": {
+    "available": true,
+    "distance_mm": 40.0,
+    "machine_code": null,
+    "operation_count": 9,
+    "time_estimate_s": 0.053
+  },
+  "rayforge_commit": "c28918c87f8273dd1d244f5a057addc192807fa5",
+  "remaining_manual_evidence": [
+    "launch the packaged Windows application with the external addon",
+    "confirm the Machine section is visible for a synthetic JCZ-capable head",
+    "exercise open, edit, preview, save, reload, cancel, and recovery by user input"
+  ],
+  "round_trip_preserved": {
+    "cut_speed": true,
+    "frequency": true,
+    "power": true,
+    "pulse_width": true
+  },
+  "serialized_step": {
+    "cut_speed": 750,
+    "frequency": 40000,
+    "power": 0.42,
+    "pulse_width": 100,
+    "type": "ContourStep"
+  },
+  "transport": null,
+  "ui_contract": {
+    "machine_section_is_capability_gated": true,
+    "machine_section_keys": [
+      "frequency",
+      "pulse_width"
+    ],
+    "varset_generated_rows": true
+  },
+  "workflow_controls": {
+    "cut_speed": {
+      "label": "Cut Speed",
+      "unit_contract": null
+    },
+    "frequency": {
+      "label": "Frequency",
+      "unit_contract": "Hz"
+    },
+    "power": {
+      "label": "Power",
+      "unit_contract": null
+    },
+    "pulse_width": {
+      "label": "Pulse Width",
+      "unit_contract": "ns"
+    }
+  }
+}
