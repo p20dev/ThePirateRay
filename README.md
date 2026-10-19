@@ -41,6 +41,14 @@ screenshots, the closed-application preferences folder, machine photos, and
 operator notes directly from the actual control computer. The bundle and
 exported preferences are already preserved and analyzed.
 
+The offline M1 reuse proofs are progressing: the Rayforge/MeerK40t path now
+has deterministic mock encoding, fail-closed JCZ profile and parameter gates,
+list buffering, cancellation/recovery, and a transport-free workflow preview.
+The remaining gates are a private known-working `.lbrn2` project and a reviewed
+Windows GTK runtime for the packaged no-device workflow test. See the
+[Phase 0 status](docs/status/phase-0.md) and
+[Rayforge GUI preflight](docs/research/rayforge-windows-gui-preflight.md).
+
 ## The important discovery
 
 We do not need to begin with a blank-sheet LightBurn clone:
