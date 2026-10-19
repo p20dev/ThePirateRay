@@ -20,11 +20,12 @@
     {"command": "job_end"}
   ],
   "command_records_hex": [
-    "128000080000000000000000",
-    "0c8094000000000000000000",
+    "518000000000000000000000",
+    "2680c8000000000000000000",
     "0680a7040000000000000000",
     "1b80f4010000000000000000",
-    "2680c8000000000000000000",
+    "128000080000000000000000",
+    "0c8094000000000000000000",
     "0180007000700000a0160000",
     "058000710070000000010000",
     "058000710071000000010000",
@@ -33,6 +34,29 @@
     "038064000000000000000000",
     "028000000000000000000000"
   ],
+  "controller_list_commands": [
+    "ready",
+    "pulse_width",
+    "jump_speed",
+    "frequency",
+    "power",
+    "mark_speed",
+    "jump",
+    "mark",
+    "mark",
+    "mark",
+    "mark",
+    "laser_on_point",
+    "job_end"
+  ],
+  "list_buffer_size": 3072,
+  "list_record_capacity": 256,
+  "list_buffer_count": 1,
+  "list_buffer_sha256": [
+    "df9894c746df451054d7237e1e020153e2a65cf2ceaea71dde7d9a40fabaf3e1"
+  ],
+  "list_meaningful_record_count": 13,
+  "list_padding_record_count": 243,
   "balormk_equivalence": {
     "power_50_percent": true,
     "speed_250_mm_s": true,
@@ -42,8 +66,8 @@
     "dwell_1_ms": true
   },
   "limitations": [
-    "12-byte command records only; no list buffering or transport",
-    "record ordering follows the Rayforge Ops stream",
+    "3072-byte list buffers only; no upload or transport",
+    "safe state ordering follows pinned BalorMK program/set_settings order while omitting port commands",
     "synthetic field mapping; no lens correction",
     "pulse width treated as nanoseconds from LaserStep UI contract"
   ]

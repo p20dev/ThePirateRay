@@ -62,11 +62,12 @@ class RayforgeAddonSpikeTests(unittest.TestCase):
         self.assertTrue(all(len(record) == 24 for record in records))
         self.assertEqual(
             [
-                "128000080000000000000000",
-                "0c8094000000000000000000",
+                "518000000000000000000000",
+                "2680c8000000000000000000",
                 "0680a7040000000000000000",
                 "1b80f4010000000000000000",
-                "2680c8000000000000000000",
+                "128000080000000000000000",
+                "0c8094000000000000000000",
                 "0180007000700000a0160000",
                 "058000710070000000010000",
                 "058000710071000000010000",
@@ -78,11 +79,38 @@ class RayforgeAddonSpikeTests(unittest.TestCase):
             records,
         )
 
+    def test_controller_list_is_fixed_size_and_safely_ordered(self):
+        result = json.loads(EQUIVALENCE_FIXTURE.read_text(encoding="utf-8"))
+        self.assertEqual(3072, result["list_buffer_size"])
+        self.assertEqual(256, result["list_record_capacity"])
+        self.assertEqual(1, result["list_buffer_count"])
+        self.assertEqual(1, len(result["list_buffer_sha256"]))
+        self.assertEqual(13, result["list_meaningful_record_count"])
+        self.assertEqual(243, result["list_padding_record_count"])
+        self.assertEqual(
+            [
+                "ready",
+                "pulse_width",
+                "jump_speed",
+                "frequency",
+                "power",
+                "mark_speed",
+                "jump",
+                "mark",
+                "mark",
+                "mark",
+                "mark",
+                "laser_on_point",
+                "job_end",
+            ],
+            result["controller_list_commands"],
+        )
+
     def test_negative_cases_all_fail_closed_without_transport(self):
         result = json.loads(NEGATIVE_FIXTURE.read_text(encoding="utf-8"))
         self.assertTrue(result["all_failed_closed"])
         self.assertIsNone(result["transport"])
-        self.assertEqual(6, len(result["cases"]))
+        self.assertEqual(8, len(result["cases"]))
         self.assertEqual(
             {"rejected"}, {case["result"] for case in result["cases"]}
         )

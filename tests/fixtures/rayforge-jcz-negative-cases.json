@@ -32,6 +32,16 @@
       "case": "unsupported_ops_command",
       "result": "rejected",
       "reason": "unsupported Ops command: CUSTOM"
+    },
+    {
+      "case": "missing_required_state",
+      "result": "rejected",
+      "reason": "missing required JCZ state: pulse_width, jump_speed, frequency, mark_speed"
+    },
+    {
+      "case": "state_change_after_motion",
+      "result": "rejected",
+      "reason": "JCZ state change after motion is not supported"
     }
   ],
   "all_failed_closed": true

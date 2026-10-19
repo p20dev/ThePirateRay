@@ -95,12 +95,40 @@ def run(source: Path, addon: Path) -> dict[str, object]:
         "unsupported_ops_command", Encoder(), unsupported, "unsupported"
     )
 
+    incomplete_state = Ops()
+    incomplete_state.job_start()
+    incomplete_state.set_power(0.5)
+    incomplete_state.job_end()
+    expect_rejection(
+        "missing_required_state",
+        Encoder(),
+        incomplete_state,
+        "missing required JCZ state",
+    )
+
+    late_state = Ops()
+    late_state.job_start()
+    late_state.set_power(0.5)
+    late_state.set_feed_rate(15_000)
+    late_state.set_rapid_rate(120_000)
+    late_state.set_frequency(40_000)
+    late_state.set_pulse_width(200)
+    late_state.move_to(55, 55, 0)
+    late_state.set_frequency(50_000)
+    late_state.job_end()
+    expect_rejection(
+        "state_change_after_motion",
+        Encoder(),
+        late_state,
+        "state change after motion",
+    )
+
     return {
         "rayforge_commit": commit,
         "profile": Encoder.SYNTHETIC_PROFILE_ID,
         "transport": None,
         "cases": cases,
-        "all_failed_closed": len(cases) == 6,
+        "all_failed_closed": len(cases) == 8,
     }
 
 

@@ -110,10 +110,24 @@ def run(source: Path, addon: Path, balor_fixture: Path) -> dict[str, object]:
         "rayforge_ops_count": ops.len(),
         "semantic_trace": semantic,
         "command_records_hex": encoded.driver_data["command_records_hex"],
+        "controller_list_commands": [
+            item["command"]
+            for item in encoded.driver_data["controller_list_trace"]
+        ],
+        "list_buffer_size": encoded.driver_data["list_buffer_size"],
+        "list_record_capacity": encoded.driver_data["list_record_capacity"],
+        "list_buffer_count": len(encoded.driver_data["list_buffers"]),
+        "list_buffer_sha256": encoded.driver_data["list_buffer_sha256"],
+        "list_meaningful_record_count": encoded.driver_data[
+            "list_meaningful_record_count"
+        ],
+        "list_padding_record_count": encoded.driver_data[
+            "list_padding_record_count"
+        ],
         "balormk_equivalence": checks,
         "limitations": [
-            "12-byte command records only; no list buffering or transport",
-            "record ordering follows the Rayforge Ops stream",
+            "3072-byte list buffers only; no upload or transport",
+            "safe state ordering follows pinned BalorMK program/set_settings order while omitting port commands",
             "synthetic field mapping; no lens correction",
             "pulse width treated as nanoseconds from LaserStep UI contract",
         ],

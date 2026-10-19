@@ -13,8 +13,16 @@ The opcode and value fields agree with the pinned BalorMK mock trace for power,
 mark and jump speed, frequency, MOPA pulse width, the square coordinates and
 distances, one millisecond dwell, and end-of-list.
 
+The encoder now places those records into the pinned BalorMK list shape:
+exactly 256 records and 3072 bytes per buffer, with unused final-buffer slots
+filled by `listEndOfList`. Before packing, it requires one complete state block
+ahead of all motion and emits the evidence-backed order `listReadyMark`, pulse
+width, jump speed, frequency, power and mark speed, followed by geometry and
+end-of-list. State changes after motion and duplicate or missing state fields
+fail closed.
+
 Two independent runs produced identical output with SHA-256
-`b3d34600daac7060c3d3b28edf1627813d3bc518b1a64be11367f8e2106a51c6`.
+`6217c9f8fee0e612872de6c20f5b033a4df885a173a442baa54629465fc5db5b`.
 The checked records are in
 `tests/fixtures/rayforge-jcz-equivalence.json` and are asserted byte-for-byte by
 the standard-library test suite.
@@ -29,10 +37,9 @@ operations continue to fail closed.
 
 ## Remaining gaps
 
-- Records are emitted in Rayforge operation order. A production adapter must
-  define controller-safe state ordering from evidence.
-- List framing, fixed-size buffers, padding, upload, status, cancellation and
-  recovery are absent.
+- Upload, status, cancellation and recovery are absent.
+- Port-state commands are deliberately omitted because their machine-specific
+  bit semantics can arm output and have not yet passed the hardware gate.
 - The 110 mm coordinate mapping is synthetic and has no lens correction.
 - Machine-specific bounds and the pulse-width unit contract still require
   authoritative evidence; they are not guessed here.

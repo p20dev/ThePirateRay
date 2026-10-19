@@ -4,6 +4,7 @@ This is deliberately not a controller implementation.  It has no discovery
 specification, transport, USB import, or machine I/O.
 """
 
+import hashlib
 import json
 import math
 import struct
@@ -35,7 +36,19 @@ class OfflineJCZEncoder(OpsEncoder):
         "power": 0x8012,
         "mark_speed": 0x800C,
         "pulse_width": 0x8026,
+        "ready": 0x8051,
     }
+
+    LIST_RECORD_SIZE = 12
+    LIST_BUFFER_SIZE = 0xC00
+    LIST_RECORD_CAPACITY = LIST_BUFFER_SIZE // LIST_RECORD_SIZE
+    STATE_ORDER = (
+        "pulse_width",
+        "jump_speed",
+        "frequency",
+        "power",
+        "mark_speed",
+    )
 
     def __init__(
         self,
@@ -66,7 +79,9 @@ class OfflineJCZEncoder(OpsEncoder):
             command = item["command"]
             if command == "job_start":
                 continue
-            if command == "job_end":
+            if command == "ready":
+                records.append(self._record(self.OPCODES[command]))
+            elif command == "job_end":
                 records.append(self._record(self.OPCODES["end_of_list"]))
             elif command == "pulse_width":
                 records.append(
@@ -99,6 +114,58 @@ class OfflineJCZEncoder(OpsEncoder):
             else:
                 raise ValueError(f"cannot packetize semantic command: {command}")
         return records
+
+    def _controller_list_trace(
+        self, trace: list[dict[str, Any]]
+    ) -> list[dict[str, Any]]:
+        if not trace or trace[0]["command"] != "job_start":
+            raise ValueError("JCZ list must start with job_start")
+        if trace[-1]["command"] != "job_end":
+            raise ValueError("JCZ list must end with job_end")
+
+        states: dict[str, dict[str, Any]] = {}
+        body: list[dict[str, Any]] = []
+        motion_seen = False
+        for item in trace[1:-1]:
+            command = item["command"]
+            if command in self.STATE_ORDER:
+                if motion_seen:
+                    raise ValueError(
+                        "JCZ state change after motion is not supported"
+                    )
+                if command in states:
+                    raise ValueError(f"duplicate JCZ state command: {command}")
+                states[command] = item
+            else:
+                motion_seen = True
+                body.append(item)
+
+        missing = [name for name in self.STATE_ORDER if name not in states]
+        if missing:
+            raise ValueError(f"missing required JCZ state: {', '.join(missing)}")
+        return (
+            [{"command": "ready"}]
+            + [states[name] for name in self.STATE_ORDER]
+            + body
+            + [trace[-1]]
+        )
+
+    def _pack_list_buffers(self, records: list[bytes]) -> list[bytes]:
+        if not records:
+            return []
+        end_record = self._record(self.OPCODES["end_of_list"])
+        buffers = []
+        for offset in range(0, len(records), self.LIST_RECORD_CAPACITY):
+            chunk = records[offset : offset + self.LIST_RECORD_CAPACITY]
+            if len(chunk) < self.LIST_RECORD_CAPACITY:
+                chunk = chunk + [end_record] * (
+                    self.LIST_RECORD_CAPACITY - len(chunk)
+                )
+            packet = b"".join(chunk)
+            if len(packet) != self.LIST_BUFFER_SIZE:
+                raise AssertionError("JCZ list buffer is not exactly 0xC00 bytes")
+            buffers.append(packet)
+        return buffers
 
     @classmethod
     def _coordinate(cls, value_mm: float) -> int:
@@ -186,7 +253,9 @@ class OfflineJCZEncoder(OpsEncoder):
                     raise ValueError(f"unsupported Ops command: {kind}")
             op_count = len(trace)
 
-        records = self._encode_records(trace)
+        controller_trace = [] if ops is None else self._controller_list_trace(trace)
+        records = self._encode_records(controller_trace)
+        list_buffers = self._pack_list_buffers(records)
         payload = b"".join(records)
         if ops is None:
             payload = json.dumps(
@@ -202,6 +271,18 @@ class OfflineJCZEncoder(OpsEncoder):
                 "binary": payload,
                 "command_records_hex": [record.hex() for record in records],
                 "semantic_trace": trace,
+                "controller_list_trace": controller_trace,
+                "list_buffers": list_buffers,
+                "list_buffer_sha256": [
+                    hashlib.sha256(packet).hexdigest()
+                    for packet in list_buffers
+                ],
+                "list_record_capacity": self.LIST_RECORD_CAPACITY,
+                "list_buffer_size": self.LIST_BUFFER_SIZE,
+                "list_meaningful_record_count": len(records),
+                "list_padding_record_count": (
+                    len(list_buffers) * self.LIST_RECORD_CAPACITY - len(records)
+                ),
                 "transport": None,
             },
         )

@@ -6,7 +6,7 @@
 
 ## Result
 
-The transport-free JCZ semantic encoder rejected all six synthetic negative
+The transport-free JCZ semantic encoder rejected all eight synthetic negative
 cases before producing output:
 
 | Case | Rejection |
@@ -17,9 +17,11 @@ cases before producing output:
 | Zero frequency | Frequency was not positive |
 | Zero pulse width | Pulse width was not positive |
 | Unsupported command | A synthetic `CUSTOM` Ops command had no explicit mapping |
+| Missing required state | A job omitted pulse width, rapid speed, frequency and mark speed |
+| State after motion | A frequency change appeared after the first move |
 
 Two runs produced identical results with SHA-256
-`0adab8fb1060fde1e172c674da3d0d4ae5936b01490891b898f86cc4f7ca3c3f`.
+`1372037e089185365bb7600762d49afa938063ef53f888604f87c68cad829b83`.
 The checked result is `tests/fixtures/rayforge-jcz-negative-cases.json`.
 
 ## Boundary

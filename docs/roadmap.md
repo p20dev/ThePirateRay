@@ -288,6 +288,11 @@ the no-device JCZ driver, preserves process values as raw observations with
 unit uncertainty, and keeps encoding disabled until the remaining profile and
 project evidence exists.
 
+Item 4 now covers transport-free fixed-size list buffering and an explicit
+state-before-motion order derived from pinned BalorMK. Port commands, upload,
+execute, status and cancellation remain outside the encoder and cannot be
+reached by this spike.
+
 ## Decision rules
 
 - A simulator test precedes every equivalent hardware behavior.
