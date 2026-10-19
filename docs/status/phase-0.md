@@ -1,6 +1,6 @@
 # Phase 0 status
 
-Last updated: 2026-10-17
+Last updated: 2026-10-19
 
 ## Completed
 
@@ -22,29 +22,36 @@ Last updated: 2026-10-17
   description `USBLMCV4`, USB VID/PID `9588:9899`, vendor-specific class, and
   USB revision descriptor `0005`. No compatible function driver is installed
   on the development computer; no endpoint was opened.
+- Four LightBurn exports are preserved privately with SHA-256 manifests and
+  Git LFS. Their public evidence records contain no private source locators.
+- All three bundle manifests identify LightBurn `2.1.03`.
+- The JPT export confirms a `JCZFiber`/`LibUSB` device profile, 110 x 110 mm
+  work area, enabled Q-pulse-width control, `QPulseWidth` cut-list fields and
+  a require-frame-before-start setting.
+- The Eduard export confirms a Ruida/Serial profile with a 1500 x 1000 mm work
+  area. A separate 500 x 300 mm Ruida profile remains physically unassigned.
 - No vendor executable, plugin, DLL, or driver was run. No USB capture, framing,
   machine command, or laser output was performed.
 
 ## Pending external acquisition
 
-The current development computer is not the LightBurn control computer: no
-LightBurn executable or local LightBurn preferences directory was present.
-Consequently, these items remain pending from the actual control machine:
+These items remain pending from the actual control machine:
 
-- Help → About screenshot;
-- full `.lbzip` bundle and `.lbprefs` export;
 - closed-application preferences-folder archive;
 - Device Settings screenshots;
 - known-working `.lbrn2` examples;
 - safe exterior hardware/label photographs and startup/interlock notes;
 - stock-driver identity and version from the actual LightBurn control computer.
 
+An About screenshot is useful corroboration, but the imported bundle manifests
+already establish version `2.1.03`.
+
 Collect them directly into a dated directory under PrivateStash by following
 the [LightBurn checklist](../collection/lightburn.md). Do not use Google Drive
 as an intermediate project workspace and do not generate Support Data.
 
-Phase 0 remains open until these control-machine artifacts are hashed,
-committed, pushed, and represented by sanitized public evidence.
+Phase 0 remains open until the safety- and interoperability-relevant remainder
+is hashed, committed, pushed, and represented by sanitized public evidence.
 
 The work that does not depend on this acquisition can proceed in parallel.
 The [product and research roadmap](../roadmap.md) defines the offline application

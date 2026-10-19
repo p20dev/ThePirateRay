@@ -19,9 +19,14 @@ optics:
     - width: 300
       height: 300
 lightburn:
-  version: null
+  version: 2.1.03
   build: null
-  status: pending-collection
+  device_name: 100 JPT E2 MOPA
+  backend: JCZFiber
+  connection: LibUSB
+  q_pulse_width_enabled: true
+  require_frame_before_start: true
+  status: bundle-export-observed
 usb:
   vid: "9588"
   pid: "9899"
@@ -45,8 +50,16 @@ evidence:
   - artifact_id: sha256-ebfe631958b9522533ff
     sha256: ebfe631958b9522533ffb1e78c8961073e3549039053ea0d56e4c82cfe8bff83
     role: jcz-windows-driver-metadata
+  - artifact_id: sha256-d422e9886e29ed666c07
+    sha256: d422e9886e29ed666c077a0e7bab9a6c3d53fc938365b7b773d79c529b55c0f0
+    role: lightburn-jpt-device-bundle
+  - artifact_id: sha256-88c762adcb8e9693c913
+    sha256: 88c762adcb8e9693c9132473a9d90c69eaf768b96f12e8af71e89adfb10b4cfa
+    role: lightburn-preferences-export
 notes:
   - No complete serial numbers or private source locators are stored here.
   - Incorrect galvo or source configuration can damage hardware; values are not inferred by trial and error.
   - USB identity was confirmed by passive Windows PnP enumeration on 2026-10-17; no device endpoint was opened.
   - USB revision 0005 is a descriptor value, not a proven board or firmware version.
+  - LightBurn bundle manifests establish version 2.1.03 but do not expose a separate build identifier.
+  - Exported recipe values are observations, not certified hardware limits or safe operating parameters.

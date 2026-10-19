@@ -25,15 +25,21 @@ Phase 0 has established a reproducible evidence and research baseline:
   correction data, material libraries, and relevant configuration files;
 - the physical controller has been passively identified by Windows as
   `USBLMCV4`, USB `9588:9899`, with device revision descriptor `0005`;
+- LightBurn `2.1.03` exports now confirm the JPT `JCZFiber`/`LibUSB` profile,
+  110 x 110 mm work area, Q-pulse-width support, and the exact serialized
+  setting name `QPulseWidth`;
+- the Eduard X1550 export confirms a Ruida/Serial profile and 1500 x 1000 mm
+  work area;
 - the development computer has no compatible controller driver installed;
 - no USB endpoint has been opened and no controller command, galvo movement,
   framing, marking, or laser output has occurred;
 - the public tests, provenance checks, leak guard, and clean-clone validation
   pass.
 
-Phase 0 remains open while we collect the LightBurn bundle, preferences,
-known-working projects, device screenshots, machine photos, and operator notes
-directly from the actual control computer.
+Phase 0 remains open while we collect known-working LightBurn projects, device
+screenshots, the closed-application preferences folder, machine photos, and
+operator notes directly from the actual control computer. The bundle and
+exported preferences are already preserved and analyzed.
 
 ## The important discovery
 
@@ -55,16 +61,17 @@ BalorMK. This remains a proposed decision until the offline proofs in
 
 ## Next steps
 
-The next work is deliberately offline and hardware-free:
+The initial offline architecture spikes have passed. The next work remains
+hardware-free:
 
-1. run a synthetic MOPA job through MeerK40t's mock controller;
-2. prove that an external Rayforge addon can register a binary no-device
-   driver on Windows;
-3. translate a small Rayforge operation stream into a deterministic JCZ trace
-   and compare it with BalorMK;
-4. test Rayforge's existing LightBurn import against galvo/MOPA fixtures;
-5. accept, revise, or reject the proposed reuse architecture from evidence;
-6. write and review a separate hardware protocol before any live controller
+1. collect known-working `.lbrn2` projects and the remaining screenshots,
+   photos, preferences folder and operator notes;
+2. extend the synthetic import tests with the now-observed `QPulseWidth`
+   evidence, without assuming its `.lbrn2` representation;
+3. define the minimum Rayforge JCZ device-profile/import extension and finish
+   controller-list buffering and safe state ordering offline;
+4. accept, revise, or reject the proposed reuse architecture from evidence;
+5. write and review a separate hardware protocol before any live controller
    communication.
 
 An independent desktop application is the fallback only if both existing
@@ -86,6 +93,7 @@ project workspace or development destination.
 - [Open-source reuse landscape](docs/research/open-source-landscape.md)
 - [Proposed Rayforge/BalorMK reuse decision](docs/adr/0002-reuse-rayforge-and-balormk.md)
 - [Live USB enumeration](docs/research/live-usb-enumeration-2026-10-17.md)
+- [LightBurn device-export analysis](docs/research/lightburn-device-exports-2026-10-19.md)
 - [Sanitized machine profile](docs/research/machine-profile.yaml)
 - [110/300 configuration comparison](docs/research/config-comparison.md)
 - [Data handling policy](docs/data-handling.md)

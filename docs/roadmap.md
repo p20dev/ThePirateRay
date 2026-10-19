@@ -1,6 +1,6 @@
 # Product and research roadmap
 
-Last updated: 2026-10-18
+Last updated: 2026-10-19
 
 ## Destination
 
@@ -46,7 +46,8 @@ evidence.
 The collected installer snapshot establishes:
 
 - the JCZ/EZCAD2 controller and `Lmcv2u` driver family;
-- vendor-declared USB VID/PID values, pending live confirmation;
+- vendor-declared USB VID/PID values, subsequently confirmed by passive live
+  Windows enumeration;
 - known-good 110 mm and 300 mm configuration trees;
 - exact hashes for the opaque, lens-specific `markcfg7` profiles;
 - a shared correction file and observable workspace differences;
@@ -60,7 +61,13 @@ It does **not** yet establish:
 - which values are controller settings versus laser-source settings;
 - status, interlock, error, abort, and recovery behavior;
 - whether an apparently harmless query can move a galvo or arm emission;
-- the exact LightBurn version and known-working LightBurn device profile.
+- how a known-working `.lbrn2` project serializes JPT frequency and
+  `QPulseWidth` settings.
+
+The later LightBurn export collection now establishes version `2.1.03`, a
+110 x 110 mm `JCZFiber`/`LibUSB` JPT profile, and the `QPulseWidth` device
+library field. See the
+[device-export analysis](research/lightburn-device-exports-2026-10-19.md).
 
 Consequently, treating a vendor DLL or opaque profile as a callable black box
 would be premature and would make the safety boundary impossible to audit.
@@ -147,10 +154,11 @@ controller-safe state ordering remains an explicit evidence gap.
 [The synthetic LightBurn MOPA import spike](research/rayforge-lightburn-mopa-import-spike.md)
 confirms that Rayforge preserves geometry, power, speed and passes and retains
 an observed LightBurn frequency value in raw source metadata. Frequency is not
-mapped into workflow settings, and no evidence-backed pulse-width field was
-found, so the job deliberately fails the JCZ encoding gate. A private
-known-working galvo fixture is required before implementing the missing MOPA
-mapping.
+mapped into workflow settings. A later real device export identifies
+`QPulseWidth` and its nanosecond UI contract, but project serialization remains
+unknown, so the job still deliberately fails the JCZ encoding gate. A private
+known-working `.lbrn2` fixture is required before implementing the missing
+MOPA mapping.
 
 The architecture decision remains proposed until these spikes produce
 evidence. An independent app requires a documented gap analysis showing why
@@ -251,17 +259,22 @@ imply compatible safety or control behavior on either CO2 machine.
 
 The next work package should be small enough to review in a few commits:
 
-1. collect the pending LightBurn data from the control PC as one local archive;
-2. run the stock MeerK40t mock-controller evaluation;
-3. prove the Rayforge external-addon and binary-driver registration seam;
-4. build one no-I/O Rayforge-to-JCZ encoder spike and golden trace comparison;
-5. test Rayforge's existing LightBurn import against galvo/MOPA fixtures;
-6. accept, amend or reject ADR 0002 from the results;
-7. separately produce a written M3 hardware-research protocol before any USB
-   access or controller command.
+1. collect two or three known-working `.lbrn2` projects plus the remaining
+   device screenshots, preferences folder, photos and operator notes;
+2. add a sanitized synthetic JCZ `.lbdev` fixture and characterize the exact
+   gaps in Rayforge's device importer;
+3. implement and test the smallest evidence-backed JCZ profile-import seam,
+   keeping project `QPulseWidth` mapping gated until a real project confirms
+   its serialization;
+4. extend the offline JCZ encoder from semantic records to controller-list
+   buffering and explicit safe state ordering, still without transport;
+5. exercise cancellation/recovery and the graphical workflow against mock
+   backends, then accept, amend or reject ADR 0002;
+6. separately produce a written M3 hardware-research protocol before any USB
+   endpoint access or controller command.
 
-Items 2–6 can proceed while item 1 is pending. Hardware work cannot proceed
-until item 7 is reviewed and the physical setup is ready.
+Hardware work cannot proceed until item 6 is reviewed and the physical setup
+is ready.
 
 ## Decision rules
 
