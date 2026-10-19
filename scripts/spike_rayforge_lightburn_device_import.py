@@ -26,7 +26,7 @@ def _commit_of(source: Path) -> str:
     return result.stdout.strip()
 
 
-def run(source: Path, fixture: Path) -> dict[str, object]:
+def run(source: Path, fixture: Path, addon: Path) -> dict[str, object]:
     commit = _commit_of(source)
     if commit != RAYFORGE_COMMIT:
         raise RuntimeError(f"expected Rayforge {RAYFORGE_COMMIT}, found {commit}")
@@ -39,6 +39,11 @@ def run(source: Path, fixture: Path) -> dict[str, object]:
 
     raw = parse_lbdev(fixture)
     profile, summary = convert_to_profile(fixture)
+    document = json.loads(fixture.read_text(encoding="utf-8"))
+    sys.path.insert(0, str(addon))
+    from pirate_ray_jcz.profile_import import import_lightburn_jcz_profile
+
+    seam = import_lightburn_jcz_profile(document)
     settings = raw["Settings"]
     cut_entry = raw["CutList"][0]
 
@@ -72,6 +77,7 @@ def run(source: Path, fixture: Path) -> dict[str, object]:
             "work_area_mm": list(profile.machine_config.axis_extents),
             "home_on_start": profile.machine_config.home_on_start,
         },
+        "addon_profile_seam": seam,
         "gap_matrix": {
             "jczfiber_driver_mapped": profile.machine_config.driver is not None,
             "require_frame_before_start_mapped": False,
@@ -93,13 +99,20 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("source", type=Path, help="pinned Rayforge checkout")
     parser.add_argument(
+        "--addon",
+        type=Path,
+        default=root / "spikes" / "rayforge-jcz-no-device-addon",
+    )
+    parser.add_argument(
         "--fixture",
         type=Path,
         default=root / "tests" / "fixtures" / "synthetic-jcz-device.lbdev",
     )
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
-    result = run(args.source.resolve(), args.fixture.resolve())
+    result = run(
+        args.source.resolve(), args.fixture.resolve(), args.addon.resolve()
+    )
     rendered = json.dumps(result, indent=2, sort_keys=True) + "\n"
     if args.output:
         args.output.write_text(rendered, encoding="utf-8", newline="\n")

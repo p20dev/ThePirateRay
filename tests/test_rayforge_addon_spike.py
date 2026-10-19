@@ -27,10 +27,11 @@ class RayforgeAddonSpikeTests(unittest.TestCase):
         self.assertEqual(23, result["rayforge_api_version"])
 
     def test_addon_contains_no_hardware_transport_import(self):
-        worker = (ADDON / "pirate_ray_jcz" / "worker.py").read_text(
-            encoding="utf-8"
+        source = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in sorted((ADDON / "pirate_ray_jcz").glob("*.py"))
         )
-        compact = worker.lower()
+        compact = source.lower()
         for forbidden in ("import usb", "import serial", "import socket"):
             self.assertNotIn(forbidden, compact)
         self.assertIn("discovery = none", compact)

@@ -282,6 +282,12 @@ Rayforge preserves the common name and work-area fields, but maps no
 `JCZFiber` driver and drops the JCZ-specific safety and MOPA fields from its
 profile model. The fixture and regression test remain transport-free.
 
+Item 3 now has a minimal external-addon seam: it recognizes only the synthetic
+`JCZFiber` fixture with explicit provenance and frame-before-start, binds it to
+the no-device JCZ driver, preserves process values as raw observations with
+unit uncertainty, and keeps encoding disabled until the remaining profile and
+project evidence exists.
+
 ## Decision rules
 
 - A simulator test precedes every equivalent hardware behavior.

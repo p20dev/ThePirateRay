@@ -1,11 +1,20 @@
 import json
 import unittest
+from copy import deepcopy
 from pathlib import Path
+import sys
 
 
 ROOT = Path(__file__).parents[1]
 RESULT = ROOT / "tests" / "fixtures" / "rayforge-lightburn-device-import.json"
 SOURCE = ROOT / "tests" / "fixtures" / "synthetic-jcz-device.lbdev"
+ADDON = ROOT / "spikes" / "rayforge-jcz-no-device-addon"
+sys.path.insert(0, str(ADDON))
+
+from pirate_ray_jcz.profile_import import (  # noqa: E402
+    JCZProfileImportError,
+    import_lightburn_jcz_profile,
+)
 
 
 class RayforgeLightBurnDeviceImportSpikeTests(unittest.TestCase):
@@ -38,6 +47,44 @@ class RayforgeLightBurnDeviceImportSpikeTests(unittest.TestCase):
         self.assertFalse(gaps["frequency_mapped"])
         self.assertFalse(gaps["q_pulse_width_mapped"])
         self.assertFalse(gaps["safe_for_jcz_use"])
+
+    def test_addon_seam_preserves_raw_values_but_blocks_encoding(self):
+        result = json.loads(RESULT.read_text(encoding="utf-8"))
+        seam = result["addon_profile_seam"]
+        self.assertEqual("PirateRayJCZNoDeviceDriver", seam["driver"])
+        self.assertIsNone(seam["transport"])
+        self.assertFalse(seam["encoding_allowed"])
+        self.assertEqual("preserved-raw-not-mapped", seam["process_metadata"]["status"])
+        entry = seam["process_metadata"]["cut_list"][0]
+        self.assertEqual(40000, entry["frequency"]["raw_value"])
+        self.assertEqual(100, entry["q_pulse_width"]["raw_value"])
+        self.assertEqual("unverified", entry["q_pulse_width"]["serialized_unit_conversion"])
+
+    def test_addon_seam_rejects_wrong_backend_and_missing_frame_gate(self):
+        source = json.loads(SOURCE.read_text(encoding="utf-8"))
+        wrong_backend = deepcopy(source)
+        wrong_backend["DeviceList"][0]["Type"] = "Ruida"
+        with self.assertRaises(JCZProfileImportError):
+            import_lightburn_jcz_profile(wrong_backend)
+
+        no_frame_gate = deepcopy(source)
+        no_frame_gate["DeviceList"][0]["Settings"][
+            "RequireFrameBeforeStart"
+        ] = False
+        with self.assertRaises(JCZProfileImportError):
+            import_lightburn_jcz_profile(no_frame_gate)
+
+        wrong_identity = deepcopy(source)
+        wrong_identity["SyntheticProfileId"] = "some-other-profile"
+        with self.assertRaises(JCZProfileImportError):
+            import_lightburn_jcz_profile(wrong_identity)
+
+        ambiguous_frequency = deepcopy(source)
+        ambiguous_frequency["DeviceList"][0]["CutList"][0][
+            "frequency"
+        ] = True
+        with self.assertRaises(JCZProfileImportError):
+            import_lightburn_jcz_profile(ambiguous_frequency)
 
 
 if __name__ == "__main__":

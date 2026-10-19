@@ -1,5 +1,6 @@
 {
   "FixtureProvenance": "synthetic public data; not a machine export",
+  "SyntheticProfileId": "synthetic-jpt-mopa-110-v1",
   "DeviceList": [
     {
       "DisplayName": "Synthetic JCZ MOPA",

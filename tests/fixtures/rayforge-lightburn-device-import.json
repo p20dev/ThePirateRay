@@ -1,4 +1,45 @@
 {
+  "addon_profile_seam": {
+    "blockers": [
+      "synthetic profile is not physical machine identity",
+      "lens and correction profile are unverified",
+      "LightBurn project QPulseWidth serialization is unverified",
+      "machine-specific parameter limits are unverified"
+    ],
+    "driver": "PirateRayJCZNoDeviceDriver",
+    "encoding_allowed": false,
+    "process_metadata": {
+      "cut_list": [
+        {
+          "frequency": {
+            "raw_value": 40000,
+            "unit_status": "serialized-unit-conversion-unverified"
+          },
+          "name": "Synthetic MOPA entry",
+          "q_pulse_width": {
+            "raw_value": 100,
+            "serialized_unit_conversion": "unverified",
+            "ui_unit_contract": "nanoseconds"
+          }
+        }
+      ],
+      "status": "preserved-raw-not-mapped"
+    },
+    "profile_id": "synthetic-jpt-mopa-110-v1",
+    "safety": {
+      "require_frame_before_start": true
+    },
+    "source": {
+      "backend": "JCZFiber",
+      "format": "LightBurn synthetic .lbdev",
+      "provenance": "synthetic public data; not a machine export"
+    },
+    "transport": null,
+    "work_area_mm": [
+      110.0,
+      110.0
+    ]
+  },
   "conclusion": "name and work area survive, but JCZFiber has no driver mapping; RequireFrameBeforeStart, CutList, frequency and QPulseWidth are not represented in the imported Rayforge profile",
   "fixture": "synthetic-jcz-device.lbdev",
   "fixture_provenance": "synthetic public data",

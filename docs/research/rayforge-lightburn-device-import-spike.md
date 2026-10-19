@@ -16,10 +16,19 @@ The imported `DeviceProfile` also has no representation of the observed
 `QPulseWidth` fields. The import is therefore explicitly classified as unsafe
 for JCZ use rather than receiving guessed defaults.
 
+The external addon now supplies the narrow profile seam missing from Rayforge
+core. It recognizes only the explicit public synthetic profile identity,
+requires `JCZFiber`, positive work-area dimensions and
+`RequireFrameBeforeStart: true`, and associates the result only with
+`PirateRayJCZNoDeviceDriver`. Frequency and `QPulseWidth` remain raw
+observations with unverified serialized-unit conversion. Encoding remains
+blocked because the physical profile, lens/correction match, project
+serialization and machine-specific limits are not yet verified.
+
 The checked result is
 `tests/fixtures/rayforge-lightburn-device-import.json`. Two runs produced the
 same SHA-256 digest,
-`3c26f43be6b06e9b17a5decbe4ba7bb633eb1b8ac7bb0361449d7498a3b9279c`.
+`94f0d17837471399334a82c84558985d35da0f1a8eee6a176eb02d57ae3aeb18`.
 
 ## Evidence boundary
 
@@ -29,10 +38,9 @@ ranges, not a copy of a private export and not certified machine limits or
 material settings. It deliberately omits private GUIDs, source paths and
 unpublished connection serialization.
 
-This spike characterizes the current importer; it does not implement a driver
-mapping. A future `JCZFiber` mapping must target the separately tested
-no-transport addon driver and require an exact compatible profile. It must not
-silently map `JCZFiber` to a G-code or Ruida driver.
+This spike characterizes the current importer and proves the smallest mapping
+at the external-addon boundary. It does not change Rayforge core or silently
+map `JCZFiber` to a G-code or Ruida driver.
 
 ## Reproduce
 
@@ -44,10 +52,8 @@ python scripts/spike_rayforge_lightburn_device_import.py C:\path\to\rayforge
 
 ## Next seam
 
-The smallest evidence-backed extension is to recognize `JCZFiber` as a
-distinct, fail-closed profile kind, preserve its raw settings with explicit
-units/provenance, and associate it only with the external no-device JCZ driver.
-Cut-list recipes and project-layer `QPulseWidth` mapping remain gated until a
-known-working `.lbrn2` fixture establishes project serialization.
+The next extension is offline controller-list buffering and explicit safe
+state ordering. Cut-list recipes and project-layer `QPulseWidth` mapping remain
+gated until a known-working `.lbrn2` fixture establishes project serialization.
 
 No USB enumeration, controller command, motion, framing or emission occurred.
