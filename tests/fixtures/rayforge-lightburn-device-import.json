@@ -1,0 +1,37 @@
+{
+  "conclusion": "name and work area survive, but JCZFiber has no driver mapping; RequireFrameBeforeStart, CutList, frequency and QPulseWidth are not represented in the imported Rayforge profile",
+  "fixture": "synthetic-jcz-device.lbdev",
+  "fixture_provenance": "synthetic public data",
+  "gap_matrix": {
+    "cut_list_mapped": false,
+    "frequency_mapped": false,
+    "jczfiber_driver_mapped": false,
+    "q_pulse_width_mapped": false,
+    "require_frame_before_start_mapped": false,
+    "safe_for_jcz_use": false
+  },
+  "mapped_profile": {
+    "driver": null,
+    "home_on_start": false,
+    "name": "Synthetic JCZ MOPA",
+    "work_area_mm": [
+      110.0,
+      110.0
+    ]
+  },
+  "raw_profile": {
+    "cut_entry": {
+      "QPulseWidth": 100,
+      "frequency": 40000
+    },
+    "name": "Synthetic JCZ MOPA",
+    "require_frame_before_start": true,
+    "type": "JCZFiber",
+    "work_area_mm": [
+      110,
+      110
+    ]
+  },
+  "rayforge_commit": "c28918c87f8273dd1d244f5a057addc192807fa5",
+  "transport": null
+}

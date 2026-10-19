@@ -276,6 +276,12 @@ The next work package should be small enough to review in a few commits:
 Hardware work cannot proceed until item 6 is reviewed and the physical setup
 is ready.
 
+Item 2 is now covered by the
+[synthetic LightBurn JCZ device-import spike](research/rayforge-lightburn-device-import-spike.md):
+Rayforge preserves the common name and work-area fields, but maps no
+`JCZFiber` driver and drops the JCZ-specific safety and MOPA fields from its
+profile model. The fixture and regression test remain transport-free.
+
 ## Decision rules
 
 - A simulator test precedes every equivalent hardware behavior.

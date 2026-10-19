@@ -1,0 +1,23 @@
+{
+  "FixtureProvenance": "synthetic public data; not a machine export",
+  "DeviceList": [
+    {
+      "DisplayName": "Synthetic JCZ MOPA",
+      "Name": "JCZ",
+      "Type": "JCZFiber",
+      "Width": 110,
+      "Height": 110,
+      "HomeOnStartup": false,
+      "Settings": {
+        "RequireFrameBeforeStart": true
+      },
+      "CutList": [
+        {
+          "Name": "Synthetic MOPA entry",
+          "frequency": 40000,
+          "QPulseWidth": 100
+        }
+      ]
+    }
+  ]
+}
