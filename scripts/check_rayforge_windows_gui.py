@@ -11,21 +11,25 @@ from pathlib import Path
 def inspect(rayforge: Path, python_env: Path) -> dict[str, object]:
     msys2_shell = Path("C:/msys64/msys2_shell.cmd")
     msys2_env = rayforge / ".msys2_env"
-    gi_probe = subprocess.run(
-        [str(python_env), "-c", "import gi"],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-    gi_available = gi_probe.returncode == 0
-    gi_error = next(
-        (
-            line.strip()
-            for line in reversed(gi_probe.stderr.splitlines())
-            if line.strip()
-        ),
-        "unable to import gi",
-    )
+    if python_env.is_file():
+        gi_probe = subprocess.run(
+            [str(python_env), "-c", "import gi"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        gi_available = gi_probe.returncode == 0
+        gi_error = next(
+            (
+                line.strip()
+                for line in reversed(gi_probe.stderr.splitlines())
+                if line.strip()
+            ),
+            "unable to import gi",
+        )
+    else:
+        gi_available = False
+        gi_error = "python runtime not found"
     app_entry = rayforge / "rayforge" / "__main__.py"
     addon_manifest = (
         Path(__file__).parents[1]
