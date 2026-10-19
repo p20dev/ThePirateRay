@@ -3,15 +3,29 @@
 from __future__ import annotations
 
 import argparse
-import importlib.util
 import json
+import subprocess
 from pathlib import Path
 
 
 def inspect(rayforge: Path, python_env: Path) -> dict[str, object]:
     msys2_shell = Path("C:/msys64/msys2_shell.cmd")
     msys2_env = rayforge / ".msys2_env"
-    gi_available = importlib.util.find_spec("gi") is not None
+    gi_probe = subprocess.run(
+        [str(python_env), "-c", "import gi"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    gi_available = gi_probe.returncode == 0
+    gi_error = next(
+        (
+            line.strip()
+            for line in reversed(gi_probe.stderr.splitlines())
+            if line.strip()
+        ),
+        "unable to import gi",
+    )
     app_entry = rayforge / "rayforge" / "__main__.py"
     addon_manifest = (
         Path(__file__).parents[1]
@@ -36,7 +50,11 @@ def inspect(rayforge: Path, python_env: Path) -> dict[str, object]:
         "ready_for_manual_gui_test": ready,
         "status": "ready" if ready else "blocked",
         "missing_requirements": [key for key, passed in checks.items() if not passed],
-        "observed_launch_error": None if gi_available else "ModuleNotFoundError: No module named 'gi'",
+        "observed_launch_error": (
+            None
+            if gi_available
+            else gi_error
+        ),
         "installation_performed": False,
         "next_action": (
             "launch isolated no-device GUI test"

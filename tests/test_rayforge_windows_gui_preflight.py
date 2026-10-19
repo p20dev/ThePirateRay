@@ -27,6 +27,9 @@ class RayforgeWindowsGuiPreflightTests(unittest.TestCase):
         self.assertTrue(checks["application_entry_present"])
         self.assertTrue(checks["no_device_addon_present"])
 
+    def test_result_records_the_requested_runtime_probe(self):
+        self.assertIn("No module named 'gi'", self.result["observed_launch_error"])
+
 
 if __name__ == "__main__":
     unittest.main()
