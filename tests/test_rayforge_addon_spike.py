@@ -12,6 +12,9 @@ EQUIVALENCE_FIXTURE = (
 NEGATIVE_FIXTURE = (
     ROOT / "tests" / "fixtures" / "rayforge-jcz-negative-cases.json"
 )
+CANCEL_FIXTURE = (
+    ROOT / "tests" / "fixtures" / "rayforge-jcz-cancel-recovery.json"
+)
 
 
 class RayforgeAddonSpikeTests(unittest.TestCase):
@@ -114,6 +117,20 @@ class RayforgeAddonSpikeTests(unittest.TestCase):
         self.assertEqual(
             {"rejected"}, {case["result"] for case in result["cases"]}
         )
+
+    def test_cancel_requires_recovery_and_clears_all_buffers(self):
+        result = json.loads(CANCEL_FIXTURE.read_text(encoding="utf-8"))
+        self.assertIsNone(result["transport"])
+        self.assertEqual([], result["hardware_commands"])
+        self.assertEqual(2, result["long_job_buffer_count"])
+        self.assertEqual(6144, result["buffered_bytes_before_cancel"])
+        self.assertEqual(0, result["buffered_bytes_after_cancel"])
+        self.assertEqual("hold", result["held_state"])
+        self.assertEqual("running", result["resumed_state"])
+        self.assertEqual("cancelled", result["cancelled_state"])
+        self.assertTrue(result["restart_without_recovery_rejected"])
+        self.assertEqual("idle", result["recovered_state"])
+        self.assertEqual("complete", result["second_job_state"])
 
 
 if __name__ == "__main__":

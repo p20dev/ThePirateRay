@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import argparse
-import importlib.util
+import importlib
 import json
 import subprocess
 import sys
@@ -24,12 +24,8 @@ def _commit_of(source: Path) -> str:
 
 
 def _load_encoder(addon: Path):
-    path = addon / "pirate_ray_jcz" / "worker.py"
-    spec = importlib.util.spec_from_file_location("tpr_jcz_negative", path)
-    if spec is None or spec.loader is None:
-        raise RuntimeError("could not load JCZ spike encoder")
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+    sys.path.insert(0, str(addon))
+    module = importlib.import_module("pirate_ray_jcz.worker")
     return module.OfflineJCZEncoder
 
 

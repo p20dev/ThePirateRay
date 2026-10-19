@@ -1,0 +1,28 @@
+{
+  "transport": null,
+  "long_job_buffer_count": 2,
+  "buffered_bytes_before_cancel": 6144,
+  "held_state": "hold",
+  "resumed_state": "running",
+  "cancelled_state": "cancelled",
+  "buffered_bytes_after_cancel": 0,
+  "restart_without_recovery_rejected": true,
+  "recovered_state": "idle",
+  "second_job_state": "complete",
+  "events": [
+    "prepared",
+    "started-offline",
+    "held-offline",
+    "resumed-offline",
+    "cancel-requested-offline",
+    "pending-buffers-cleared",
+    "recovery-required",
+    "recovered-to-idle",
+    "prepared",
+    "started-offline",
+    "completed-offline",
+    "pending-buffers-cleared"
+  ],
+  "hardware_commands": [],
+  "rayforge_commit": "c28918c87f8273dd1d244f5a057addc192807fa5"
+}

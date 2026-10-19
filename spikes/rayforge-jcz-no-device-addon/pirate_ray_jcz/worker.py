@@ -5,6 +5,7 @@ specification, transport, USB import, or machine I/O.
 """
 
 import hashlib
+import asyncio
 import json
 import math
 import struct
@@ -17,6 +18,11 @@ from rayforge.pipeline.encoder.base import (
     EncodedOutput,
     MachineCodeOpMap,
     OpsEncoder,
+)
+
+from .offline_session import (
+    OfflineJCZSession,
+    OfflineSessionState,
 )
 
 
@@ -294,10 +300,44 @@ class PirateRayJCZNoDeviceDriver(NoDeviceDriver):
     uses_gcode = False
     DISCOVERY = None
 
+    def __init__(self, context, machine) -> None:
+        super().__init__(context, machine)
+        self.offline_session = OfflineJCZSession()
+
     @classmethod
     def create_encoder(cls, machine) -> OpsEncoder:
         del machine
         return OfflineJCZEncoder()
+
+    async def run(
+        self, encoded, doc, ops, on_command_done=None
+    ) -> None:
+        del doc, ops
+        self.offline_session.prepare(encoded)
+        self.offline_session.start()
+        op_count = encoded.op_map.op_count if encoded.op_map else 0
+        for op_index in range(op_count):
+            await asyncio.sleep(0)
+            while self.offline_session.state is OfflineSessionState.HOLD:
+                await asyncio.sleep(0)
+            if self.offline_session.state is OfflineSessionState.CANCELLED:
+                return
+            if on_command_done is not None:
+                result = on_command_done(op_index)
+                if hasattr(result, "__await__"):
+                    await result
+        self.offline_session.complete()
+        self.job_finished.send(self)
+
+    async def set_hold(self, hold: bool = True) -> None:
+        if hold:
+            self.offline_session.hold()
+        else:
+            self.offline_session.resume()
+
+    async def cancel(self, emergency: bool = False) -> None:
+        del emergency
+        self.offline_session.cancel()
 
 
 def _register() -> None:

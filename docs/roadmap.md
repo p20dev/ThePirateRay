@@ -293,6 +293,12 @@ state-before-motion order derived from pinned BalorMK. Port commands, upload,
 execute, status and cancellation remain outside the encoder and cannot be
 reached by this spike.
 
+The cancellation half of item 5 now has an asynchronous no-device proof:
+hold/resume work through the Rayforge driver contract, cancel clears every
+pending list buffer, restart fails until explicit recovery, and a separately
+encoded follow-up job can then complete. Physical stop/reset commands remain
+absent. Graphical workflow assessment is still open.
+
 ## Decision rules
 
 - A simulator test precedes every equivalent hardware behavior.
