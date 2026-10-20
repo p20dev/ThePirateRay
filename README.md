@@ -97,8 +97,11 @@ project workspace or development destination.
 
 - [Project charter](docs/project-charter.md)
 - [Product and research roadmap](docs/roadmap.md)
+- [MOPA workbench UX requirements](docs/design/mopa-workbench-ux.md)
 - [Current Phase 0 status](docs/status/phase-0.md)
 - [Open-source reuse landscape](docs/research/open-source-landscape.md)
+- [LightBurn-to-Rayforge UX capability map](docs/research/lightburn-rayforge-ux-capability-map.md)
+- [Rayforge layer visibility and output spike](docs/research/rayforge-layer-model-spike.md)
 - [Proposed Rayforge/BalorMK reuse decision](docs/adr/0002-reuse-rayforge-and-balormk.md)
 - [Live USB enumeration](docs/research/live-usb-enumeration-2026-10-17.md)
 - [LightBurn device-export analysis](docs/research/lightburn-device-exports-2026-10-19.md)
@@ -120,6 +123,12 @@ python scripts/check_public_repo.py .
 The checks verify manifest integrity, public/private evidence contracts,
 disallowed binary types, private identifiers, local user paths, and other
 likely data leaks. They do not certify hardware safety.
+
+Rayforge source and its Windows build stack are not vendored or downloaded by
+these checks. The exact upstream revision is recorded in
+`upstreams/rayforge.json`; run `scripts/prepare_rayforge_build.ps1` explicitly
+to populate the ignored build cache. Dependency installation and bundle
+creation require separate command switches.
 
 ## Safety boundary
 

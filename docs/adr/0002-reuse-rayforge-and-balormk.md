@@ -110,6 +110,14 @@ Subsequent offline evidence:
   Rayforge's generated settings contract exposes frequency and pulse width,
   preserves them through step serialization and supplies preview Ops without
   transport; packaged GTK interaction remains untested.
+- [LightBurn-to-Rayforge UX capability map](../research/lightburn-rayforge-ux-capability-map.md):
+  the casual-maker workflow maps mostly to existing Rayforge product seams;
+  the remaining UX gaps are narrow, testable extensions rather than evidence
+  for a separate desktop application.
+- [Rayforge layer visibility and output spike](../research/rayforge-layer-model-spike.md):
+  canvas visibility and job participation are already independent serialized
+  states; LightBurn-style layer Output is a narrow aggregate UI concern, not a
+  new pipeline or document-model requirement.
 
 These results support continuing toward complete list buffering and production
 integration, but they do not yet satisfy every proof obligation or change this

@@ -1,0 +1,28 @@
+{
+  "conclusion": "Rayforge separates canvas visibility at layer level from output participation at workflow-step level; a LightBurn-style layer Output control can be an aggregate UI over existing step states.",
+  "hardware_access": false,
+  "model": {
+    "layer_visible": false,
+    "roundtrip": {
+      "layer_color": "#123456",
+      "layer_name": "Engraving",
+      "layer_visible": false,
+      "step_name": "Mark outline",
+      "step_visible": true
+    },
+    "serialized_layer_order": [
+      "Second",
+      "First"
+    ],
+    "states_are_independent": true,
+    "step_visible": true
+  },
+  "rayforge_commit": "c28918c87f8273dd1d244f5a057addc192807fa5",
+  "source_contract": {
+    "canvas_checks_layer_visibility": true,
+    "job_pipeline_checks_layer_visibility": false,
+    "job_pipeline_checks_step_visibility": true,
+    "layer_visibility_control": true,
+    "step_visibility_control": true
+  }
+}
