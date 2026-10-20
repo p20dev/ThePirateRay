@@ -45,10 +45,11 @@ revision into the ignored `.build/upstreams/` cache only when explicitly
 invoked. Its default action prepares source only; it neither installs the
 Windows toolchain nor starts a build.
 
-Windows dependencies and bundle creation require separate
-`-InstallWindowsDependencies` and `-BuildWindowsBundle` switches. This keeps a
-multi-gigabyte MSYS2/UCRT64 toolchain out of normal clone, test and documentation
-workflows and makes a CI-produced bundle the preferred interaction-test input.
+The repository scripts do not install Windows dependencies. Bundle creation
+requires the explicit `-BuildWindowsBundle` switch and an already reviewed,
+prepared runtime. This keeps a multi-gigabyte MSYS2/UCRT64 toolchain out of
+normal clone, test and documentation workflows and makes a CI-produced bundle
+the preferred interaction-test input.
 
 ## Next action
 

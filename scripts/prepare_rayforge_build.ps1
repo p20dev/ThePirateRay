@@ -1,7 +1,6 @@
 [CmdletBinding(SupportsShouldProcess)]
 param(
     [string]$CacheRoot,
-    [switch]$InstallWindowsDependencies,
     [switch]$BuildWindowsBundle
 )
 
@@ -58,7 +57,7 @@ if ($verifiedCommit -ne $manifest.commit) {
 Write-Output "Rayforge source ready at $checkout"
 Write-Output "Verified commit: $verifiedCommit"
 
-if (-not $InstallWindowsDependencies -and -not $BuildWindowsBundle) {
+if (-not $BuildWindowsBundle) {
     Write-Output "No dependencies were installed and no build was started."
     return
 }
@@ -70,19 +69,10 @@ if (-not (Test-Path -LiteralPath $bash)) {
 
 $msysCheckout = (& $bash -lc "cygpath -u '$checkout'").Trim()
 
-if ($InstallWindowsDependencies) {
-    if ($PSCmdlet.ShouldProcess("C:\msys64", "Install Rayforge Windows build dependencies")) {
-        & $bash -lc "cd '$msysCheckout' && bash scripts/win/win_setup.sh"
-        if ($LASTEXITCODE -ne 0) {
-            throw "Rayforge Windows dependency setup failed with exit code $LASTEXITCODE"
-        }
-    }
-}
-
 if ($BuildWindowsBundle) {
     $environmentFile = Join-Path $checkout ".msys2_env"
     if (-not (Test-Path -LiteralPath $environmentFile)) {
-        throw "Windows dependencies are not prepared. Re-run with -InstallWindowsDependencies."
+        throw "A reviewed Rayforge Windows build runtime is not prepared. No dependencies were installed."
     }
 
     if ($PSCmdlet.ShouldProcess($checkout, "Build pinned Rayforge Windows bundle")) {

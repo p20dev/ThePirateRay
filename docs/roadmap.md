@@ -316,6 +316,12 @@ has no MSYS2/UCRT64 Rayforge runtime. No dependencies were installed and no
 GUI success is claimed. The packaged interaction test therefore remains
 blocked on a reviewed Windows GTK runtime, not on controller behavior.
 
+The transport-free portions are now consolidated by the
+[M1 no-device acceptance checkpoint](research/m1-no-device-acceptance.md).
+It reruns the public suite and leak guard and hashes the validated regression
+reports. The on-demand build entry point fetches pinned source and stages the
+addon but deliberately refuses to install a missing Windows toolchain.
+
 ## Decision rules
 
 - A simulator test precedes every equivalent hardware behavior.

@@ -41,11 +41,12 @@ screenshots, the closed-application preferences folder, machine photos, and
 operator notes directly from the actual control computer. The bundle and
 exported preferences are already preserved and analyzed.
 
-The offline M1 reuse proofs are progressing: the Rayforge/MeerK40t path now
-has deterministic mock encoding, fail-closed JCZ profile and parameter gates,
-list buffering, cancellation/recovery, and a transport-free workflow preview.
-The remaining gates are a private known-working `.lbrn2` project and a reviewed
-Windows GTK runtime for the packaged no-device workflow test. See the
+The offline M1 reuse proofs now pass as one consolidated acceptance checkpoint:
+the Rayforge/MeerK40t path has deterministic mock encoding, fail-closed JCZ
+profile and parameter gates, list buffering, cancellation/recovery, layer and
+recipe semantics, and a transport-free workflow preview. The remaining gates
+are a private known-working `.lbrn2` project and a reviewed Windows GTK runtime
+for the packaged no-device workflow test. See the
 [Phase 0 status](docs/status/phase-0.md) and
 [Rayforge GUI preflight](docs/research/rayforge-windows-gui-preflight.md).
 
@@ -74,10 +75,9 @@ hardware-free:
 
 1. collect known-working `.lbrn2` projects and the remaining screenshots,
    photos, preferences folder and operator notes;
-2. extend the synthetic import tests with the now-observed `QPulseWidth`
-   evidence, without assuming its `.lbrn2` representation;
-3. define the minimum Rayforge JCZ device-profile/import extension and finish
-   controller-list buffering and safe state ordering offline;
+2. obtain or produce a reviewed Windows Rayforge build artifact without
+   installing a toolchain through this repository;
+3. run and record the packaged no-device desktop interaction checklist;
 4. accept, revise, or reject the proposed reuse architecture from evidence;
 5. write and review a separate hardware protocol before any live controller
    communication.
@@ -103,6 +103,7 @@ project workspace or development destination.
 - [LightBurn-to-Rayforge UX capability map](docs/research/lightburn-rayforge-ux-capability-map.md)
 - [Rayforge layer visibility and output spike](docs/research/rayforge-layer-model-spike.md)
 - [Rayforge material-recipe model spike](docs/research/rayforge-recipe-model-spike.md)
+- [M1 no-device build and acceptance checkpoint](docs/research/m1-no-device-acceptance.md)
 - [Proposed Rayforge/BalorMK reuse decision](docs/adr/0002-reuse-rayforge-and-balormk.md)
 - [Live USB enumeration](docs/research/live-usb-enumeration-2026-10-17.md)
 - [LightBurn device-export analysis](docs/research/lightburn-device-exports-2026-10-19.md)

@@ -21,7 +21,7 @@ class UpstreamBuildReferenceTests(unittest.TestCase):
         script = PREPARE.read_text(encoding="utf-8")
         self.assertIn('".build\\upstreams"', script)
         self.assertIn("SupportsShouldProcess", script)
-        self.assertIn("InstallWindowsDependencies", script)
+        self.assertNotIn("InstallWindowsDependencies", script)
         self.assertIn("BuildWindowsBundle", script)
         self.assertIn("No dependencies were installed", script)
 

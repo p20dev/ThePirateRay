@@ -1,0 +1,111 @@
+[CmdletBinding(SupportsShouldProcess)]
+param(
+    [string]$CacheRoot,
+    [string]$ArtifactRoot
+)
+
+$ErrorActionPreference = "Stop"
+
+$repositoryRoot = Split-Path -Parent $PSScriptRoot
+$upstreamManifest = Get-Content -Raw -LiteralPath (
+    Join-Path $repositoryRoot "upstreams\rayforge.json"
+) | ConvertFrom-Json
+$shortCommit = $upstreamManifest.commit.Substring(0, 12)
+
+if (-not $CacheRoot) {
+    $CacheRoot = Join-Path $repositoryRoot ".build\upstreams"
+}
+if (-not $ArtifactRoot) {
+    $ArtifactRoot = Join-Path $repositoryRoot ".build\artifacts"
+}
+
+& (Join-Path $PSScriptRoot "prepare_rayforge_build.ps1") `
+    -CacheRoot $CacheRoot
+if ($LASTEXITCODE -ne 0) {
+    throw "Pinned Rayforge source preparation failed"
+}
+
+$checkout = Join-Path $CacheRoot "rayforge-$shortCommit"
+$verifiedCommit = (& git -C $checkout rev-parse HEAD).Trim()
+if ($verifiedCommit -ne $upstreamManifest.commit) {
+    throw "Rayforge pin mismatch before packaging"
+}
+
+$addonSource = Join-Path $repositoryRoot (
+    "spikes\rayforge-jcz-no-device-addon"
+)
+$addonText = Get-ChildItem -LiteralPath $addonSource -Recurse -File |
+    Where-Object { $_.Extension -eq ".py" } |
+    ForEach-Object { Get-Content -Raw -LiteralPath $_.FullName }
+$forbidden = @("import usb", "import serial", "import socket", "pyusb")
+foreach ($needle in $forbidden) {
+    if (($addonText -join "`n").ToLowerInvariant().Contains($needle)) {
+        throw "No-device addon contains forbidden transport token: $needle"
+    }
+}
+
+$addonDestination = Join-Path $checkout (
+    "rayforge\builtin_addons\rayforge-addon-the-pirate-ray-jcz"
+)
+if ($PSCmdlet.ShouldProcess($addonDestination, "Stage no-device addon")) {
+    New-Item -ItemType Directory -Force -Path $addonDestination | Out-Null
+    Copy-Item -Path (Join-Path $addonSource "*") `
+        -Destination $addonDestination -Recurse -Force
+}
+
+$prepareArguments = @{
+    CacheRoot = $CacheRoot
+    BuildWindowsBundle = $true
+}
+& (Join-Path $PSScriptRoot "prepare_rayforge_build.ps1") @prepareArguments
+if ($LASTEXITCODE -ne 0) {
+    throw "Pinned Rayforge Windows bundle build failed"
+}
+
+$bundleName = "rayforge-vpirateray-$shortCommit"
+$bundleDirectory = Join-Path $checkout "dist\$bundleName"
+$application = Join-Path $bundleDirectory "$bundleName.exe"
+$installer = Join-Path $checkout "dist\$bundleName-installer.exe"
+if (-not (Test-Path -LiteralPath $application)) {
+    throw "Expected packaged application was not produced: $application"
+}
+if (-not (Test-Path -LiteralPath $installer)) {
+    throw "Expected installer was not produced: $installer"
+}
+
+New-Item -ItemType Directory -Force -Path $ArtifactRoot | Out-Null
+$archive = Join-Path $ArtifactRoot "$bundleName.zip"
+if ($PSCmdlet.ShouldProcess($archive, "Create portable checkpoint archive")) {
+    Compress-Archive -LiteralPath $bundleDirectory -DestinationPath $archive -Force
+}
+
+$addonFiles = Get-ChildItem -LiteralPath $addonSource -Recurse -File |
+    Sort-Object FullName |
+    ForEach-Object {
+        [ordered]@{
+            path = $_.FullName.Substring($addonSource.Length + 1).Replace("\", "/")
+            sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $_.FullName).Hash.ToLowerInvariant()
+        }
+    }
+$result = [ordered]@{
+    checkpoint = "Rayforge Windows no-device bundle"
+    rayforge_commit = $verifiedCommit
+    addon = "the_pirate_ray_jcz"
+    addon_source_files = $addonFiles
+    hardware_access = $false
+    transport = $null
+    bundle = [ordered]@{
+        path = $archive
+        sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $archive).Hash.ToLowerInvariant()
+        bytes = (Get-Item -LiteralPath $archive).Length
+    }
+    installer = [ordered]@{
+        path = $installer
+        sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $installer).Hash.ToLowerInvariant()
+        bytes = (Get-Item -LiteralPath $installer).Length
+    }
+    manual_interaction_required = $true
+}
+$manifestPath = Join-Path $ArtifactRoot "rayforge-windows-checkpoint.json"
+$result | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $manifestPath -Encoding utf8
+Write-Output "Checkpoint manifest: $manifestPath"

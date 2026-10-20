@@ -118,8 +118,13 @@ Subsequent offline evidence:
   canvas visibility and job participation are already independent serialized
   states; LightBurn-style layer Output is a narrow aggregate UI concern, not a
   new pipeline or document-model requirement.
+- [M1 no-device acceptance checkpoint](../research/m1-no-device-acceptance.md):
+  the public regression suite and leak guard now form one transport-free gate
+  over addon lifecycle, workflow, layers, recipes, encoding, negative cases,
+  cancellation/recovery and synthetic imports. The packaged Windows GUI and a
+  known-working private project remain external gates.
 
-These results support continuing toward complete list buffering and production
-integration, but they do not yet satisfy every proof obligation or change this
-ADR's proposed status.
+These results satisfy the current model, buffering and no-device integration
+proofs. They do not yet satisfy the packaged human-interaction or real-project
+import obligations, so this ADR remains proposed.
 

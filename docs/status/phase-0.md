@@ -1,6 +1,6 @@
 # Phase 0 status
 
-Last updated: 2026-10-19
+Last updated: 2026-10-20
 
 ## Completed
 
@@ -72,13 +72,19 @@ evidence for:
 - fail-closed profile and encoder negative cases;
 - Rayforge workflow-model serialization and preview behavior for power,
   frequency and pulse width.
+- independent layer visibility/output state and ordered serialization;
+- material-recipe matching plus a fail-closed PirateRay provenance and exact
+  machine/source/lens/correction compatibility gate;
+- one consolidated no-device acceptance report that reruns all 69 public
+  tests and the leak guard, then hashes the regression evidence.
 
 The remaining M1 gates are deliberately explicit:
 
 - a private known-working `.lbrn2` project is still required before mapping
   project-level `QPulseWidth` into workflow settings;
 - packaged Windows/GTK interaction is blocked until a reviewed Rayforge
-  runtime with PyGObject and MSYS2/UCRT64 is available;
+  runtime with PyGObject and MSYS2/UCRT64 is available; the repository build
+  entry point fetches pinned source but never installs that runtime;
 - graphical workflow, import, lens correction and controller protocol
   behavior remain unproven at the physical boundary;
 - ADR 0002 remains **Proposed** until those gaps are resolved or rejected by
