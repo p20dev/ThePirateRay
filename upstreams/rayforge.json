@@ -1,0 +1,7 @@
+{
+  "name": "Rayforge",
+  "repository": "https://github.com/barebaric/rayforge.git",
+  "commit": "c28918c87f8273dd1d244f5a057addc192807fa5",
+  "license": "MIT",
+  "purpose": "Pinned host application for offline reuse and JCZ addon validation"
+}

@@ -3,6 +3,7 @@ __pycache__/
 .pytest_cache/
 .venv/
 .uv-cache/
+/.build/
 
 # Sensitive/raw acquisition data belongs in ThePirateRay-PrivateStash.
 /raw/

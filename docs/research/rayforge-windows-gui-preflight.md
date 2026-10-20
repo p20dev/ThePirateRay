@@ -37,9 +37,22 @@ toolchain is a separate, reviewable action: upstream's setup includes MSYS2,
 GTK, compiler/build packages and network downloads, so it should not be an
 implicit side effect of a workflow test.
 
+## On-demand source and build policy
+
+The public repository records the upstream URL and exact commit in
+`upstreams/rayforge.json`. `scripts/prepare_rayforge_build.ps1` fetches that
+revision into the ignored `.build/upstreams/` cache only when explicitly
+invoked. Its default action prepares source only; it neither installs the
+Windows toolchain nor starts a build.
+
+Windows dependencies and bundle creation require separate
+`-InstallWindowsDependencies` and `-BuildWindowsBundle` switches. This keeps a
+multi-gigabyte MSYS2/UCRT64 toolchain out of normal clone, test and documentation
+workflows and makes a CI-produced bundle the preferred interaction-test input.
+
 ## Next action
 
-Provide an already reviewed Rayforge Windows build/runtime, or explicitly
-approve installation of the pinned checkout's MSYS2/UCRT64 dependencies. Then
-rerun the preflight and perform the packaged no-device interaction checklist
-from `rayforge-graphical-workflow-spike.md`.
+Produce or obtain an artifact for the pinned revision through the explicit
+on-demand build path, then rerun the preflight and perform the packaged
+no-device interaction checklist from `rayforge-graphical-workflow-spike.md`.
+Do not make the Windows build toolchain an implicit project dependency.
