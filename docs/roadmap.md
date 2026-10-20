@@ -41,6 +41,10 @@ hardware command is possible. The real controller backend remains absent or
 physically gated until its protocol and safety behavior are supported by
 evidence.
 
+The corresponding casual-maker workflow, layout, disclosure, preview and
+offline acceptance requirements are recorded in the
+[MOPA workbench UX requirements](design/mopa-workbench-ux.md).
+
 ## What the installer snapshot gives us
 
 The collected installer snapshot establishes:
