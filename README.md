@@ -102,6 +102,7 @@ project workspace or development destination.
 - [Open-source reuse landscape](docs/research/open-source-landscape.md)
 - [LightBurn-to-Rayforge UX capability map](docs/research/lightburn-rayforge-ux-capability-map.md)
 - [Rayforge layer visibility and output spike](docs/research/rayforge-layer-model-spike.md)
+- [Rayforge material-recipe model spike](docs/research/rayforge-recipe-model-spike.md)
 - [Proposed Rayforge/BalorMK reuse decision](docs/adr/0002-reuse-rayforge-and-balormk.md)
 - [Live USB enumeration](docs/research/live-usb-enumeration-2026-10-17.md)
 - [LightBurn device-export analysis](docs/research/lightburn-device-exports-2026-10-19.md)

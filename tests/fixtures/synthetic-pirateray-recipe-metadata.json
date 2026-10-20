@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "status": "unverified",
+  "provenance": {
+    "kind": "synthetic-public",
+    "reference": "tests/fixtures/synthetic-pirateray-recipe-metadata.json"
+  },
+  "compatibility": {
+    "machine_profile_id": "synthetic-jpt-profile",
+    "source_type": "synthetic-jpt-mopa",
+    "lens_profile_id": "synthetic-110mm-lens",
+    "correction_profile_sha256": "sha256-synthetic-not-a-machine-hash"
+  }
+}

@@ -19,6 +19,7 @@
     "pirate_ray_jcz/__init__.py",
     "pirate_ray_jcz/offline_session.py",
     "pirate_ray_jcz/profile_import.py",
+    "pirate_ray_jcz/recipe_metadata.py",
     "pirate_ray_jcz/worker.py",
     "rayforge-addon.yaml"
   ],

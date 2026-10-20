@@ -1,0 +1,45 @@
+{
+  "conclusion": "Reuse Rayforge recipes and their matching/allowlist behavior. Add PirateRay provenance, approval, lens and correction metadata through a narrow validated extension before adding new UI.",
+  "hardware_access": false,
+  "model": {
+    "applied_settings": {
+      "frequency": 30000,
+      "power": 0.5,
+      "pulse_width": 200,
+      "unsupported_private_field": "ignored"
+    },
+    "disabled_setting_left_unchanged": true,
+    "extra_metadata_roundtrip": {
+      "pirateray_provenance": {
+        "source": "public-model-fixture",
+        "status": "synthetic-unverified"
+      }
+    },
+    "matches_complete_context": true,
+    "rejects_missing_stock_context": true,
+    "rejects_wrong_material": true,
+    "step_allowlisted_settings": {
+      "frequency": 30000,
+      "power": 0.5,
+      "pulse_width": 200
+    },
+    "unknown_setting_rejected_by_step": true
+  },
+  "rayforge_commit": "c28918c87f8273dd1d244f5a057addc192807fa5",
+  "source_contract": {
+    "file_per_recipe_yaml": true,
+    "forward_compatible_extra_metadata": true,
+    "frequency_hz": true,
+    "head_match": true,
+    "machine_match": true,
+    "material_match": true,
+    "native_approval_status": false,
+    "native_correction_match": false,
+    "native_lens_match": false,
+    "native_named_collections": false,
+    "native_provenance": false,
+    "pulse_width_ns": true,
+    "step_type_match": true,
+    "thickness_match": true
+  }
+}
