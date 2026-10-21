@@ -1,6 +1,6 @@
 # Phase 0 status
 
-Last updated: 2026-10-20
+Last updated: 2026-10-21
 
 ## Completed
 
@@ -75,8 +75,8 @@ evidence for:
 - independent layer visibility/output state and ordered serialization;
 - material-recipe matching plus a fail-closed PirateRay provenance and exact
   machine/source/lens/correction compatibility gate;
-- one consolidated no-device acceptance report that reruns all 83 public
-  tests and the leak guard, then hashes the regression evidence;
+- one consolidated no-device acceptance report that reruns the complete
+  public test suite and leak guard, then hashes the regression evidence;
 - a non-executing Windows artifact verifier that checks portable paths,
   archive safety, sizes, hashes, the pinned Rayforge revision and every
   packaged addon source while retaining the manual GUI gate;

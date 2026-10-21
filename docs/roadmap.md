@@ -1,6 +1,6 @@
 # Product and research roadmap
 
-Last updated: 2026-10-19
+Last updated: 2026-10-21
 
 ## Destination
 
@@ -164,9 +164,10 @@ unknown, so the job still deliberately fails the JCZ encoding gate. A private
 known-working `.lbrn2` fixture is required before implementing the missing
 MOPA mapping.
 
-The architecture decision remains proposed until these spikes produce
-evidence. An independent app requires a documented gap analysis showing why
-neither existing platform can be extended responsibly.
+The architecture decision remains proposed until the packaged Windows
+interaction and known-working private-project gates produce evidence. An
+independent app requires a documented gap analysis showing why neither
+existing platform can be extended responsibly.
 
 Exit criteria: a representative JPT job survives import/planning, MOPA
 parameters and units, validation and deterministic mock encoding; the chosen

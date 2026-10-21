@@ -59,6 +59,8 @@ production adapter must not infer the unit from a driver-specific comment.
 
 Spike C passes at the semantic boundary. The result supports a Rayforge JCZ
 addon architecture. A follow-up spike now covers transport-free 12-byte
-command records, but ADR 0002 remains proposed until complete list behavior,
-addon packaging in a complete Windows build, and the remaining stock
-MeerK40t workflow assessment are addressed.
+command records. At this checkpoint, list behavior, full Windows packaging and
+the remaining stock MeerK40t workflow assessment were still open. Later
+offline progress is summarized by the
+[M1 no-device acceptance checkpoint](m1-no-device-acceptance.md); ADR 0002
+remains proposed because its external gates are still open.

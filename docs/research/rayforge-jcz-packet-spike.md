@@ -49,6 +49,8 @@ operations continue to fail closed.
 
 The result advances the Rayforge addon route beyond semantic JSON traces: the
 same operation model can produce deterministic controller-shaped records at a
-narrow encoder boundary. ADR 0002 remains proposed because stock application
-workflow coverage, complete packet/list behavior, packaging in a full Windows
-build and the remaining safety proof obligations are still open.
+narrow encoder boundary. At this checkpoint, stock application workflow
+coverage, complete list behavior and full Windows packaging were still open.
+Later offline progress is summarized by the
+[M1 no-device acceptance checkpoint](m1-no-device-acceptance.md); ADR 0002
+remains proposed because its external gates are still open.

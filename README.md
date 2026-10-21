@@ -65,7 +65,8 @@ We do not need to begin with a blank-sheet LightBurn clone:
 
 The leading route is therefore either to use and improve MeerK40t directly or
 to build a Rayforge JCZ/Balor addon using the narrowest practical layer from
-BalorMK. This remains a proposed decision until the offline proofs in
+BalorMK. This remains a proposed decision until the packaged interaction and
+real-project gates in
 [ADR 0002](docs/adr/0002-reuse-rayforge-and-balormk.md) have passed.
 
 ## Next steps

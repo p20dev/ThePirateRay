@@ -7,8 +7,8 @@
 
 ## Verified checkpoint
 
-The public repository currently passes 83 unit tests and the public-repository
-guard. The offline Rayforge/MeerK40t evidence covers addon lifecycle, MOPA
+The complete public unit-test suite and public-repository guard pass at this
+checkpoint. The offline Rayforge/MeerK40t evidence covers addon lifecycle, MOPA
 settings and units, layer and recipe semantics, JCZ record/list encoding,
 negative cases, cancellation/recovery and synthetic LightBurn imports.
 
