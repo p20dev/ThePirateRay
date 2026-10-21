@@ -75,11 +75,13 @@ evidence for:
 - independent layer visibility/output state and ordered serialization;
 - material-recipe matching plus a fail-closed PirateRay provenance and exact
   machine/source/lens/correction compatibility gate;
-- one consolidated no-device acceptance report that reruns all 74 public
+- one consolidated no-device acceptance report that reruns all 79 public
   tests and the leak guard, then hashes the regression evidence;
 - a non-executing Windows artifact verifier that checks portable paths,
   archive safety, sizes, hashes, the pinned Rayforge revision and every
-  packaged addon source while retaining the manual GUI gate.
+  packaged addon source while retaining the manual GUI gate;
+- a versioned manual desktop-acceptance template and validator that cannot
+  pass missing steps, connected hardware, changed evidence or stop conditions.
 
 The remaining M1 gates are deliberately explicit:
 

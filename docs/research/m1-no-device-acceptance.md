@@ -97,6 +97,23 @@ or configure a controller.
 Any device discovery prompt, physical-device status, transport attempt or
 unlabelled framing action is a stop condition and fails the checkpoint.
 
+Record the run by copying
+`tests/fixtures/m1-manual-acceptance-template.json` outside the repository,
+filling it in and placing sanitized evidence below the report directory. Then
+validate it without launching the application:
+
+```powershell
+python scripts/validate_m1_manual_acceptance.py `
+  .build/acceptance/manual-report.json `
+  --output .build/acceptance/manual-validation.json
+```
+
+The validator verifies evidence hashes and relative paths. It reports
+`incomplete` for any unrun or blocked scenario and `failed` for a failed step,
+connected hardware, non-isolated app data, changed evidence or any stop
+condition. Even a complete `passed` report still requires human review and
+does not authorize hardware access.
+
 ## Remaining external gates
 
 - A known-working private `.lbrn2` is still required before implementing

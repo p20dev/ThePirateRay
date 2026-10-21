@@ -324,6 +324,9 @@ addon but deliberately refuses to install a missing Windows toolchain.
 An artifact produced elsewhere can be checked locally without execution: the
 verifier rejects unsafe paths or changed bytes and confirms the pin plus every
 packaged addon source before the manual GUI checklist may begin.
+The manual checklist now also has a versioned, fail-closed report template and
+validator. Missing steps remain incomplete, stop conditions fail the run, and
+hashed screenshots stay outside the public repository pending sanitization.
 
 ## Decision rules
 

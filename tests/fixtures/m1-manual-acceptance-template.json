@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "checkpoint": "M1 packaged no-device desktop acceptance",
+  "artifact_verification": {
+    "status": "not_run",
+    "report_sha256": null
+  },
+  "environment": {
+    "windows_version": null,
+    "hardware_disconnected": null,
+    "fresh_app_data": null
+  },
+  "steps": [
+    {"id": "artifact_verified", "status": "not_run", "notes": ""},
+    {"id": "isolated_portable_launch", "status": "not_run", "notes": ""},
+    {"id": "offline_state_visible", "status": "not_run", "notes": ""},
+    {"id": "synthetic_geometry_and_field", "status": "not_run", "notes": ""},
+    {"id": "layer_editing_and_order", "status": "not_run", "notes": ""},
+    {"id": "visibility_output_independent", "status": "not_run", "notes": ""},
+    {"id": "mopa_values_and_units", "status": "not_run", "notes": ""},
+    {"id": "recipe_compatibility_gate", "status": "not_run", "notes": ""},
+    {"id": "preview_and_preflight", "status": "not_run", "notes": ""},
+    {"id": "save_reopen_round_trip", "status": "not_run", "notes": ""},
+    {"id": "simulation_cancel_recovery", "status": "not_run", "notes": ""},
+    {"id": "theme_and_disclosure_stability", "status": "not_run", "notes": ""}
+  ],
+  "stop_conditions": {
+    "device_discovery_prompt": null,
+    "physical_device_status": null,
+    "transport_attempt": null,
+    "unlabelled_physical_framing": null
+  },
+  "evidence": [],
+  "review": {
+    "reviewer": null,
+    "reviewed_at": null,
+    "notes": ""
+  }
+}
