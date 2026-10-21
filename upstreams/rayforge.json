@@ -3,5 +3,42 @@
   "repository": "https://github.com/barebaric/rayforge.git",
   "commit": "c28918c87f8273dd1d244f5a057addc192807fa5",
   "license": "MIT",
+  "license_file": {
+    "path": "LICENSE",
+    "sha256_lf": "f9c4c77baa3828004ee54b8a4f2db2e88ed44a6237a493965bf551fac0fcb62d",
+    "copyright_notice_present": false
+  },
+  "contract_files": [
+    {
+      "path": "rayforge/core/hooks.py",
+      "sha256": "e9f488361f120a848e89dd25eb122f9aedfb2313bfce8e60f1d252d92df7cfdc",
+      "stability": "documented-addon-api",
+      "required_symbols": ["MINIMUM_API_VERSION", "PLUGIN_API_VERSION", "RayforgeSpecs.on_unload", "RayforgeSpecs.register_machines"]
+    },
+    {
+      "path": "rayforge/machine/driver/__init__.py",
+      "sha256": "06e733b8814118e3b3bfda28a6b2d6d157c5562802bd5a2294574f3b305488ef",
+      "stability": "internal-registry",
+      "required_symbols": ["drivers", "driver_by_classname", "register_driver", "get_driver_cls"]
+    },
+    {
+      "path": "rayforge/machine/driver/driver.py",
+      "sha256": "8114ec5d2cf63a4eb98eea3db68d612fb00f1ca7add89f433c8f90758f103a5e",
+      "stability": "imported-host-interface",
+      "required_symbols": ["Driver"]
+    },
+    {
+      "path": "rayforge/pipeline/encoder/base.py",
+      "sha256": "b18f87dc57655379ebdbce4c64b0472b589c7182b3a20423fa93ef22c9393734",
+      "stability": "imported-host-interface",
+      "required_symbols": ["EncodedOutput", "MachineCodeOpMap", "OpsEncoder"]
+    },
+    {
+      "path": "rayforge/addon_mgr/addon_manager.py",
+      "sha256": "6f734a0246f35a7f18d8e4fa60b38f66193d9a5ece0982829cc269133e6ddd0b",
+      "stability": "host-lifecycle-implementation",
+      "required_symbols": ["AddonManager", "AddonManager._unregister_addon_items"]
+    }
+  ],
   "purpose": "Pinned host application for offline reuse and JCZ addon validation"
 }

@@ -51,11 +51,13 @@ python scripts/verify_rayforge_windows_checkpoint.py `
   --output .build/artifacts/rayforge-windows-verification.json
 ```
 
-The verifier requires portable artifact names, checks sizes and SHA-256
-digests, rejects unsafe ZIP paths, confirms the pinned Rayforge commit and
-compares every packaged addon file with its recorded digest. It never executes
-the application or installer, and a passing result retains the manual GUI
-interaction gate.
+The verifier requires checkpoint schema 2 and portable artifact names, checks
+sizes and SHA-256 digests, rejects unsafe ZIP paths, confirms the pinned
+Rayforge commit, compares every packaged addon file with its recorded digest,
+and requires the pinned Rayforge license both inside the ZIP and as a sidecar.
+It never executes the application or installer, and a passing result retains
+the manual GUI interaction gate. The installer, manifest and license sidecar
+form one distribution set.
 
 ## Automated acceptance
 

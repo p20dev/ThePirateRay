@@ -331,6 +331,10 @@ hashed screenshots stay outside the public repository pending sanitization.
 A reproducible kit generator copies only allowlisted synthetic inputs into the
 ignored build area, records their hashes and refuses to overwrite an existing
 test run.
+The pinned upstream contracts and license notices are now machine-verifiable.
+Rayforge's documented addon lifecycle is viable, but production driver
+registration still needs a supported symmetric registry API; project license
+selection remains an explicit owner decision in ADR 0003.
 
 ## Decision rules
 

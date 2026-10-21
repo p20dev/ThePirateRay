@@ -44,6 +44,9 @@ class M1AcceptancePipelineTests(unittest.TestCase):
         self.assertIn("rayforge-addon-the-pirate-ray-jcz", source)
         self.assertIn("Compress-Archive", source)
         self.assertIn("Get-FileHash -Algorithm SHA256", source)
+        self.assertIn("schema_version = 2", source)
+        self.assertIn("Rayforge-LICENSE.txt", source)
+        self.assertIn("license_files", source)
 
     def test_acceptance_has_no_hardware_commands(self):
         source = ACCEPTANCE.read_text(encoding="utf-8").lower()
@@ -60,6 +63,7 @@ class M1AcceptancePipelineTests(unittest.TestCase):
         self.assertIn("zipfile.ZipFile", source)
         self.assertIn("Rayforge commit does not match", source)
         self.assertIn('"executed_binaries": False', source)
+        self.assertIn("license sidecar", source)
         self.assertNotIn("subprocess", source)
 
 

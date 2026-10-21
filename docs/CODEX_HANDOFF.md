@@ -19,7 +19,10 @@ The repository now provides:
 - a non-executing verifier for externally produced Windows artifacts;
 - a checksummed acceptance-kit generator containing only allowlisted public
   synthetic inputs;
-- a fail-closed manual desktop-acceptance report and validator.
+- a fail-closed manual desktop-acceptance report and validator;
+- pinned upstream contract/license manifests and a drift checker;
+- a proposed MIT project-license decision in ADR 0003; Kaz has not accepted
+  it, so the repository remains unlicensed.
 
 Run the ordinary checkpoint with the bundled Codex Python or another supported
 Python interpreter and a writable `TEMP`/`TMP`:
@@ -55,6 +58,7 @@ order:
 4. `scripts/validate_m1_manual_acceptance.py`.
 
 If no artifact is available, do not install a build environment here. The next
-useful input is the private known-working `.lbrn2` collection. Until either
-external gate arrives, ADR 0002 remains Proposed and no controller backend,
-USB discovery, physical framing, galvo motion or laser output is authorized.
+useful input is the private known-working `.lbrn2` collection or Kaz's explicit
+decision on ADR 0003. Until either external gate arrives, ADR 0002 remains
+Proposed and no controller backend, USB discovery, physical framing, galvo
+motion or laser output is authorized.

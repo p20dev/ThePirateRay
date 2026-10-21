@@ -123,6 +123,10 @@ Subsequent offline evidence:
   over addon lifecycle, workflow, layers, recipes, encoding, negative cases,
   cancellation/recovery and synthetic imports. The packaged Windows GUI and a
   known-working private project remain external gates.
+- [Upstream contract and license audit](../research/upstream-contract-and-license-audit.md):
+  both pins and license notices are now machine-verifiable; the documented
+  addon lifecycle is usable, but driver registration and cleanup still rely
+  on an internal registry seam that should be replaced upstream.
 
 These results satisfy the current model, buffering and no-device integration
 proofs. They do not yet satisfy the packaged human-interaction or real-project

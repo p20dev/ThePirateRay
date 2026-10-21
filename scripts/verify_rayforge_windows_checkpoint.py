@@ -21,6 +21,11 @@ def _digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def _text_digest_lf(data: bytes) -> str:
+    normalized = data.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n")
+    return hashlib.sha256(normalized.encode("utf-8")).hexdigest()
+
+
 def _artifact_path(root: Path, value: str) -> Path:
     relative = PurePosixPath(value)
     if relative.is_absolute() or ".." in relative.parts or len(relative.parts) != 1:
@@ -42,7 +47,7 @@ def _check_file(root: Path, record: dict, label: str) -> Path:
 def verify(manifest_path: Path) -> dict:
     manifest_path = manifest_path.resolve()
     manifest = json.loads(manifest_path.read_text(encoding="utf-8-sig"))
-    if manifest.get("schema_version") != 1:
+    if manifest.get("schema_version") != 2:
         raise ValueError("unsupported checkpoint schema")
     if manifest.get("rayforge_commit") != UPSTREAM["commit"]:
         raise ValueError("Rayforge commit does not match the repository pin")
@@ -54,6 +59,13 @@ def verify(manifest_path: Path) -> dict:
     artifact_root = manifest_path.parent
     bundle = _check_file(artifact_root, manifest["bundle"], "bundle")
     installer = _check_file(artifact_root, manifest["installer"], "installer")
+    license_records = manifest.get("license_files", [])
+    if len(license_records) != 1 or license_records[0].get("upstream") != "Rayforge":
+        raise ValueError("checkpoint must include the Rayforge license sidecar")
+    license_path = _check_file(artifact_root, license_records[0], "Rayforge license")
+    expected_license_hash = UPSTREAM["license_file"]["sha256_lf"]
+    if _text_digest_lf(license_path.read_bytes()) != expected_license_hash:
+        raise ValueError("Rayforge license does not match the pinned upstream")
     packaged_root = PurePosixPath(manifest["addon_packaged_root"])
     if packaged_root.is_absolute() or ".." in packaged_root.parts:
         raise ValueError("unsafe packaged addon root")
@@ -70,6 +82,15 @@ def verify(manifest_path: Path) -> dict:
         executable = manifest["bundle"]["path"].removesuffix(".zip") + ".exe"
         if not any(path.name == executable for path in files):
             raise ValueError("bundle application executable is missing")
+        bundle_license = PurePosixPath(license_records[0]["bundle_path"])
+        license_matches = [
+            path for path in files
+            if tuple(path.parts[-len(bundle_license.parts):]) == bundle_license.parts
+        ]
+        if len(license_matches) != 1:
+            raise ValueError("Rayforge license is missing from the portable bundle")
+        if _text_digest_lf(archive.read(files[license_matches[0]])) != expected_license_hash:
+            raise ValueError("bundled Rayforge license does not match the pinned upstream")
 
         verified_addon_files = 0
         for record in manifest["addon_source_files"]:
@@ -100,6 +121,7 @@ def verify(manifest_path: Path) -> dict:
         "verified_addon_files": verified_addon_files,
         "manual_interaction_required": True,
         "installer_name": installer.name,
+        "license_sidecar": license_path.name,
     }
 
 

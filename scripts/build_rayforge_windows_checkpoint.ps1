@@ -74,6 +74,25 @@ if (-not (Test-Path -LiteralPath $installer)) {
 }
 
 New-Item -ItemType Directory -Force -Path $ArtifactRoot | Out-Null
+$licenseDirectory = Join-Path $bundleDirectory "THIRD_PARTY_LICENSES"
+$rayforgeLicense = Join-Path $checkout "LICENSE"
+$normalizedLicense = [IO.File]::ReadAllText($rayforgeLicense).Replace("`r`n", "`n").Replace("`r", "`n")
+$normalizedLicenseBytes = [Text.Encoding]::UTF8.GetBytes($normalizedLicense)
+$rayforgeLicenseHash = [Convert]::ToHexString(
+    [Security.Cryptography.SHA256]::HashData($normalizedLicenseBytes)
+).ToLowerInvariant()
+if ($rayforgeLicenseHash -ne $upstreamManifest.license_file.sha256_lf) {
+    throw "Pinned Rayforge license hash mismatch"
+}
+$rayforgeNotice = Join-Path $repositoryRoot "third_party\licenses\Rayforge-LICENSE.txt"
+$bundledRayforgeLicense = Join-Path $licenseDirectory "Rayforge-LICENSE.txt"
+$sidecarRayforgeLicense = Join-Path $ArtifactRoot "Rayforge-LICENSE.txt"
+if ($PSCmdlet.ShouldProcess($licenseDirectory, "Stage Rayforge license notice")) {
+    New-Item -ItemType Directory -Force -Path $licenseDirectory | Out-Null
+    Copy-Item -LiteralPath $rayforgeNotice -Destination $bundledRayforgeLicense -Force
+    Copy-Item -LiteralPath $rayforgeNotice -Destination $sidecarRayforgeLicense -Force
+}
+
 $archive = Join-Path $ArtifactRoot "$bundleName.zip"
 if ($PSCmdlet.ShouldProcess($archive, "Create portable checkpoint archive")) {
     Compress-Archive -LiteralPath $bundleDirectory -DestinationPath $archive -Force
@@ -88,7 +107,7 @@ $addonFiles = Get-ChildItem -LiteralPath $addonSource -Recurse -File |
         }
     }
 $result = [ordered]@{
-    schema_version = 1
+    schema_version = 2
     checkpoint = "Rayforge Windows no-device bundle"
     rayforge_commit = $verifiedCommit
     addon = "the_pirate_ray_jcz"
@@ -106,6 +125,15 @@ $result = [ordered]@{
         sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $installer).Hash.ToLowerInvariant()
         bytes = (Get-Item -LiteralPath $installer).Length
     }
+    license_files = @(
+        [ordered]@{
+            upstream = "Rayforge"
+            path = Split-Path -Leaf $sidecarRayforgeLicense
+            bundle_path = "THIRD_PARTY_LICENSES/Rayforge-LICENSE.txt"
+            sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $sidecarRayforgeLicense).Hash.ToLowerInvariant()
+            bytes = (Get-Item -LiteralPath $sidecarRayforgeLicense).Length
+        }
+    )
     manual_interaction_required = $true
 }
 $manifestPath = Join-Path $ArtifactRoot "rayforge-windows-checkpoint.json"

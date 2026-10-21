@@ -1,0 +1,27 @@
+{
+  "name": "MeerK40t",
+  "repository": "https://github.com/meerk40t/meerk40t.git",
+  "commit": "d511944e08788e88077727f682957759884ff5ca",
+  "license": "MIT",
+  "license_file": {
+    "path": "LICENSE",
+    "sha256_lf": "b0cb1df6963e70b7dc3735244360ef6686c4d2aa6288b326a0f7c93014f39cd6",
+    "copyright_notice_present": true,
+    "notice": "Copyright (c) 2021 meerk40t"
+  },
+  "contract_files": [
+    {
+      "path": "meerk40t/balormk/controller.py",
+      "sha256": "257f42e1b48b7cff45df63e2ad6db4becb87140c61a1e04f1168a5edabc11fcf",
+      "stability": "application-internal-reference",
+      "required_symbols": ["GalvoController", "GalvoController.connect_if_needed", "GalvoController.send", "listEndOfList", "listMarkTo", "listQSwitchPeriod"]
+    },
+    {
+      "path": "meerk40t/balormk/mock_connection.py",
+      "sha256": "6c5f361a2474bc5da2660809029ee01f6f8723fe87e7cceb79ce69e80872aad2",
+      "stability": "application-internal-test-seam",
+      "required_symbols": ["MockConnection", "MockConnection.set_implied_response"]
+    }
+  ],
+  "purpose": "Pinned BalorMK reference and forced-mock oracle for offline JCZ validation"
+}

@@ -71,7 +71,7 @@ evidence for:
   the pinned BalorMK mock values;
 - fail-closed profile and encoder negative cases;
 - Rayforge workflow-model serialization and preview behavior for power,
-  frequency and pulse width.
+  frequency and pulse width;
 - independent layer visibility/output state and ordered serialization;
 - material-recipe matching plus a fail-closed PirateRay provenance and exact
   machine/source/lens/correction compatibility gate;
@@ -84,7 +84,10 @@ evidence for:
   pass missing steps, connected hardware, changed evidence or stop conditions;
 - a deterministic acceptance-kit generator that copies only four allowlisted
   public synthetic inputs, hashes them and refuses to overwrite an existing
-  run directory.
+  run directory;
+- pinned Rayforge and MeerK40t license/source contracts with drift tests, plus
+  checkpoint schema 2 requiring the Rayforge MIT notice in the portable ZIP
+  and beside the installer manifest.
 
 The remaining M1 gates are deliberately explicit:
 
