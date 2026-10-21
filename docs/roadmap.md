@@ -327,6 +327,9 @@ packaged addon source before the manual GUI checklist may begin.
 The manual checklist now also has a versioned, fail-closed report template and
 validator. Missing steps remain incomplete, stop conditions fail the run, and
 hashed screenshots stay outside the public repository pending sanitization.
+A reproducible kit generator copies only allowlisted synthetic inputs into the
+ignored build area, records their hashes and refuses to overwrite an existing
+test run.
 
 ## Decision rules
 

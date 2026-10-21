@@ -80,6 +80,18 @@ blocks encoding.
 Use only the isolated no-device profile and an empty work area. Do not connect
 or configure a controller.
 
+Prepare a fresh, checksummed kit containing only the public synthetic inputs
+and a new report template:
+
+```powershell
+python scripts/prepare_m1_acceptance_kit.py
+```
+
+The default output is `.build/acceptance-kit/`. The generator uses a fixed
+public allowlist, records the repository commit and refuses to overwrite a
+non-empty directory. It does not include the application bundle, private
+LightBurn evidence or any machine data.
+
 1. Pass the non-executing artifact verifier above.
 2. Launch the portable build with a fresh application-data directory.
 3. Confirm the UI identifies the state as offline/no-device.
@@ -97,15 +109,14 @@ or configure a controller.
 Any device discovery prompt, physical-device status, transport attempt or
 unlabelled framing action is a stop condition and fails the checkpoint.
 
-Record the run by copying
-`tests/fixtures/m1-manual-acceptance-template.json` outside the repository,
-filling it in and placing sanitized evidence below the report directory. Then
-validate it without launching the application:
+Record the run in the generated `manual-report.json` and place sanitized
+evidence below the report directory. Then validate it without launching the
+application:
 
 ```powershell
 python scripts/validate_m1_manual_acceptance.py `
-  .build/acceptance/manual-report.json `
-  --output .build/acceptance/manual-validation.json
+  .build/acceptance-kit/manual-report.json `
+  --output .build/acceptance-kit/manual-validation.json
 ```
 
 The validator verifies evidence hashes and relative paths. It reports
