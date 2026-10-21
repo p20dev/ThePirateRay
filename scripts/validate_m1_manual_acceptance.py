@@ -67,14 +67,24 @@ def _validate_evidence(report_root: Path, records: list[dict]) -> list[str]:
 
 
 def _bound_json(report_root: Path, binding: dict, label: str) -> tuple[dict | None, list[str]]:
-    value = binding.get("report_path") or binding.get("manifest_path") or ""
+    value = (
+        binding.get("report_path")
+        or binding.get("manifest_path")
+        or binding.get("path")
+        or ""
+    )
     relative = PurePosixPath(value)
     if not value or relative.is_absolute() or ".." in relative.parts:
         return None, [f"unsafe {label} path: {value!r}"]
     path = report_root.joinpath(*relative.parts)
     if not path.is_file():
         return None, [f"{label} is missing: {value}"]
-    digest = binding.get("report_sha256") or binding.get("manifest_sha256") or ""
+    digest = (
+        binding.get("report_sha256")
+        or binding.get("manifest_sha256")
+        or binding.get("sha256")
+        or ""
+    )
     actual = hashlib.sha256(path.read_bytes()).hexdigest()
     if not SHA256.fullmatch(digest) or digest != actual:
         return None, [f"{label} SHA-256 mismatch: {value}"]
@@ -112,6 +122,13 @@ def _validate_artifact_report(report_root: Path, binding: dict) -> list[str]:
         return errors
     if verification.get("status") != "passed":
         errors.append("artifact verification did not pass")
+    if verification.get("schema_version") != 1:
+        errors.append("unsupported artifact-verification schema")
+    if (
+        verification.get("verification")
+        != "Rayforge Windows no-device artifact verification"
+    ):
+        errors.append("unexpected artifact-verification identity")
     if verification.get("hardware_access") is not False:
         errors.append("artifact verification does not preserve the hardware gate")
     if verification.get("executed_binaries") is not False:
@@ -120,12 +137,37 @@ def _validate_artifact_report(report_root: Path, binding: dict) -> list[str]:
         errors.append("artifact verification dropped the manual interaction gate")
     if verification.get("rayforge_commit") != RAYFORGE_COMMIT:
         errors.append("artifact verification uses the wrong Rayforge commit")
+    if verification.get("addon") != "the_pirate_ray_jcz":
+        errors.append("artifact verification uses the wrong addon")
     if SHA256.fullmatch(verification.get("bundle_sha256", "")) is None:
         errors.append("artifact verification has an invalid bundle SHA-256")
     if SHA256.fullmatch(verification.get("installer_sha256", "")) is None:
         errors.append("artifact verification has an invalid installer SHA-256")
     if verification.get("verified_addon_files") != EXPECTED_ADDON_FILES:
         errors.append("artifact verification did not verify the exact addon file set")
+    checkpoint, checkpoint_errors = _bound_json(
+        report_root,
+        verification.get("checkpoint_manifest", {}),
+        "checkpoint manifest",
+    )
+    errors.extend(checkpoint_errors)
+    if checkpoint is not None:
+        if checkpoint.get("schema_version") != 2:
+            errors.append("unsupported checkpoint-manifest schema")
+        if checkpoint.get("checkpoint") != "Rayforge Windows no-device bundle":
+            errors.append("unexpected checkpoint-manifest identity")
+        if checkpoint.get("addon") != verification.get("addon"):
+            errors.append("checkpoint-manifest addon mismatch")
+        if checkpoint.get("rayforge_commit") != verification.get("rayforge_commit"):
+            errors.append("checkpoint-manifest Rayforge commit mismatch")
+        if checkpoint.get("bundle", {}).get("sha256") != verification.get(
+            "bundle_sha256"
+        ):
+            errors.append("checkpoint-manifest bundle SHA-256 mismatch")
+        if checkpoint.get("installer", {}).get("sha256") != verification.get(
+            "installer_sha256"
+        ):
+            errors.append("checkpoint-manifest installer SHA-256 mismatch")
     return errors
 
 

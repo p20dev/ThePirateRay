@@ -49,15 +49,28 @@ def create_kit(
     output: Path,
     repository_commit: str | None = None,
     artifact_verification: Path | None = None,
+    checkpoint_manifest: Path | None = None,
 ) -> dict:
     verification_source = None
-    if artifact_verification is not None:
+    checkpoint_source = None
+    if (artifact_verification is None) != (checkpoint_manifest is None):
+        raise ValueError(
+            "artifact verification and checkpoint manifest must be supplied together"
+        )
+    if artifact_verification is not None and checkpoint_manifest is not None:
         verification_source = artifact_verification.resolve()
+        checkpoint_source = checkpoint_manifest.resolve()
         verification = json.loads(
             verification_source.read_text(encoding="utf-8-sig")
         )
+        checkpoint_bytes = checkpoint_source.read_bytes()
+        checkpoint = json.loads(checkpoint_bytes.decode("utf-8-sig"))
+        checkpoint_record = verification.get("checkpoint_manifest", {})
         if (
-            verification.get("status") != "passed"
+            verification.get("schema_version") != 1
+            or verification.get("verification")
+            != "Rayforge Windows no-device artifact verification"
+            or verification.get("status") != "passed"
             or verification.get("hardware_access") is not False
             or verification.get("executed_binaries") is not False
             or verification.get("manual_interaction_required") is not True
@@ -65,6 +78,19 @@ def create_kit(
             or SHA256.fullmatch(verification.get("bundle_sha256", "")) is None
             or SHA256.fullmatch(verification.get("installer_sha256", "")) is None
             or verification.get("verified_addon_files") != EXPECTED_ADDON_FILES
+            or verification.get("addon") != "the_pirate_ray_jcz"
+            or checkpoint_record.get("path") != checkpoint_source.name
+            or checkpoint_record.get("sha256")
+            != hashlib.sha256(checkpoint_bytes).hexdigest()
+            or checkpoint.get("schema_version") != 2
+            or checkpoint.get("checkpoint") != "Rayforge Windows no-device bundle"
+            or checkpoint.get("addon") != verification.get("addon")
+            or checkpoint.get("rayforge_commit")
+            != verification.get("rayforge_commit")
+            or checkpoint.get("bundle", {}).get("sha256")
+            != verification.get("bundle_sha256")
+            or checkpoint.get("installer", {}).get("sha256")
+            != verification.get("installer_sha256")
         ):
             raise ValueError("artifact-verification report did not pass the no-device gate")
 
@@ -116,6 +142,8 @@ def create_kit(
     if verification_source is not None:
         verification_target = output / "artifact-verification.json"
         shutil.copyfile(verification_source, verification_target)
+        checkpoint_target = output / checkpoint_source.name
+        shutil.copyfile(checkpoint_source, checkpoint_target)
         report["artifact_verification"] = {
             "status": "passed",
             "report_path": verification_target.name,
@@ -137,12 +165,21 @@ def main() -> int:
         default=ROOT / ".build" / "acceptance-kit",
     )
     parser.add_argument(
+        "--checkpoint-manifest",
+        type=Path,
+        help="schema-2 manifest consumed by the artifact verifier",
+    )
+    parser.add_argument(
         "--artifact-verification",
         type=Path,
         help="passing JSON output from verify_rayforge_windows_checkpoint.py",
     )
     args = parser.parse_args()
-    result = create_kit(args.output, artifact_verification=args.artifact_verification)
+    result = create_kit(
+        args.output,
+        artifact_verification=args.artifact_verification,
+        checkpoint_manifest=args.checkpoint_manifest,
+    )
     print(f"kit={args.output.resolve()}")
     print(f"files={len(result['files'])}")
     print(f"repository_commit={result['repository_commit']}")

@@ -57,6 +57,9 @@ Rayforge commit, requires the manifest and bundle to contain exactly the
 versioned repository addon file set with matching digests, and requires the
 pinned Rayforge license both inside the ZIP and as a sidecar. Missing, changed
 or additional addon files fail verification.
+The schema-1 verification output records the exact checkpoint-manifest name
+and SHA-256 plus the fixed checkpoint and addon identities, so later manual
+acceptance can retain the complete artifact provenance chain.
 It never executes the application or installer, and a passing result retains
 the manual GUI interaction gate. The installer, manifest and license sidecar
 form one distribution set.
@@ -90,7 +93,8 @@ report into the kit at creation time:
 
 ```powershell
 python scripts/prepare_m1_acceptance_kit.py `
-  --artifact-verification .build/artifacts/rayforge-windows-verification.json
+  --artifact-verification .build/artifacts/rayforge-windows-verification.json `
+  --checkpoint-manifest .build/artifacts/rayforge-windows-checkpoint.json
 ```
 
 The default output is `.build/acceptance-kit/`. The generator uses a fixed
@@ -102,7 +106,8 @@ artifact-verification report by SHA-256. Editing, replacing or referring to an
 external provenance report therefore fails validation. The copied report must
 also name the pinned Rayforge commit, contain valid bundle and installer
 SHA-256 values, and confirm that the exact current addon file count was
-verified.
+verified. Its own schema, checkpoint identity and addon identity are fixed, and
+its recorded checkpoint-manifest hash must match the copied schema-2 manifest.
 
 1. Pass the non-executing artifact verifier above.
 2. Launch the portable build with a fresh application-data directory.

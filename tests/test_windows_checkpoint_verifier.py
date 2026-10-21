@@ -94,6 +94,9 @@ class WindowsCheckpointVerifierTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
             result = verify(self._checkpoint(Path(directory)))
         self.assertEqual(result["status"], "passed")
+        self.assertEqual(1, result["schema_version"])
+        self.assertEqual("the_pirate_ray_jcz", result["addon"])
+        self.assertRegex(result["checkpoint_manifest"]["sha256"], r"^[0-9a-f]{64}$")
         self.assertFalse(result["executed_binaries"])
         expected_count = sum(
             path.is_file() and "__pycache__" not in path.parts
@@ -130,6 +133,15 @@ class WindowsCheckpointVerifierTests(unittest.TestCase):
             data = json.loads(manifest.read_text(encoding="utf-8"))
             (manifest.parent / data["license_files"][0]["path"]).unlink()
             with self.assertRaises(FileNotFoundError):
+                verify(manifest)
+
+    def test_checkpoint_and_addon_identity_are_required(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
+            manifest = self._checkpoint(Path(directory))
+            data = json.loads(manifest.read_text(encoding="utf-8"))
+            data["addon"] = "foreign_addon"
+            manifest.write_text(json.dumps(data), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "unexpected checkpoint addon"):
                 verify(manifest)
 
     def test_manifest_cannot_omit_or_change_repository_addon_source(self):

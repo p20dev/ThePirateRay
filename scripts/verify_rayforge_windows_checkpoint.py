@@ -65,9 +65,14 @@ def _relative_below(path: PurePosixPath, root: PurePosixPath) -> PurePosixPath |
 
 def verify(manifest_path: Path) -> dict:
     manifest_path = manifest_path.resolve()
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8-sig"))
+    manifest_bytes = manifest_path.read_bytes()
+    manifest = json.loads(manifest_bytes.decode("utf-8-sig"))
     if manifest.get("schema_version") != 2:
         raise ValueError("unsupported checkpoint schema")
+    if manifest.get("checkpoint") != "Rayforge Windows no-device bundle":
+        raise ValueError("unexpected checkpoint identity")
+    if manifest.get("addon") != "the_pirate_ray_jcz":
+        raise ValueError("unexpected checkpoint addon")
     if manifest.get("rayforge_commit") != UPSTREAM["commit"]:
         raise ValueError("Rayforge commit does not match the repository pin")
     if manifest.get("hardware_access") is not False or manifest.get("transport") is not None:
@@ -143,8 +148,15 @@ def verify(manifest_path: Path) -> dict:
         verified_addon_files = len(packaged_addon)
 
     return {
+        "schema_version": 1,
+        "verification": "Rayforge Windows no-device artifact verification",
         "status": "passed",
         "rayforge_commit": manifest["rayforge_commit"],
+        "addon": manifest["addon"],
+        "checkpoint_manifest": {
+            "path": manifest_path.name,
+            "sha256": _digest(manifest_bytes),
+        },
         "hardware_access": False,
         "executed_binaries": False,
         "bundle_sha256": manifest["bundle"]["sha256"],

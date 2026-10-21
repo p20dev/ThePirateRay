@@ -42,7 +42,19 @@ class M1ManualAcceptanceTests(unittest.TestCase):
             "manifest_sha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
             "repository_commit": "b" * 40,
         }
+        checkpoint = {
+            "schema_version": 2,
+            "checkpoint": "Rayforge Windows no-device bundle",
+            "addon": "the_pirate_ray_jcz",
+            "rayforge_commit": RAYFORGE_COMMIT,
+            "bundle": {"sha256": "1" * 64},
+            "installer": {"sha256": "2" * 64},
+        }
+        checkpoint_path = root / "rayforge-windows-checkpoint.json"
+        checkpoint_path.write_text(json.dumps(checkpoint), encoding="utf-8")
         verification = {
+            "schema_version": 1,
+            "verification": "Rayforge Windows no-device artifact verification",
             "status": "passed",
             "hardware_access": False,
             "executed_binaries": False,
@@ -51,6 +63,11 @@ class M1ManualAcceptanceTests(unittest.TestCase):
             "bundle_sha256": "1" * 64,
             "installer_sha256": "2" * 64,
             "verified_addon_files": EXPECTED_ADDON_FILES,
+            "addon": "the_pirate_ray_jcz",
+            "checkpoint_manifest": {
+                "path": checkpoint_path.name,
+                "sha256": hashlib.sha256(checkpoint_path.read_bytes()).hexdigest(),
+            },
         }
         verification_path = root / "artifact-verification.json"
         verification_path.write_text(json.dumps(verification), encoding="utf-8")
@@ -162,6 +179,19 @@ class M1ManualAcceptanceTests(unittest.TestCase):
         self.assertEqual("failed", result["status"])
         self.assertIn("artifact verification uses the wrong Rayforge commit", result["errors"])
         self.assertIn("artifact verification has an invalid installer SHA-256", result["errors"])
+
+    def test_changed_checkpoint_manifest_is_rejected(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
+            root = Path(directory)
+            report = self._passing(root)
+            (root / "rayforge-windows-checkpoint.json").write_text(
+                "{}", encoding="utf-8"
+            )
+            result = validate(self._write(root, report))
+        self.assertEqual("failed", result["status"])
+        self.assertTrue(
+            any("checkpoint manifest SHA-256 mismatch" in error for error in result["errors"])
+        )
 
 
 if __name__ == "__main__":
