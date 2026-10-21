@@ -47,6 +47,9 @@ class M1AcceptancePipelineTests(unittest.TestCase):
         self.assertIn("schema_version = 2", source)
         self.assertIn("Rayforge-LICENSE.txt", source)
         self.assertIn("license_files", source)
+        self.assertIn("GetFullPath", source)
+        self.assertIn("Remove-Item -LiteralPath $resolvedAddonDestination", source)
+        self.assertIn("AllowStagedPirateRayAddon", source)
 
     def test_acceptance_has_no_hardware_commands(self):
         source = ACCEPTANCE.read_text(encoding="utf-8").lower()

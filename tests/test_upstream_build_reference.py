@@ -24,6 +24,9 @@ class UpstreamBuildReferenceTests(unittest.TestCase):
         self.assertNotIn("InstallWindowsDependencies", script)
         self.assertIn("BuildWindowsBundle", script)
         self.assertIn("No dependencies were installed", script)
+        self.assertIn("status --porcelain=v1 --untracked-files=all", script)
+        self.assertIn("unreviewed tracked or untracked changes", script)
+        self.assertIn("AllowStagedPirateRayAddon", script)
 
     def test_prepare_script_has_no_hardware_path(self):
         script = PREPARE.read_text(encoding="utf-8").lower()

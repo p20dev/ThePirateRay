@@ -20,7 +20,8 @@ if (-not $ArtifactRoot) {
 }
 
 & (Join-Path $PSScriptRoot "prepare_rayforge_build.ps1") `
-    -CacheRoot $CacheRoot
+    -CacheRoot $CacheRoot `
+    -AllowStagedPirateRayAddon
 if ($LASTEXITCODE -ne 0) {
     throw "Pinned Rayforge source preparation failed"
 }
@@ -48,6 +49,17 @@ $addonDestination = Join-Path $checkout (
     "rayforge\builtin_addons\rayforge-addon-the-pirate-ray-jcz"
 )
 if ($PSCmdlet.ShouldProcess($addonDestination, "Stage no-device addon")) {
+    $resolvedCheckout = [IO.Path]::GetFullPath($checkout).TrimEnd("\")
+    $resolvedAddonDestination = [IO.Path]::GetFullPath($addonDestination)
+    $expectedAddonDestination = Join-Path $resolvedCheckout (
+        "rayforge\builtin_addons\rayforge-addon-the-pirate-ray-jcz"
+    )
+    if ($resolvedAddonDestination -ne $expectedAddonDestination) {
+        throw "Refusing to replace an unexpected addon staging path"
+    }
+    if (Test-Path -LiteralPath $resolvedAddonDestination) {
+        Remove-Item -LiteralPath $resolvedAddonDestination -Recurse -Force
+    }
     New-Item -ItemType Directory -Force -Path $addonDestination | Out-Null
     Copy-Item -Path (Join-Path $addonSource "*") `
         -Destination $addonDestination -Recurse -Force
@@ -56,6 +68,7 @@ if ($PSCmdlet.ShouldProcess($addonDestination, "Stage no-device addon")) {
 $prepareArguments = @{
     CacheRoot = $CacheRoot
     BuildWindowsBundle = $true
+    AllowStagedPirateRayAddon = $true
 }
 & (Join-Path $PSScriptRoot "prepare_rayforge_build.ps1") @prepareArguments
 if ($LASTEXITCODE -ne 0) {

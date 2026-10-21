@@ -321,7 +321,9 @@ The transport-free portions are now consolidated by the
 [M1 no-device acceptance checkpoint](research/m1-no-device-acceptance.md).
 It reruns the public suite and leak guard and hashes the validated regression
 reports. The on-demand build entry point fetches pinned source and stages the
-addon but deliberately refuses to install a missing Windows toolchain.
+addon but deliberately refuses to install a missing Windows toolchain. It
+rejects modified upstream source and replaces the exact addon staging tree so
+stale files cannot survive between builds.
 An artifact produced elsewhere can be checked locally without execution: the
 verifier rejects unsafe paths or changed bytes and confirms the pin plus every
 packaged addon source before the manual GUI checklist may begin. It also

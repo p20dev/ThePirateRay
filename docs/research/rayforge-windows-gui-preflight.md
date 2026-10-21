@@ -45,6 +45,12 @@ revision into the ignored `.build/upstreams/` cache only when explicitly
 invoked. Its default action prepares source only; it neither installs the
 Windows toolchain nor starts a build.
 
+Source preparation also verifies the Git worktree state. Tracked changes and
+unexpected untracked source fail closed. The Windows checkpoint wrapper allows
+only its known addon staging subtree, validates that path, removes it before
+copying, and then rechecks the worktree before invoking upstream's build.
+Ignored upstream build outputs remain outside this source-integrity decision.
+
 The repository scripts do not install Windows dependencies. Bundle creation
 requires the explicit `-BuildWindowsBundle` switch and an already reviewed,
 prepared runtime. This keeps a multi-gigabyte MSYS2/UCRT64 toolchain out of

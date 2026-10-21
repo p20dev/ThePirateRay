@@ -39,8 +39,12 @@ toolchain preparation remains a separate, explicitly invoked upstream action
 or should happen on a dedicated build runner.
 
 Before staging, the script rejects transport imports in the addon. The build
-manifest records the exact upstream commit and hashes every addon source file,
-the portable archive and installer. It does not claim the GUI has been tested.
+entry point also rejects tracked Rayforge modifications and any unexpected
+untracked source. It removes and recreates only the validated addon staging
+directory, preventing stale files from a previous run from entering the
+bundle. The build manifest records the exact upstream commit and hashes every
+addon source file, the portable archive and installer. It does not claim the
+GUI has been tested.
 
 Copy the ZIP, installer and JSON manifest together, then verify an externally
 produced checkpoint without launching either binary:

@@ -1,7 +1,8 @@
 [CmdletBinding(SupportsShouldProcess)]
 param(
     [string]$CacheRoot,
-    [switch]$BuildWindowsBundle
+    [switch]$BuildWindowsBundle,
+    [switch]$AllowStagedPirateRayAddon
 )
 
 $ErrorActionPreference = "Stop"
@@ -54,8 +55,23 @@ if ($verifiedCommit -ne $manifest.commit) {
     throw "Rayforge pin mismatch: expected $($manifest.commit), got $verifiedCommit"
 }
 
+$statusLines = @(& git -C $checkout status --porcelain=v1 --untracked-files=all)
+if ($LASTEXITCODE -ne 0) {
+    throw "Could not inspect the Rayforge checkout state"
+}
+$allowedAddonPrefix = "?? rayforge/builtin_addons/rayforge-addon-the-pirate-ray-jcz/"
+$unexpectedChanges = @(
+    $statusLines | Where-Object {
+        $_ -and (-not $AllowStagedPirateRayAddon -or -not $_.StartsWith($allowedAddonPrefix))
+    }
+)
+if ($unexpectedChanges.Count -gt 0) {
+    throw "Rayforge checkout contains unreviewed tracked or untracked changes"
+}
+
 Write-Output "Rayforge source ready at $checkout"
 Write-Output "Verified commit: $verifiedCommit"
+Write-Output "Verified checkout state: clean except explicitly staged PirateRay addon"
 
 if (-not $BuildWindowsBundle) {
     Write-Output "No dependencies were installed and no build was started."

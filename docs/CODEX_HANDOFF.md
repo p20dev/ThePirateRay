@@ -15,7 +15,8 @@ negative cases, cancellation/recovery and synthetic LightBurn imports.
 The repository now provides:
 
 - an on-demand source/build entry point that never installs the Windows
-  toolchain;
+  toolchain, rejects modified upstream source and replaces only the validated
+  addon staging directory;
 - a non-executing verifier for externally produced Windows artifacts;
   it requires an exact repository-to-manifest-to-ZIP addon file set;
 - a checksummed acceptance-kit generator containing only allowlisted public
