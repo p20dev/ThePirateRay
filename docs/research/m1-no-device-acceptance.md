@@ -42,6 +42,21 @@ Before staging, the script rejects transport imports in the addon. The build
 manifest records the exact upstream commit and hashes every addon source file,
 the portable archive and installer. It does not claim the GUI has been tested.
 
+Copy the ZIP, installer and JSON manifest together, then verify an externally
+produced checkpoint without launching either binary:
+
+```powershell
+python scripts/verify_rayforge_windows_checkpoint.py `
+  .build/artifacts/rayforge-windows-checkpoint.json `
+  --output .build/artifacts/rayforge-windows-verification.json
+```
+
+The verifier requires portable artifact names, checks sizes and SHA-256
+digests, rejects unsafe ZIP paths, confirms the pinned Rayforge commit and
+compares every packaged addon file with its recorded digest. It never executes
+the application or installer, and a passing result retains the manual GUI
+interaction gate.
+
 ## Automated acceptance
 
 Run with the isolated Rayforge Python environment:
@@ -65,7 +80,7 @@ blocks encoding.
 Use only the isolated no-device profile and an empty work area. Do not connect
 or configure a controller.
 
-1. Verify the artifact and addon hashes against the build manifest.
+1. Pass the non-executing artifact verifier above.
 2. Launch the portable build with a fresh application-data directory.
 3. Confirm the UI identifies the state as offline/no-device.
 4. Open synthetic geometry and inspect the 110 × 110 mm synthetic field.

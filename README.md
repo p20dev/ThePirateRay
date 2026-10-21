@@ -129,8 +129,8 @@ likely data leaks. They do not certify hardware safety.
 Rayforge source and its Windows build stack are not vendored or downloaded by
 these checks. The exact upstream revision is recorded in
 `upstreams/rayforge.json`; run `scripts/prepare_rayforge_build.ps1` explicitly
-to populate the ignored build cache. Dependency installation and bundle
-creation require separate command switches.
+to populate the ignored build cache. The repository does not install the
+Windows toolchain; bundle creation requires an already reviewed runtime.
 
 ## Safety boundary
 

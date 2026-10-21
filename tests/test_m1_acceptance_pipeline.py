@@ -6,6 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ACCEPTANCE = ROOT / "scripts" / "run_m1_no_device_acceptance.py"
 BUILD = ROOT / "scripts" / "build_rayforge_windows_checkpoint.ps1"
+VERIFY = ROOT / "scripts" / "verify_rayforge_windows_checkpoint.py"
 UPSTREAM = ROOT / "upstreams" / "rayforge.json"
 
 
@@ -53,6 +54,13 @@ class M1AcceptancePipelineTests(unittest.TestCase):
         source = BUILD.read_text(encoding="utf-8").lower()
         for forbidden in ("import usb", "import serial", "import socket"):
             self.assertIn(forbidden, source)
+
+    def test_checkpoint_has_a_non_executing_artifact_verifier(self):
+        source = VERIFY.read_text(encoding="utf-8")
+        self.assertIn("zipfile.ZipFile", source)
+        self.assertIn("Rayforge commit does not match", source)
+        self.assertIn('"executed_binaries": False', source)
+        self.assertNotIn("subprocess", source)
 
 
 if __name__ == "__main__":

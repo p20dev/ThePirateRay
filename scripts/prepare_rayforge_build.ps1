@@ -64,7 +64,7 @@ if (-not $BuildWindowsBundle) {
 
 $bash = "C:\msys64\usr\bin\bash.exe"
 if (-not (Test-Path -LiteralPath $bash)) {
-    throw "MSYS2 is required for the upstream Windows build. Install it explicitly before using build flags."
+    throw "A reviewed MSYS2 Windows build runtime is not available. No dependencies were installed."
 }
 
 $msysCheckout = (& $bash -lc "cygpath -u '$checkout'").Trim()

@@ -88,19 +88,21 @@ $addonFiles = Get-ChildItem -LiteralPath $addonSource -Recurse -File |
         }
     }
 $result = [ordered]@{
+    schema_version = 1
     checkpoint = "Rayforge Windows no-device bundle"
     rayforge_commit = $verifiedCommit
     addon = "the_pirate_ray_jcz"
+    addon_packaged_root = "rayforge/builtin_addons/rayforge-addon-the-pirate-ray-jcz"
     addon_source_files = $addonFiles
     hardware_access = $false
     transport = $null
     bundle = [ordered]@{
-        path = $archive
+        path = Split-Path -Leaf $archive
         sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $archive).Hash.ToLowerInvariant()
         bytes = (Get-Item -LiteralPath $archive).Length
     }
     installer = [ordered]@{
-        path = $installer
+        path = Split-Path -Leaf $installer
         sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $installer).Hash.ToLowerInvariant()
         bytes = (Get-Item -LiteralPath $installer).Length
     }
