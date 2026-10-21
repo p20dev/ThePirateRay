@@ -96,6 +96,10 @@ evidence for:
   plan template and standard-library validator that requires exact
   evidence-backed request bytes, distinct safety roles, physical controls and
   recovery planning while always denying hardware authorization.
+- a deterministic M3 review-packet generator that accepts only a
+  `ready_for_review` plan, freezes its exact bytes and session window, records
+  SHA-256 bindings, refuses overwrite and emits an untouched, non-authorizing
+  human approval-record template.
 
 The remaining M1 gates are deliberately explicit:
 

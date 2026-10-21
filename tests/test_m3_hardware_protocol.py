@@ -57,6 +57,7 @@ class M3HardwareProtocolTests(unittest.TestCase):
         plan["session"] = {
             "machine_location": "Synthetic test location",
             "planned_at": "2026-10-21T12:00:00+02:00",
+            "ends_at": "2026-10-21T12:30:00+02:00",
             "notes": "No hardware is used by this unit test.",
         }
         return plan
@@ -88,6 +89,15 @@ class M3HardwareProtocolTests(unittest.TestCase):
             "operator, safety observer and protocol reviewer must be distinct",
             result["errors"],
         )
+        self.assertFalse(result["hardware_access_authorized"])
+
+    def test_session_window_must_be_bounded_and_ordered(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
+            plan = self._complete()
+            plan["session"]["ends_at"] = plan["session"]["planned_at"]
+            result = validate(self._write(Path(directory), plan))
+        self.assertEqual("invalid", result["status"])
+        self.assertIn("session end must be later than session start", result["errors"])
         self.assertFalse(result["hardware_access_authorized"])
 
     def test_safety_boundary_cannot_be_narrowed(self):

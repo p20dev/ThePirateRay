@@ -61,14 +61,14 @@ OPERATION_KEYS = {
 }
 
 
-def _timestamp_with_timezone(value: object) -> bool:
+def _timestamp_with_timezone(value: object) -> datetime | None:
     if not isinstance(value, str):
-        return False
+        return None
     try:
         parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError:
-        return False
-    return parsed.tzinfo is not None
+        return None
+    return parsed if parsed.tzinfo is not None else None
 
 
 def _validate_operation(operation: dict, seen: set[str]) -> list[str]:
@@ -232,8 +232,14 @@ def validate(path: Path) -> dict:
         "machine_location", ""
     ).strip():
         incomplete.append("machine location is not recorded")
-    if not _timestamp_with_timezone(session.get("planned_at")):
+    starts_at = _timestamp_with_timezone(session.get("planned_at"))
+    ends_at = _timestamp_with_timezone(session.get("ends_at"))
+    if starts_at is None:
         incomplete.append("planned_at is not an ISO-8601 timestamp with timezone")
+    if ends_at is None:
+        incomplete.append("ends_at is not an ISO-8601 timestamp with timezone")
+    if starts_at is not None and ends_at is not None and ends_at <= starts_at:
+        errors.append("session end must be later than session start")
 
     status = "invalid" if errors else "ready_for_review" if not incomplete else "incomplete"
     return {

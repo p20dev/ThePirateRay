@@ -115,6 +115,19 @@ plan bytes and SHA-256. A separate approval record must identify that hash,
 reviewer, approval time with timezone, location and exact session window. Any
 plan edit invalidates that approval.
 
+Create the frozen, non-authorizing review packet with:
+
+```powershell
+python scripts/prepare_m3_review_packet.py path/to/session-plan.json
+```
+
+The generator refuses an incomplete or invalid plan, refuses to overwrite a
+non-empty output directory, copies the exact plan bytes and hashes both the
+plan and untouched `approval-record-template.json`. A reviewer must create a
+separate approval record rather than edit the packet template. The generated
+output still states `hardware_access_authorized: false`; generating a packet is
+not approval.
+
 ## Session sequence
 
 The eventual reviewed session follows this order and stops at the first failed

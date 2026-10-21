@@ -34,6 +34,9 @@ The repository now provides:
 - a fail-closed M3 hardware-research protocol, incomplete public plan template
   and validator; validation can reach only `ready_for_review` and never
   authorizes hardware access.
+- a deterministic M3 review-packet generator that freezes only a
+  `ready_for_review` plan and creates a hash-bound, explicitly unreviewed
+  record without granting hardware access.
 
 Run the ordinary checkpoint with the bundled Codex Python or another supported
 Python interpreter and a writable `TEMP`/`TMP`:
