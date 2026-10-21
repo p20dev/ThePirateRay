@@ -100,6 +100,9 @@ evidence for:
   `ready_for_review` plan, freezes its exact bytes and session window, records
   SHA-256 bindings, refuses overwrite and emits an untouched, non-authorizing
   human approval-record template.
+- a fail-closed M3 approval validator that verifies the full packet hash chain,
+  commit, reviewer, bounded session and explicit safety statements while still
+  requiring live preflight and returning no automatic hardware authorization.
 
 The remaining M1 gates are deliberately explicit:
 

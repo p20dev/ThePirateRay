@@ -37,6 +37,9 @@ The repository now provides:
 - a deterministic M3 review-packet generator that freezes only a
   `ready_for_review` plan and creates a hash-bound, explicitly unreviewed
   record without granting hardware access.
+- a separate M3 approval-record validator that rejects changed packet files,
+  reviewer/window drift, late review, incomplete safety statements and any
+  claim of automatic hardware authorization.
 
 Run the ordinary checkpoint with the bundled Codex Python or another supported
 Python interpreter and a writable `TEMP`/`TMP`:

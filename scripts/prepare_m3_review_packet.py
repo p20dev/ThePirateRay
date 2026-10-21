@@ -68,6 +68,13 @@ def create_packet(
         "decision": "not_reviewed",
         "reviewer": None,
         "reviewed_at": None,
+        "statements": {
+            "exact_plan_bytes_reviewed": False,
+            "operation_evidence_reviewed": False,
+            "physical_controls_reviewed": False,
+            "driver_and_rollback_reviewed": False,
+            "abort_and_recovery_reviewed": False,
+        },
         "notes": "",
         "hardware_access_authorized": False,
         "separate_human_approval_required": True,

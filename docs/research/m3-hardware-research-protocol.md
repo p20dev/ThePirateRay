@@ -128,6 +128,21 @@ separate approval record rather than edit the packet template. The generated
 output still states `hardware_access_authorized: false`; generating a packet is
 not approval.
 
+After an independent reviewer copies and completes the approval template,
+validate the separate record against the unchanged packet:
+
+```powershell
+python scripts/validate_m3_approval.py `
+  .build/m3-review-packet `
+  path/to/approval-record.json
+```
+
+The validator checks both packet file hashes and sizes, the frozen plan, Git
+commit, reviewer identity, exact session window, approval time and every safety
+statement. A successful result is `approval_record_valid`, not automatic
+permission to access hardware: the result continues to state
+`hardware_access_authorized: false` and `live_preflight_required: true`.
+
 ## Session sequence
 
 The eventual reviewed session follows this order and stops at the first failed
