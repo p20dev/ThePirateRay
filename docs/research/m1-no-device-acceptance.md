@@ -137,11 +137,12 @@ python scripts/validate_m1_manual_acceptance.py `
 ```
 
 The validator verifies the kit manifest, repository commit, artifact report,
-evidence hashes and relative paths. It reports
-`incomplete` for any unrun or blocked scenario and `failed` for a failed step,
-connected hardware, non-isolated app data, changed evidence or any stop
-condition. Even a complete `passed` report still requires human review and
-does not authorize hardware access.
+evidence hashes and relative paths. It reports `incomplete` for any unrun or
+blocked scenario, `ready_for_review` when every operator step passes but the
+review record is still empty, and `failed` for a failed step, connected
+hardware, non-isolated app data, changed evidence, malformed review or any
+stop condition. Final `passed` requires a non-empty reviewer name and an
+ISO-8601 review timestamp with timezone. No status authorizes hardware access.
 
 ## Remaining external gates
 

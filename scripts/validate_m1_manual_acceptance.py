@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime
 import hashlib
 import json
 import re
@@ -171,6 +172,26 @@ def _validate_artifact_report(report_root: Path, binding: dict) -> list[str]:
     return errors
 
 
+def _review_state(review: dict) -> tuple[bool, list[str]]:
+    reviewer = review.get("reviewer")
+    reviewed_at = review.get("reviewed_at")
+    if reviewer is None and reviewed_at is None:
+        return False, []
+    errors = []
+    if not isinstance(reviewer, str) or not reviewer.strip():
+        errors.append("reviewer must be a non-empty name")
+    if not isinstance(reviewed_at, str):
+        errors.append("reviewed_at must be an ISO-8601 timestamp with timezone")
+    else:
+        try:
+            timestamp = datetime.fromisoformat(reviewed_at.replace("Z", "+00:00"))
+            if timestamp.tzinfo is None:
+                raise ValueError
+        except ValueError:
+            errors.append("reviewed_at must be an ISO-8601 timestamp with timezone")
+    return not errors, errors
+
+
 def validate(report_path: Path) -> dict:
     report_path = report_path.resolve()
     report = json.loads(report_path.read_text(encoding="utf-8-sig"))
@@ -201,6 +222,8 @@ def validate(report_path: Path) -> dict:
     artifact_errors = _validate_artifact_report(report_path.parent, artifact)
     errors.extend(artifact_errors)
     errors.extend(_validate_evidence(report_path.parent, report.get("evidence", [])))
+    reviewed, review_errors = _review_state(report.get("review", {}))
+    errors.extend(review_errors)
 
     explicit_failure = (
         any(step.get("status") == "failed" for step in steps)
@@ -209,7 +232,7 @@ def validate(report_path: Path) -> dict:
         or environment.get("fresh_app_data") is False
         or artifact.get("status") == "failed"
     )
-    complete = (
+    operator_complete = (
         not errors
         and step_ids == list(STEP_IDS)
         and all(step.get("status") == "passed" for step in steps)
@@ -220,7 +243,14 @@ def validate(report_path: Path) -> dict:
         and artifact.get("status") == "passed"
         and not artifact_errors
     )
-    status = "failed" if explicit_failure or errors else "passed" if complete else "incomplete"
+    if explicit_failure or errors:
+        status = "failed"
+    elif operator_complete and reviewed:
+        status = "passed"
+    elif operator_complete:
+        status = "ready_for_review"
+    else:
+        status = "incomplete"
     return {
         "status": status,
         "schema_valid": not errors,
@@ -228,7 +258,8 @@ def validate(report_path: Path) -> dict:
         "passed_steps": sum(step.get("status") == "passed" for step in steps),
         "required_steps": len(STEP_IDS),
         "hardware_access_authorized": False,
-        "manual_review_required": True,
+        "review_recorded": reviewed,
+        "manual_review_required": status != "passed",
     }
 
 

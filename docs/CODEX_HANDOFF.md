@@ -23,6 +23,8 @@ The repository now provides:
   non-executing artifact-verification report, including the Rayforge pin and
   bundle, installer, addon-verification and source checkpoint-manifest fields;
 - a fail-closed manual desktop-acceptance report and validator;
+  complete operator evidence is only ready for review until a named,
+  timezone-stamped human review is recorded;
 - pinned upstream contract/license manifests and a drift checker;
 - a fail-closed API-23 adapter isolating Rayforge's internal driver registry;
 - a proposed MIT project-license decision in ADR 0003; Kaz has not accepted

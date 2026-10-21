@@ -99,6 +99,11 @@ class M1ManualAcceptanceTests(unittest.TestCase):
             "path": "evidence/offline-state.png",
             "sha256": hashlib.sha256(screenshot.read_bytes()).hexdigest(),
         }]
+        report["review"] = {
+            "reviewer": "Synthetic Test Reviewer",
+            "reviewed_at": "2026-10-21T12:00:00+02:00",
+            "notes": "Synthetic unit-test review only.",
+        }
         return report
 
     def test_template_is_valid_but_incomplete(self):
@@ -118,7 +123,34 @@ class M1ManualAcceptanceTests(unittest.TestCase):
             result = validate(self._write(root, self._passing(root)))
         self.assertEqual(result["status"], "passed")
         self.assertFalse(result["hardware_access_authorized"])
+        self.assertFalse(result["manual_review_required"])
+        self.assertTrue(result["review_recorded"])
+
+    def test_complete_operator_report_waits_for_human_review(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
+            root = Path(directory)
+            report = self._passing(root)
+            report["review"] = {"reviewer": None, "reviewed_at": None, "notes": ""}
+            result = validate(self._write(root, report))
+        self.assertEqual("ready_for_review", result["status"])
         self.assertTrue(result["manual_review_required"])
+        self.assertFalse(result["review_recorded"])
+
+    def test_partial_or_timezone_free_review_is_rejected(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
+            root = Path(directory)
+            report = self._passing(root)
+            report["review"] = {
+                "reviewer": "Synthetic Test Reviewer",
+                "reviewed_at": "2026-10-21T12:00:00",
+                "notes": "",
+            }
+            result = validate(self._write(root, report))
+        self.assertEqual("failed", result["status"])
+        self.assertIn(
+            "reviewed_at must be an ISO-8601 timestamp with timezone",
+            result["errors"],
+        )
 
     def test_any_stop_condition_fails_checkpoint(self):
         with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:

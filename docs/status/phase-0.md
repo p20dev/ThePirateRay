@@ -81,7 +81,8 @@ evidence for:
   archive safety, sizes, hashes, the pinned Rayforge revision and every
   packaged addon source while retaining the manual GUI gate;
 - a versioned manual desktop-acceptance template and validator that cannot
-  pass missing steps, connected hardware, changed evidence or stop conditions;
+  pass missing steps, connected hardware, changed evidence, stop conditions or
+  an absent/malformed human review record;
 - a deterministic acceptance-kit generator that copies only four allowlisted
   public template/input sources, hashes the three immutable inputs, refuses to
   overwrite an existing run directory, and binds the report to the exact kit,

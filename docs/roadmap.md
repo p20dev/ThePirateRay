@@ -328,8 +328,10 @@ packaged addon source before the manual GUI checklist may begin. It also
 rejects omitted manifest entries and extra files hidden in the packaged addon
 directory.
 The manual checklist now also has a versioned, fail-closed report template and
-validator. Missing steps remain incomplete, stop conditions fail the run, and
-hashed screenshots stay outside the public repository pending sanitization.
+validator. Missing steps remain incomplete, a complete operator run remains
+ready for review until a named, timezone-stamped human review is recorded,
+stop conditions fail the run, and hashed screenshots stay outside the public
+repository pending sanitization.
 A reproducible kit generator copies only allowlisted synthetic inputs into the
 ignored build area, records their hashes and refuses to overwrite an existing
 test run. Its schema-2 provenance chain binds the editable manual report to the
