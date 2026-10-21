@@ -92,6 +92,10 @@ evidence for:
   and beside the installer manifest;
 - a single fail-closed Rayforge API-23 compatibility adapter around the
   internal driver registry, with collision, drift and symmetric-cleanup tests.
+- a written M3 hardware-research protocol, intentionally incomplete public
+  plan template and standard-library validator that requires exact
+  evidence-backed request bytes, distinct safety roles, physical controls and
+  recovery planning while always denying hardware authorization.
 
 The remaining M1 gates are deliberately explicit:
 
@@ -107,3 +111,8 @@ The remaining M1 gates are deliberately explicit:
 
 No item in this section authorizes USB access, controller commands or laser
 output.
+
+The M3 protocol can currently report only `incomplete`. It has no allowlisted
+controller operation, reviewed driver/rollback plan, assigned people or
+confirmed physical controls. Even a future `ready_for_review` result requires
+separate human approval before hardware access.

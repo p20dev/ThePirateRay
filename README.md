@@ -50,6 +50,11 @@ for the packaged no-device workflow test. See the
 [Phase 0 status](docs/status/phase-0.md) and
 [Rayforge GUI preflight](docs/research/rayforge-windows-gui-preflight.md).
 
+The first M3 deliverable is also available as a deliberately non-executable
+[hardware-research protocol](docs/research/m3-hardware-research-protocol.md).
+Its public template and validator can establish only `ready_for_review`; they
+never authorize USB access or controller commands.
+
 ## The important discovery
 
 We do not need to begin with a blank-sheet LightBurn clone:
@@ -80,8 +85,8 @@ hardware-free:
    installing a toolchain through this repository;
 3. run and record the packaged no-device desktop interaction checklist;
 4. accept, revise, or reject the proposed reuse architecture from evidence;
-5. write and review a separate hardware protocol before any live controller
-   communication.
+5. complete and independently review the M3 hardware-protocol template before
+   seeking separate approval for any live controller communication.
 
 An independent desktop application is the fallback only if both existing
 platforms fail concrete, documented requirements.

@@ -31,6 +31,9 @@ The repository now provides:
 - a fail-closed API-23 adapter isolating Rayforge's internal driver registry;
 - a proposed MIT project-license decision in ADR 0003; Kaz has not accepted
   it, so the repository remains unlicensed.
+- a fail-closed M3 hardware-research protocol, incomplete public plan template
+  and validator; validation can reach only `ready_for_review` and never
+  authorizes hardware access.
 
 Run the ordinary checkpoint with the bundled Codex Python or another supported
 Python interpreter and a writable `TEMP`/`TMP`:
@@ -67,6 +70,8 @@ order:
 
 If no artifact is available, do not install a build environment here. The next
 useful input is the private known-working `.lbrn2` collection or Kaz's explicit
-decision on ADR 0003. Until either external gate arrives, ADR 0002 remains
-Proposed and no controller backend, USB discovery, physical framing, galvo
-motion or laser output is authorized.
+decision on ADR 0003. The M3 protocol can also be reviewed offline, but its
+operation allowlist must stay empty until exact read-only request evidence is
+available. Until the external gates and separate hardware approval arrive,
+ADR 0002 remains Proposed and no controller backend, USB endpoint access,
+physical framing, galvo motion or laser output is authorized.

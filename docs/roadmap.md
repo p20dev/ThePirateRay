@@ -215,6 +215,12 @@ Before touching the connected machine, write a test protocol that specifies:
 - abort conditions and rollback/recovery steps;
 - what is captured and how it is sanitized.
 
+The initial, non-executable protocol, machine-readable template and validator
+are now recorded in the
+[M3 hardware-research protocol](research/m3-hardware-research-protocol.md).
+The committed template is intentionally incomplete. Validator success means
+only `ready_for_review`; it never grants permission to access hardware.
+
 Exit criteria: the app recognizes the correct controller and reports status
 without moving a galvo, arming the source, modifying persistent state, or
 requiring proprietary executable code in the public build.
@@ -275,11 +281,14 @@ The next work package should be small enough to review in a few commits:
    buffering and explicit safe state ordering, still without transport;
 5. exercise cancellation/recovery and the graphical workflow against mock
    backends, then accept, amend or reject ADR 0002;
-6. separately produce a written M3 hardware-research protocol before any USB
-   endpoint access or controller command.
+6. complete and independently review the written M3 hardware-research protocol
+   before seeking separate approval for any USB endpoint access or controller
+   command.
 
-Hardware work cannot proceed until item 6 is reviewed and the physical setup
-is ready.
+The draft, template, validator and regression tests for item 6 are present.
+Hardware work still cannot proceed until the exact read-only operation evidence,
+driver/rollback plan, physical controls, distinct assigned roles and separate
+human approval are all in place.
 
 Item 2 is now covered by the
 [synthetic LightBurn JCZ device-import spike](research/rayforge-lightburn-device-import-spike.md):

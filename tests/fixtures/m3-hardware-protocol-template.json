@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "protocol": "M3 controller identity and status research",
+  "protocol_status": "draft",
+  "target": {
+    "profile_id": "makerspace-naestved-jpt-e2-mopa-100w",
+    "controller_family": "JCZ",
+    "usb_vid": "9588",
+    "usb_pid": "9899",
+    "device_description": "USBLMCV4",
+    "lens_field_mm": 110,
+    "lens_status": "assumed-pending-physical-verification"
+  },
+  "scope": {
+    "milestone": "M3",
+    "goal": "read-only controller identity and status evidence",
+    "prohibited_capabilities": [
+      "persistent_write",
+      "job_upload",
+      "list_execution",
+      "galvo_motion",
+      "physical_framing",
+      "source_arm",
+      "laser_emission"
+    ]
+  },
+  "roles": {
+    "operator": null,
+    "safety_observer": null,
+    "protocol_reviewer": null
+  },
+  "physical_controls": {
+    "emission_inhibited_and_verified": null,
+    "emission_inhibition_method": null,
+    "work_area_cleared": null,
+    "emergency_stop_accessible_and_tested": null,
+    "observer_present": null,
+    "machine_profile_physically_confirmed": null
+  },
+  "software_controls": {
+    "production_backend_absent": true,
+    "operation_allowlist_enforced": null,
+    "unknown_responses_not_replayed": true,
+    "maximum_attempts_per_operation": 1,
+    "reversible_driver_plan_reviewed": null
+  },
+  "allowed_operations": [],
+  "abort_conditions": [
+    "unexpected_motion",
+    "emission_or_source_arm_indication",
+    "interlock_state_change",
+    "unexpected_device_reset_or_disconnect",
+    "unallowlisted_transfer_attempt",
+    "unexpected_response",
+    "operator_or_observer_stop"
+  ],
+  "recovery": {
+    "power_down_procedure_reviewed": null,
+    "driver_rollback_procedure_reviewed": null,
+    "incident_record_destination_prepared": null,
+    "no_automatic_retry_after_abort": true
+  },
+  "evidence_handling": {
+    "raw_capture_classification": "private-sensitive",
+    "raw_capture_destination": "ThePirateRay-PrivateStash",
+    "public_output": "sanitized-derived-notes-only",
+    "sha256_manifest_required": true,
+    "private_identifiers_redacted_publicly": true
+  },
+  "session": {
+    "machine_location": null,
+    "planned_at": null,
+    "notes": ""
+  }
+}
