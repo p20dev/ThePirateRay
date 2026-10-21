@@ -60,7 +60,9 @@ sizes and SHA-256 digests, rejects unsafe ZIP paths, confirms the pinned
 Rayforge commit, requires the manifest and bundle to contain exactly the
 versioned repository addon file set with matching digests, and requires the
 pinned Rayforge license both inside the ZIP and as a sidecar. Missing, changed
-or additional addon files fail verification.
+or additional addon files fail verification. Archive entries also fail on
+duplicate or case-colliding Windows paths, backslashes, drive-like paths,
+encryption or symbolic links.
 The schema-1 verification output records the exact checkpoint-manifest name
 and SHA-256 plus the fixed checkpoint and addon identities, so later manual
 acceptance can retain the complete artifact provenance chain.

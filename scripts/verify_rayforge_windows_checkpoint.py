@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import re
+import stat
 import zipfile
 from pathlib import Path, PurePosixPath
 
@@ -63,6 +64,35 @@ def _relative_below(path: PurePosixPath, root: PurePosixPath) -> PurePosixPath |
     return None
 
 
+def _safe_archive_files(archive: zipfile.ZipFile) -> dict[PurePosixPath, zipfile.ZipInfo]:
+    files = {}
+    seen = set()
+    for info in archive.infolist():
+        name = info.filename
+        path = PurePosixPath(name)
+        canonical = name.rstrip("/").casefold()
+        if (
+            not name
+            or "\\" in name
+            or "\x00" in name
+            or path.is_absolute()
+            or ".." in path.parts
+            or (path.parts and ":" in path.parts[0])
+        ):
+            raise ValueError("bundle contains an unsafe path")
+        if not canonical or canonical in seen:
+            raise ValueError("bundle contains a duplicate or case-colliding path")
+        seen.add(canonical)
+        if info.flag_bits & 0x1:
+            raise ValueError("bundle contains an encrypted entry")
+        mode = (info.external_attr >> 16) & 0xFFFF
+        if stat.S_ISLNK(mode):
+            raise ValueError("bundle contains a symbolic link")
+        if not info.is_dir():
+            files[path] = info
+    return files
+
+
 def verify(manifest_path: Path) -> dict:
     manifest_path = manifest_path.resolve()
     manifest_bytes = manifest_path.read_bytes()
@@ -112,14 +142,7 @@ def verify(manifest_path: Path) -> dict:
             raise ValueError(f"checkpoint addon source differs from repository: {relative}")
 
     with zipfile.ZipFile(bundle) as archive:
-        files = {
-            PurePosixPath(info.filename): info
-            for info in archive.infolist()
-            if not info.is_dir()
-        }
-        for path in files:
-            if path.is_absolute() or ".." in path.parts:
-                raise ValueError("bundle contains an unsafe path")
+        files = _safe_archive_files(archive)
         executable = manifest["bundle"]["path"].removesuffix(".zip") + ".exe"
         if not any(path.name == executable for path in files):
             raise ValueError("bundle application executable is missing")

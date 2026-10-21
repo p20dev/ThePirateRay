@@ -18,7 +18,8 @@ The repository now provides:
   toolchain, rejects modified upstream source and replaces only the validated
   addon staging directory;
 - a non-executing verifier for externally produced Windows artifacts;
-  it requires an exact repository-to-manifest-to-ZIP addon file set;
+  it requires an exact repository-to-manifest-to-ZIP addon file set and
+  rejects unsafe, colliding, encrypted or linked archive entries;
 - a checksummed acceptance-kit generator containing only allowlisted public
   synthetic inputs, with provenance binding to the repository commit and
   non-executing artifact-verification report, including the Rayforge pin and

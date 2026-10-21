@@ -1,14 +1,18 @@
 import hashlib
 import json
+import stat
 import tempfile
 import unittest
+import warnings
 import zipfile
 from pathlib import Path
+from types import SimpleNamespace
 
 from scripts.verify_rayforge_windows_checkpoint import (
     ADDON_SOURCE,
     ROOT,
     UPSTREAM,
+    _safe_archive_files,
     verify,
 )
 
@@ -22,6 +26,9 @@ class WindowsCheckpointVerifierTests(unittest.TestCase):
         root: Path,
         unsafe_member: str | None = None,
         extra_addon_file: str | None = None,
+        duplicate_member: bool = False,
+        case_collision: bool = False,
+        symlink_member: bool = False,
     ) -> Path:
         bundle_name = f"rayforge-vpirateray-{UPSTREAM['commit'][:12]}.zip"
         executable = bundle_name.removesuffix(".zip") + ".exe"
@@ -50,7 +57,26 @@ class WindowsCheckpointVerifierTests(unittest.TestCase):
                 license_data,
             )
             if unsafe_member:
-                archive.writestr(unsafe_member, b"unsafe")
+                unsafe = zipfile.ZipInfo("placeholder")
+                unsafe.filename = unsafe_member
+                unsafe.orig_filename = unsafe_member
+                archive.writestr(unsafe, b"unsafe")
+            if duplicate_member:
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore", UserWarning)
+                    archive.writestr(
+                        f"{bundle_name[:-4]}/{executable}", b"duplicate"
+                    )
+            if case_collision:
+                archive.writestr(
+                    f"{bundle_name[:-4].upper()}/{executable.upper()}",
+                    b"case collision",
+                )
+            if symlink_member:
+                link = zipfile.ZipInfo(f"{bundle_name[:-4]}/link")
+                link.create_system = 3
+                link.external_attr = (stat.S_IFLNK | 0o777) << 16
+                archive.writestr(link, "target")
         installer = root / f"{bundle_name[:-4]}-installer.exe"
         installer.write_bytes(b"synthetic installer, never executed")
         license_sidecar = root / "Rayforge-LICENSE.txt"
@@ -116,6 +142,32 @@ class WindowsCheckpointVerifierTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
             manifest = self._checkpoint(Path(directory), "../escape.txt")
             with self.assertRaisesRegex(ValueError, "unsafe path"):
+                verify(manifest)
+
+    def test_windows_unsafe_and_colliding_archive_paths_are_rejected(self):
+        unsafe = SimpleNamespace(
+            filename="folder\\escape.txt",
+            flag_bits=0,
+            external_attr=0,
+            is_dir=lambda: False,
+        )
+        archive = SimpleNamespace(infolist=lambda: [unsafe])
+        with self.assertRaisesRegex(ValueError, "unsafe path"):
+            _safe_archive_files(archive)
+
+        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
+            manifest = self._checkpoint(Path(directory), duplicate_member=True)
+            with self.assertRaisesRegex(ValueError, "duplicate or case-colliding"):
+                verify(manifest)
+
+            manifest = self._checkpoint(Path(directory), case_collision=True)
+            with self.assertRaisesRegex(ValueError, "duplicate or case-colliding"):
+                verify(manifest)
+
+    def test_symbolic_link_archive_entry_is_rejected(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
+            manifest = self._checkpoint(Path(directory), symlink_member=True)
+            with self.assertRaisesRegex(ValueError, "symbolic link"):
                 verify(manifest)
 
     def test_manifest_cannot_reference_external_artifacts(self):
