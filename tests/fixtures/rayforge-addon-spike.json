@@ -19,9 +19,10 @@
     "pirate_ray_jcz/__init__.py",
     "pirate_ray_jcz/offline_session.py",
     "pirate_ray_jcz/profile_import.py",
+    "pirate_ray_jcz/rayforge_compat.py",
     "pirate_ray_jcz/recipe_metadata.py",
     "pirate_ray_jcz/worker.py",
     "rayforge-addon.yaml"
   ],
-  "registration_seam": "worker import side effect + on_unload cleanup"
+  "registration_seam": "fail-closed API 23 compatibility adapter + on_unload cleanup"
 }

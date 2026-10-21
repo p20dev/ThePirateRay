@@ -13,7 +13,7 @@ An external addon loaded through Rayforge's real `AddonManager` and registered
 discovery specification or transport, and returns a recognizable binary test
 payload from an `OpsEncoder`.
 
-The following lifecycle completed twice with identical JSON results:
+The following lifecycle completes against the pinned Rayforge checkout:
 
 1. load the external addon;
 2. resolve the driver by class name;
@@ -21,12 +21,12 @@ The following lifecycle completed twice with identical JSON results:
 4. disable the addon and verify driver removal;
 5. re-enable it and verify re-registration;
 6. reload it and verify there is exactly one registry entry;
-7. package its three source/manifest files into a ZIP; and
+7. package its source and manifest files into a ZIP; and
 8. disable it cleanly.
 
-The two result files had SHA-256
-`610f8f191526afe4685f8659c1ef2b34fac3c68a8f8088d77ca5e1fdd6080bfc`.
-The checked result is `tests/fixtures/rayforge-addon-spike.json`.
+The current checked result is `tests/fixtures/rayforge-addon-spike.json` with
+SHA-256
+`c7a7ba7d561af58829c9c0fc271234e7600d50cca5f8125fc574fa3f0a1aa25f`.
 
 ## Registration seam finding
 
@@ -37,10 +37,13 @@ a driver class. The source-level driver registry instead exposes
 `rayforge.machine.driver.register_driver(driver)`.
 
 The working spike therefore registers during import of the addon's worker
-entry point and removes its class in `on_unload`. This survives load, disable,
-enable and reload, but it relies on mutable module-level registry internals for
-cleanup. Before a production addon, Rayforge should ideally expose a dedicated
-addon-aware driver registry hook with supported unregister behavior.
+entry point and removes its class in `on_unload`. All access to the mutable
+module-level registry is now isolated in `rayforge_compat.py`. The adapter
+accepts only addon API 23, checks the expected registry shape, refuses class
+name collisions, is idempotent, and verifies symmetric cleanup. Contract drift
+therefore fails closed instead of silently replacing another driver. Before a
+production addon, Rayforge should still expose a dedicated addon-aware driver
+registry hook with supported unregister behavior.
 
 ## Reproduce
 
@@ -67,8 +70,9 @@ The script refuses any Rayforge revision other than the pinned commit.
 
 - The ZIP check is addon packaging, not a proof that a complete PyInstaller or
   MSIX Rayforge build discovers an externally installed addon.
-- The current registration seam is functional but not a stable, addon-aware
-  API. Upstream feasibility should be assessed before relying on it.
+- The compatibility adapter contains the unstable seam, but does not make it
+  a supported addon API. Upstream feasibility should be assessed before
+  relying on it in production.
 - No JCZ command encoding, machine profile, UI, project reload, discovery,
   transport, controller status or cancellation is implemented here.
 - Nothing in this spike authorizes USB access, galvo movement or emission.

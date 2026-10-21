@@ -87,7 +87,9 @@ evidence for:
   run directory;
 - pinned Rayforge and MeerK40t license/source contracts with drift tests, plus
   checkpoint schema 2 requiring the Rayforge MIT notice in the portable ZIP
-  and beside the installer manifest.
+  and beside the installer manifest;
+- a single fail-closed Rayforge API-23 compatibility adapter around the
+  internal driver registry, with collision, drift and symmetric-cleanup tests.
 
 The remaining M1 gates are deliberately explicit:
 

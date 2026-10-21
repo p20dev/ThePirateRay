@@ -113,7 +113,9 @@ def run(source: Path, addon_path: Path) -> dict[str, object]:
         ),
         "lifecycle": ["load", "disable", "enable", "reload", "disable"],
         "packaged_files": packaged_files,
-        "registration_seam": "worker import side effect + on_unload cleanup",
+        "registration_seam": (
+            "fail-closed API 23 compatibility adapter + on_unload cleanup"
+        ),
     }
 
 

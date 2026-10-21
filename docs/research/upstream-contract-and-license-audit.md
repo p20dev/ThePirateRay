@@ -65,7 +65,10 @@ its manifest and sidecar; installer-only publication is not accepted.
 The immediate upstream contribution should be a narrow, addon-aware driver
 registry contract with symmetric registration and cleanup. Until upstream
 accepts such a contract, all internal registry access must remain isolated in
-one compatibility adapter and guarded by the hashes/symbol tests.
+one compatibility adapter and guarded by the hashes/symbol tests. The current
+addon now does this: its API-23 adapter rejects version drift, malformed
+registries, duplicate entries and foreign class-name collisions, and its
+load/disable/enable/reload lifecycle passes against the pinned checkout.
 
 ## Code-origin boundary
 

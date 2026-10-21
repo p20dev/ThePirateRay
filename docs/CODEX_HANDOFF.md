@@ -21,6 +21,7 @@ The repository now provides:
   synthetic inputs;
 - a fail-closed manual desktop-acceptance report and validator;
 - pinned upstream contract/license manifests and a drift checker;
+- a fail-closed API-23 adapter isolating Rayforge's internal driver registry;
 - a proposed MIT project-license decision in ADR 0003; Kaz has not accepted
   it, so the repository remains unlicensed.
 

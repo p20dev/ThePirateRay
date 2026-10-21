@@ -12,7 +12,6 @@ import struct
 from typing import Any
 
 from rayforge.core.hooks import hookimpl
-from rayforge.machine import driver as driver_registry
 from rayforge.machine.driver import NoDeviceDriver
 from rayforge.pipeline.encoder.base import (
     EncodedOutput,
@@ -24,6 +23,7 @@ from .offline_session import (
     OfflineJCZSession,
     OfflineSessionState,
 )
+from .rayforge_compat import register_driver, unregister_driver
 
 
 class OfflineJCZEncoder(OpsEncoder):
@@ -341,19 +341,11 @@ class PirateRayJCZNoDeviceDriver(NoDeviceDriver):
 
 
 def _register() -> None:
-    name = PirateRayJCZNoDeviceDriver.__name__
-    if name not in driver_registry.driver_by_classname:
-        driver_registry.register_driver(PirateRayJCZNoDeviceDriver)
+    register_driver(PirateRayJCZNoDeviceDriver)
 
 
 def _unregister() -> None:
-    name = PirateRayJCZNoDeviceDriver.__name__
-    registered = driver_registry.driver_by_classname.get(name)
-    if registered is PirateRayJCZNoDeviceDriver:
-        del driver_registry.driver_by_classname[name]
-    driver_registry.drivers[:] = [
-        item for item in driver_registry.drivers if item is not registered
-    ]
+    unregister_driver(PirateRayJCZNoDeviceDriver)
 
 
 # Rayforge currently has no driver registry in call_registration_hooks().

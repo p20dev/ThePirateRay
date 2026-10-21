@@ -28,6 +28,10 @@ class RayforgeAddonSpikeTests(unittest.TestCase):
             result["lifecycle"],
         )
         self.assertEqual(23, result["rayforge_api_version"])
+        self.assertEqual(
+            "fail-closed API 23 compatibility adapter + on_unload cleanup",
+            result["registration_seam"],
+        )
 
     def test_addon_contains_no_hardware_transport_import(self):
         source = "\n".join(

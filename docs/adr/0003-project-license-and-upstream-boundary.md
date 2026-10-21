@@ -58,6 +58,10 @@ Kaz must explicitly choose the project license. Until then this ADR remains
 Proposed, the README's no-license statement remains authoritative, and no root
 `LICENSE` file is created.
 
+The compatibility-adapter part of item 5 is implemented for the offline addon
+and fails closed outside Rayforge addon API 23. This implementation evidence
+does not accept this ADR or select the project license.
+
 See the
 [upstream contract and license audit](../research/upstream-contract-and-license-audit.md)
 for the evidence and API-stability assessment.
