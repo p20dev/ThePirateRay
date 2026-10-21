@@ -95,6 +95,7 @@ project workspace or development destination.
 
 ## Project map
 
+- [Current continuation brief](docs/CODEX_HANDOFF.md)
 - [Project charter](docs/project-charter.md)
 - [Product and research roadmap](docs/roadmap.md)
 - [MOPA workbench UX requirements](docs/design/mopa-workbench-ux.md)
