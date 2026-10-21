@@ -5,19 +5,30 @@ import unittest
 import zipfile
 from pathlib import Path
 
-from scripts.verify_rayforge_windows_checkpoint import ROOT, UPSTREAM, verify
+from scripts.verify_rayforge_windows_checkpoint import (
+    ADDON_SOURCE,
+    ROOT,
+    UPSTREAM,
+    verify,
+)
 
 
 ADDON_ROOT = "rayforge/builtin_addons/rayforge-addon-the-pirate-ray-jcz"
 
 
 class WindowsCheckpointVerifierTests(unittest.TestCase):
-    def _checkpoint(self, root: Path, unsafe_member: str | None = None) -> Path:
+    def _checkpoint(
+        self,
+        root: Path,
+        unsafe_member: str | None = None,
+        extra_addon_file: str | None = None,
+    ) -> Path:
         bundle_name = f"rayforge-vpirateray-{UPSTREAM['commit'][:12]}.zip"
         executable = bundle_name.removesuffix(".zip") + ".exe"
         addon_files = {
-            "rayforge-addon.yaml": b"name: the_pirate_ray_jcz\n",
-            "pirate_ray_jcz/worker.py": b"TRANSPORT = None\n",
+            path.relative_to(ADDON_SOURCE).as_posix(): path.read_bytes()
+            for path in sorted(ADDON_SOURCE.rglob("*"))
+            if path.is_file() and "__pycache__" not in path.parts
         }
         upstream = json.loads(
             (ROOT / "upstreams" / "rayforge.json").read_text(encoding="utf-8")
@@ -29,6 +40,11 @@ class WindowsCheckpointVerifierTests(unittest.TestCase):
             archive.writestr(f"{bundle_name[:-4]}/{executable}", b"synthetic")
             for relative, data in addon_files.items():
                 archive.writestr(f"{bundle_name[:-4]}/_internal/{ADDON_ROOT}/{relative}", data)
+            if extra_addon_file:
+                archive.writestr(
+                    f"{bundle_name[:-4]}/_internal/{ADDON_ROOT}/{extra_addon_file}",
+                    b"unexpected",
+                )
             archive.writestr(
                 f"{bundle_name[:-4]}/THIRD_PARTY_LICENSES/Rayforge-LICENSE.txt",
                 license_data,
@@ -79,7 +95,11 @@ class WindowsCheckpointVerifierTests(unittest.TestCase):
             result = verify(self._checkpoint(Path(directory)))
         self.assertEqual(result["status"], "passed")
         self.assertFalse(result["executed_binaries"])
-        self.assertEqual(result["verified_addon_files"], 2)
+        expected_count = sum(
+            path.is_file() and "__pycache__" not in path.parts
+            for path in ADDON_SOURCE.rglob("*")
+        )
+        self.assertEqual(result["verified_addon_files"], expected_count)
 
     def test_modified_installer_is_rejected(self):
         with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
@@ -110,6 +130,30 @@ class WindowsCheckpointVerifierTests(unittest.TestCase):
             data = json.loads(manifest.read_text(encoding="utf-8"))
             (manifest.parent / data["license_files"][0]["path"]).unlink()
             with self.assertRaises(FileNotFoundError):
+                verify(manifest)
+
+    def test_manifest_cannot_omit_or_change_repository_addon_source(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
+            manifest = self._checkpoint(Path(directory))
+            data = json.loads(manifest.read_text(encoding="utf-8"))
+            data["addon_source_files"].pop()
+            manifest.write_text(json.dumps(data), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "file list does not match"):
+                verify(manifest)
+
+            manifest = self._checkpoint(Path(directory))
+            data = json.loads(manifest.read_text(encoding="utf-8"))
+            data["addon_source_files"][0]["sha256"] = "0" * 64
+            manifest.write_text(json.dumps(data), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "differs from repository"):
+                verify(manifest)
+
+    def test_unlisted_packaged_addon_file_is_rejected(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
+            manifest = self._checkpoint(
+                Path(directory), extra_addon_file="pirate_ray_jcz/transport.py"
+            )
+            with self.assertRaisesRegex(ValueError, "file set does not match"):
                 verify(manifest)
 
 

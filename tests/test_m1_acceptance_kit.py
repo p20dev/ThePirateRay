@@ -6,6 +6,7 @@ from pathlib import Path
 
 from scripts.prepare_m1_acceptance_kit import (
     KIT_FILES,
+    EXPECTED_ADDON_FILES,
     RAYFORGE_COMMIT,
     REPORT_TEMPLATE,
     ROOT,
@@ -24,7 +25,7 @@ class M1AcceptanceKitTests(unittest.TestCase):
             "rayforge_commit": RAYFORGE_COMMIT,
             "bundle_sha256": "1" * 64,
             "installer_sha256": "2" * 64,
-            "verified_addon_files": 7,
+            "verified_addon_files": EXPECTED_ADDON_FILES,
         }
 
     def test_kit_contains_only_allowlisted_public_inputs(self):

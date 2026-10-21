@@ -11,6 +11,7 @@ from pathlib import Path, PurePosixPath
 
 
 ROOT = Path(__file__).resolve().parents[1]
+ADDON_SOURCE = ROOT / "spikes" / "rayforge-jcz-no-device-addon"
 UPSTREAM = json.loads(
     (ROOT / "upstreams" / "rayforge.json").read_text(encoding="utf-8")
 )
@@ -44,6 +45,24 @@ def _check_file(root: Path, record: dict, label: str) -> Path:
     return path
 
 
+def _expected_addon_files() -> dict[PurePosixPath, str]:
+    return {
+        PurePosixPath(path.relative_to(ADDON_SOURCE).as_posix()): _digest(
+            path.read_bytes()
+        )
+        for path in sorted(ADDON_SOURCE.rglob("*"))
+        if path.is_file() and "__pycache__" not in path.parts
+    }
+
+
+def _relative_below(path: PurePosixPath, root: PurePosixPath) -> PurePosixPath | None:
+    root_parts = root.parts
+    for index in range(len(path.parts) - len(root_parts)):
+        if path.parts[index : index + len(root_parts)] == root_parts:
+            return PurePosixPath(*path.parts[index + len(root_parts) :])
+    return None
+
+
 def verify(manifest_path: Path) -> dict:
     manifest_path = manifest_path.resolve()
     manifest = json.loads(manifest_path.read_text(encoding="utf-8-sig"))
@@ -69,6 +88,23 @@ def verify(manifest_path: Path) -> dict:
     packaged_root = PurePosixPath(manifest["addon_packaged_root"])
     if packaged_root.is_absolute() or ".." in packaged_root.parts:
         raise ValueError("unsafe packaged addon root")
+    expected_addon = _expected_addon_files()
+    manifest_addon = {}
+    for record in manifest.get("addon_source_files", []):
+        relative = PurePosixPath(record.get("path", ""))
+        if (
+            not relative.parts
+            or relative.is_absolute()
+            or ".." in relative.parts
+            or relative in manifest_addon
+        ):
+            raise ValueError(f"unsafe or duplicate addon source path: {relative}")
+        manifest_addon[relative] = record.get("sha256", "")
+    if set(manifest_addon) != set(expected_addon):
+        raise ValueError("checkpoint addon file list does not match the repository")
+    for relative, digest in manifest_addon.items():
+        if digest != expected_addon[relative]:
+            raise ValueError(f"checkpoint addon source differs from repository: {relative}")
 
     with zipfile.ZipFile(bundle) as archive:
         files = {
@@ -92,24 +128,19 @@ def verify(manifest_path: Path) -> dict:
         if _text_digest_lf(archive.read(files[license_matches[0]])) != expected_license_hash:
             raise ValueError("bundled Rayforge license does not match the pinned upstream")
 
-        verified_addon_files = 0
-        for record in manifest["addon_source_files"]:
-            relative = PurePosixPath(record["path"])
-            if relative.is_absolute() or ".." in relative.parts:
-                raise ValueError("unsafe addon source path")
-            matches = [
-                path for path in files
-                if tuple(path.parts[-len((packaged_root / relative).parts):])
-                == (packaged_root / relative).parts
-            ]
-            if len(matches) != 1:
-                raise ValueError(f"packaged addon file missing or ambiguous: {relative}")
-            digest = record.get("sha256", "")
-            if not SHA256.fullmatch(digest):
-                raise ValueError(f"invalid addon SHA-256: {relative}")
-            if _digest(archive.read(files[matches[0]])) != digest:
+        packaged_addon = {}
+        for path in files:
+            relative = _relative_below(path, packaged_root)
+            if relative is not None:
+                if relative in packaged_addon:
+                    raise ValueError(f"packaged addon file is ambiguous: {relative}")
+                packaged_addon[relative] = path
+        if set(packaged_addon) != set(expected_addon):
+            raise ValueError("packaged addon file set does not match the repository")
+        for relative, digest in expected_addon.items():
+            if _digest(archive.read(files[packaged_addon[relative]])) != digest:
                 raise ValueError(f"packaged addon SHA-256 mismatch: {relative}")
-            verified_addon_files += 1
+        verified_addon_files = len(packaged_addon)
 
     return {
         "status": "passed",

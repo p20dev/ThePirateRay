@@ -53,8 +53,10 @@ python scripts/verify_rayforge_windows_checkpoint.py `
 
 The verifier requires checkpoint schema 2 and portable artifact names, checks
 sizes and SHA-256 digests, rejects unsafe ZIP paths, confirms the pinned
-Rayforge commit, compares every packaged addon file with its recorded digest,
-and requires the pinned Rayforge license both inside the ZIP and as a sidecar.
+Rayforge commit, requires the manifest and bundle to contain exactly the
+versioned repository addon file set with matching digests, and requires the
+pinned Rayforge license both inside the ZIP and as a sidecar. Missing, changed
+or additional addon files fail verification.
 It never executes the application or installer, and a passing result retains
 the manual GUI interaction gate. The installer, manifest and license sidecar
 form one distribution set.
@@ -99,7 +101,8 @@ generated manual report to the kit manifest, repository commit and copied
 artifact-verification report by SHA-256. Editing, replacing or referring to an
 external provenance report therefore fails validation. The copied report must
 also name the pinned Rayforge commit, contain valid bundle and installer
-SHA-256 values, and confirm that at least one packaged addon file was verified.
+SHA-256 values, and confirm that the exact current addon file count was
+verified.
 
 1. Pass the non-executing artifact verifier above.
 2. Launch the portable build with a fresh application-data directory.

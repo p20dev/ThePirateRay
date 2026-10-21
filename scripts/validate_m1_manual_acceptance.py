@@ -36,6 +36,10 @@ STOP_CONDITIONS = (
 STEP_STATUSES = {"passed", "failed", "blocked", "not_run"}
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
 GIT_COMMIT = re.compile(r"^[0-9a-f]{40}$")
+EXPECTED_ADDON_FILES = sum(
+    path.is_file() and "__pycache__" not in path.parts
+    for path in (ROOT / "spikes" / "rayforge-jcz-no-device-addon").rglob("*")
+)
 
 
 def _validate_evidence(report_root: Path, records: list[dict]) -> list[str]:
@@ -120,11 +124,8 @@ def _validate_artifact_report(report_root: Path, binding: dict) -> list[str]:
         errors.append("artifact verification has an invalid bundle SHA-256")
     if SHA256.fullmatch(verification.get("installer_sha256", "")) is None:
         errors.append("artifact verification has an invalid installer SHA-256")
-    if (
-        not isinstance(verification.get("verified_addon_files"), int)
-        or verification.get("verified_addon_files", 0) <= 0
-    ):
-        errors.append("artifact verification did not verify addon files")
+    if verification.get("verified_addon_files") != EXPECTED_ADDON_FILES:
+        errors.append("artifact verification did not verify the exact addon file set")
     return errors
 
 

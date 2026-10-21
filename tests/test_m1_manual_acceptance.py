@@ -6,6 +6,7 @@ import unittest
 from pathlib import Path
 
 from scripts.validate_m1_manual_acceptance import (
+    EXPECTED_ADDON_FILES,
     RAYFORGE_COMMIT,
     ROOT,
     STEP_IDS,
@@ -49,7 +50,7 @@ class M1ManualAcceptanceTests(unittest.TestCase):
             "rayforge_commit": RAYFORGE_COMMIT,
             "bundle_sha256": "1" * 64,
             "installer_sha256": "2" * 64,
-            "verified_addon_files": 7,
+            "verified_addon_files": EXPECTED_ADDON_FILES,
         }
         verification_path = root / "artifact-verification.json"
         verification_path.write_text(json.dumps(verification), encoding="utf-8")

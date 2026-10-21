@@ -17,6 +17,7 @@ The repository now provides:
 - an on-demand source/build entry point that never installs the Windows
   toolchain;
 - a non-executing verifier for externally produced Windows artifacts;
+  it requires an exact repository-to-manifest-to-ZIP addon file set;
 - a checksummed acceptance-kit generator containing only allowlisted public
   synthetic inputs, with provenance binding to the repository commit and
   non-executing artifact-verification report, including the Rayforge pin and

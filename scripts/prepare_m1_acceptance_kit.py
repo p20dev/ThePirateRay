@@ -16,6 +16,10 @@ RAYFORGE_COMMIT = json.loads(
     (ROOT / "upstreams" / "rayforge.json").read_text(encoding="utf-8")
 )["commit"]
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
+EXPECTED_ADDON_FILES = sum(
+    path.is_file() and "__pycache__" not in path.parts
+    for path in (ROOT / "spikes" / "rayforge-jcz-no-device-addon").rglob("*")
+)
 REPORT_TEMPLATE = "tests/fixtures/m1-manual-acceptance-template.json"
 KIT_FILES = {
     "inputs/synthetic-mopa-import.lbrn2": "tests/fixtures/synthetic-mopa-import.lbrn2",
@@ -60,8 +64,7 @@ def create_kit(
             or verification.get("rayforge_commit") != RAYFORGE_COMMIT
             or SHA256.fullmatch(verification.get("bundle_sha256", "")) is None
             or SHA256.fullmatch(verification.get("installer_sha256", "")) is None
-            or not isinstance(verification.get("verified_addon_files"), int)
-            or verification.get("verified_addon_files", 0) <= 0
+            or verification.get("verified_addon_files") != EXPECTED_ADDON_FILES
         ):
             raise ValueError("artifact-verification report did not pass the no-device gate")
 
