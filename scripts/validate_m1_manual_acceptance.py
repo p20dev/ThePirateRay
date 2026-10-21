@@ -32,6 +32,7 @@ STOP_CONDITIONS = (
 )
 STEP_STATUSES = {"passed", "failed", "blocked", "not_run"}
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
+GIT_COMMIT = re.compile(r"^[0-9a-f]{40}$")
 
 
 def _validate_evidence(report_root: Path, records: list[dict]) -> list[str]:
@@ -58,11 +59,66 @@ def _validate_evidence(report_root: Path, records: list[dict]) -> list[str]:
     return errors
 
 
+def _bound_json(report_root: Path, binding: dict, label: str) -> tuple[dict | None, list[str]]:
+    value = binding.get("report_path") or binding.get("manifest_path") or ""
+    relative = PurePosixPath(value)
+    if not value or relative.is_absolute() or ".." in relative.parts:
+        return None, [f"unsafe {label} path: {value!r}"]
+    path = report_root.joinpath(*relative.parts)
+    if not path.is_file():
+        return None, [f"{label} is missing: {value}"]
+    digest = binding.get("report_sha256") or binding.get("manifest_sha256") or ""
+    actual = hashlib.sha256(path.read_bytes()).hexdigest()
+    if not SHA256.fullmatch(digest) or digest != actual:
+        return None, [f"{label} SHA-256 mismatch: {value}"]
+    try:
+        return json.loads(path.read_text(encoding="utf-8-sig")), []
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return None, [f"{label} is not valid JSON: {value}"]
+
+
+def _validate_kit(report_root: Path, binding: dict) -> list[str]:
+    manifest, errors = _bound_json(report_root, binding, "acceptance-kit manifest")
+    if errors:
+        return errors
+    if manifest.get("schema_version") != 2:
+        errors.append("unsupported acceptance-kit schema")
+    if manifest.get("kit") != "M1 packaged no-device desktop acceptance":
+        errors.append("unexpected acceptance-kit name")
+    commit = binding.get("repository_commit", "")
+    if not GIT_COMMIT.fullmatch(commit) or manifest.get("repository_commit") != commit:
+        errors.append("acceptance-kit repository commit mismatch")
+    if manifest.get("hardware_access_authorized") is not False:
+        errors.append("acceptance kit does not preserve the hardware gate")
+    if manifest.get("contains_private_evidence") is not False:
+        errors.append("acceptance kit contains private evidence")
+    for record in manifest.get("files", []):
+        errors.extend(_validate_evidence(report_root, [record]))
+    return errors
+
+
+def _validate_artifact_report(report_root: Path, binding: dict) -> list[str]:
+    verification, errors = _bound_json(
+        report_root, binding, "artifact-verification report"
+    )
+    if errors:
+        return errors
+    if verification.get("status") != "passed":
+        errors.append("artifact verification did not pass")
+    if verification.get("hardware_access") is not False:
+        errors.append("artifact verification does not preserve the hardware gate")
+    if verification.get("executed_binaries") is not False:
+        errors.append("artifact verification executed binaries")
+    if verification.get("manual_interaction_required") is not True:
+        errors.append("artifact verification dropped the manual interaction gate")
+    return errors
+
+
 def validate(report_path: Path) -> dict:
     report_path = report_path.resolve()
     report = json.loads(report_path.read_text(encoding="utf-8-sig"))
     errors = []
-    if report.get("schema_version") != 1:
+    if report.get("schema_version") != 2:
         errors.append("unsupported report schema")
     if report.get("checkpoint") != "M1 packaged no-device desktop acceptance":
         errors.append("unexpected checkpoint name")
@@ -83,6 +139,10 @@ def validate(report_path: Path) -> dict:
 
     environment = report.get("environment", {})
     artifact = report.get("artifact_verification", {})
+    kit = report.get("acceptance_kit", {})
+    errors.extend(_validate_kit(report_path.parent, kit))
+    artifact_errors = _validate_artifact_report(report_path.parent, artifact)
+    errors.extend(artifact_errors)
     errors.extend(_validate_evidence(report_path.parent, report.get("evidence", [])))
 
     explicit_failure = (
@@ -101,7 +161,7 @@ def validate(report_path: Path) -> dict:
         and environment.get("fresh_app_data") is True
         and bool(environment.get("windows_version"))
         and artifact.get("status") == "passed"
-        and SHA256.fullmatch(artifact.get("report_sha256", "")) is not None
+        and not artifact_errors
     )
     status = "failed" if explicit_failure or errors else "passed" if complete else "incomplete"
     return {

@@ -20,12 +20,41 @@ class M1ManualAcceptanceTests(unittest.TestCase):
         path.write_text(json.dumps(report), encoding="utf-8")
         return path
 
-    def _passing(self, root: Path) -> dict:
-        report = copy.deepcopy(self.template)
+    def _bind_reports(self, root: Path, report: dict) -> None:
+        manifest = {
+            "schema_version": 2,
+            "kit": "M1 packaged no-device desktop acceptance",
+            "repository_commit": "b" * 40,
+            "hardware_access_authorized": False,
+            "contains_private_evidence": False,
+            "files": [],
+        }
+        manifest_path = root / "kit-manifest.json"
+        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        report["acceptance_kit"] = {
+            "manifest_path": manifest_path.name,
+            "manifest_sha256": hashlib.sha256(manifest_path.read_bytes()).hexdigest(),
+            "repository_commit": "b" * 40,
+        }
+        verification = {
+            "status": "passed",
+            "hardware_access": False,
+            "executed_binaries": False,
+            "manual_interaction_required": True,
+        }
+        verification_path = root / "artifact-verification.json"
+        verification_path.write_text(json.dumps(verification), encoding="utf-8")
         report["artifact_verification"] = {
             "status": "passed",
-            "report_sha256": "a" * 64,
+            "report_path": verification_path.name,
+            "report_sha256": hashlib.sha256(
+                verification_path.read_bytes()
+            ).hexdigest(),
         }
+
+    def _passing(self, root: Path) -> dict:
+        report = copy.deepcopy(self.template)
+        self._bind_reports(root, report)
         report["environment"] = {
             "windows_version": "synthetic-test-environment",
             "hardware_disconnected": True,
@@ -37,7 +66,7 @@ class M1ManualAcceptanceTests(unittest.TestCase):
             key: False for key in report["stop_conditions"]
         }
         screenshot = root / "evidence" / "offline-state.png"
-        screenshot.parent.mkdir()
+        screenshot.parent.mkdir(exist_ok=True)
         screenshot.write_bytes(b"synthetic screenshot placeholder")
         report["evidence"] = [{
             "path": "evidence/offline-state.png",
@@ -47,7 +76,11 @@ class M1ManualAcceptanceTests(unittest.TestCase):
 
     def test_template_is_valid_but_incomplete(self):
         with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
-            result = validate(self._write(Path(directory), self.template))
+            root = Path(directory)
+            report = copy.deepcopy(self.template)
+            self._bind_reports(root, report)
+            report["artifact_verification"]["status"] = "not_run"
+            result = validate(self._write(root, report))
         self.assertEqual(result["status"], "incomplete")
         self.assertTrue(result["schema_valid"])
         self.assertEqual(result["required_steps"], len(STEP_IDS))
@@ -87,6 +120,21 @@ class M1ManualAcceptanceTests(unittest.TestCase):
             report["evidence"][0]["path"] = "../private.png"
             result = validate(self._write(root, report))
             self.assertEqual(result["status"], "failed")
+
+    def test_unbound_or_changed_provenance_reports_are_rejected(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
+            root = Path(directory)
+            report = self._passing(root)
+            report["artifact_verification"]["report_sha256"] = "0" * 64
+            result = validate(self._write(root, report))
+            self.assertEqual(result["status"], "failed")
+            self.assertIn("artifact-verification report SHA-256 mismatch", result["errors"][0])
+
+            report = self._passing(root)
+            report["acceptance_kit"]["repository_commit"] = "c" * 40
+            result = validate(self._write(root, report))
+            self.assertEqual(result["status"], "failed")
+            self.assertIn("acceptance-kit repository commit mismatch", result["errors"])
 
 
 if __name__ == "__main__":

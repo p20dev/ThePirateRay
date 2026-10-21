@@ -1,8 +1,14 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "checkpoint": "M1 packaged no-device desktop acceptance",
+  "acceptance_kit": {
+    "manifest_path": null,
+    "manifest_sha256": null,
+    "repository_commit": null
+  },
   "artifact_verification": {
     "status": "not_run",
+    "report_path": null,
     "report_sha256": null
   },
   "environment": {

@@ -83,8 +83,9 @@ evidence for:
 - a versioned manual desktop-acceptance template and validator that cannot
   pass missing steps, connected hardware, changed evidence or stop conditions;
 - a deterministic acceptance-kit generator that copies only four allowlisted
-  public synthetic inputs, hashes them and refuses to overwrite an existing
-  run directory;
+  public template/input sources, hashes the three immutable inputs, refuses to
+  overwrite an existing run directory, and binds the report to the exact kit,
+  repository commit and artifact-verification report;
 - pinned Rayforge and MeerK40t license/source contracts with drift tests, plus
   checkpoint schema 2 requiring the Rayforge MIT notice in the portable ZIP
   and beside the installer manifest;

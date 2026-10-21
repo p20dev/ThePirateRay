@@ -18,7 +18,8 @@ The repository now provides:
   toolchain;
 - a non-executing verifier for externally produced Windows artifacts;
 - a checksummed acceptance-kit generator containing only allowlisted public
-  synthetic inputs;
+  synthetic inputs, with provenance binding to the repository commit and
+  non-executing artifact-verification report;
 - a fail-closed manual desktop-acceptance report and validator;
 - pinned upstream contract/license manifests and a drift checker;
 - a fail-closed API-23 adapter isolating Rayforge's internal driver registry;

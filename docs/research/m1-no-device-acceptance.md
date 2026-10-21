@@ -83,16 +83,21 @@ Use only the isolated no-device profile and an empty work area. Do not connect
 or configure a controller.
 
 Prepare a fresh, checksummed kit containing only the public synthetic inputs
-and a new report template:
+and a new report template. Bind the passing non-executing artifact-verification
+report into the kit at creation time:
 
 ```powershell
-python scripts/prepare_m1_acceptance_kit.py
+python scripts/prepare_m1_acceptance_kit.py `
+  --artifact-verification .build/artifacts/rayforge-windows-verification.json
 ```
 
 The default output is `.build/acceptance-kit/`. The generator uses a fixed
 public allowlist, records the repository commit and refuses to overwrite a
 non-empty directory. It does not include the application bundle, private
-LightBurn evidence or any machine data.
+LightBurn evidence or any machine data. Acceptance-kit schema 2 binds the
+generated manual report to the kit manifest, repository commit and copied
+artifact-verification report by SHA-256. Editing, replacing or referring to an
+external provenance report therefore fails validation.
 
 1. Pass the non-executing artifact verifier above.
 2. Launch the portable build with a fresh application-data directory.
@@ -121,7 +126,8 @@ python scripts/validate_m1_manual_acceptance.py `
   --output .build/acceptance-kit/manual-validation.json
 ```
 
-The validator verifies evidence hashes and relative paths. It reports
+The validator verifies the kit manifest, repository commit, artifact report,
+evidence hashes and relative paths. It reports
 `incomplete` for any unrun or blocked scenario and `failed` for a failed step,
 connected hardware, non-isolated app data, changed evidence or any stop
 condition. Even a complete `passed` report still requires human review and
