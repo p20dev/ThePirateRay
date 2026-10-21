@@ -6,6 +6,7 @@ from pathlib import Path
 
 from scripts.prepare_m1_acceptance_kit import (
     KIT_FILES,
+    RAYFORGE_COMMIT,
     REPORT_TEMPLATE,
     ROOT,
     create_kit,
@@ -13,6 +14,19 @@ from scripts.prepare_m1_acceptance_kit import (
 
 
 class M1AcceptanceKitTests(unittest.TestCase):
+    @staticmethod
+    def _verification(status="passed"):
+        return {
+            "status": status,
+            "hardware_access": False,
+            "executed_binaries": False,
+            "manual_interaction_required": True,
+            "rayforge_commit": RAYFORGE_COMMIT,
+            "bundle_sha256": "1" * 64,
+            "installer_sha256": "2" * 64,
+            "verified_addon_files": 7,
+        }
+
     def test_kit_contains_only_allowlisted_public_inputs(self):
         with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
             output = Path(directory) / "kit"
@@ -70,12 +84,9 @@ class M1AcceptanceKitTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
             root = Path(directory)
             verification = root / "verification.json"
-            verification.write_text(json.dumps({
-                "status": "passed",
-                "hardware_access": False,
-                "executed_binaries": False,
-                "manual_interaction_required": True,
-            }), encoding="utf-8")
+            verification.write_text(
+                json.dumps(self._verification()), encoding="utf-8"
+            )
             output = root / "kit"
             create_kit(
                 output,
@@ -95,12 +106,24 @@ class M1AcceptanceKitTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
             root = Path(directory)
             verification = root / "verification.json"
-            verification.write_text(json.dumps({
-                "status": "failed",
-                "hardware_access": False,
-                "executed_binaries": False,
-                "manual_interaction_required": True,
-            }), encoding="utf-8")
+            verification.write_text(
+                json.dumps(self._verification(status="failed")), encoding="utf-8"
+            )
+            with self.assertRaisesRegex(ValueError, "did not pass"):
+                create_kit(
+                    root / "kit",
+                    repository_commit="f" * 40,
+                    artifact_verification=verification,
+                )
+
+    def test_wrong_rayforge_pin_or_missing_hashes_are_rejected(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
+            root = Path(directory)
+            verification = root / "verification.json"
+            result = self._verification()
+            result["rayforge_commit"] = "0" * 40
+            result["bundle_sha256"] = "not-a-hash"
+            verification.write_text(json.dumps(result), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "did not pass"):
                 create_kit(
                     root / "kit",

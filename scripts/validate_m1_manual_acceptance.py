@@ -10,6 +10,9 @@ from pathlib import Path, PurePosixPath
 
 
 ROOT = Path(__file__).resolve().parents[1]
+RAYFORGE_COMMIT = json.loads(
+    (ROOT / "upstreams" / "rayforge.json").read_text(encoding="utf-8")
+)["commit"]
 STEP_IDS = (
     "artifact_verified",
     "isolated_portable_launch",
@@ -111,6 +114,17 @@ def _validate_artifact_report(report_root: Path, binding: dict) -> list[str]:
         errors.append("artifact verification executed binaries")
     if verification.get("manual_interaction_required") is not True:
         errors.append("artifact verification dropped the manual interaction gate")
+    if verification.get("rayforge_commit") != RAYFORGE_COMMIT:
+        errors.append("artifact verification uses the wrong Rayforge commit")
+    if SHA256.fullmatch(verification.get("bundle_sha256", "")) is None:
+        errors.append("artifact verification has an invalid bundle SHA-256")
+    if SHA256.fullmatch(verification.get("installer_sha256", "")) is None:
+        errors.append("artifact verification has an invalid installer SHA-256")
+    if (
+        not isinstance(verification.get("verified_addon_files"), int)
+        or verification.get("verified_addon_files", 0) <= 0
+    ):
+        errors.append("artifact verification did not verify addon files")
     return errors
 
 

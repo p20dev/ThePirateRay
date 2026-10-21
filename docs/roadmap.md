@@ -332,7 +332,8 @@ A reproducible kit generator copies only allowlisted synthetic inputs into the
 ignored build area, records their hashes and refuses to overwrite an existing
 test run. Its schema-2 provenance chain binds the editable manual report to the
 exact kit manifest, repository commit and non-executing artifact-verification
-report; substituted or changed inputs fail validation.
+report; substituted or changed inputs, a different Rayforge pin, malformed
+artifact hashes or an unverified addon fail validation.
 The pinned upstream contracts and license notices are now machine-verifiable.
 Rayforge's documented addon lifecycle is viable, but production driver
 registration still needs a supported symmetric registry API. The current

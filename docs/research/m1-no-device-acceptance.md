@@ -97,7 +97,9 @@ non-empty directory. It does not include the application bundle, private
 LightBurn evidence or any machine data. Acceptance-kit schema 2 binds the
 generated manual report to the kit manifest, repository commit and copied
 artifact-verification report by SHA-256. Editing, replacing or referring to an
-external provenance report therefore fails validation.
+external provenance report therefore fails validation. The copied report must
+also name the pinned Rayforge commit, contain valid bundle and installer
+SHA-256 values, and confirm that at least one packaged addon file was verified.
 
 1. Pass the non-executing artifact verifier above.
 2. Launch the portable build with a fresh application-data directory.

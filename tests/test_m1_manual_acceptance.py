@@ -5,7 +5,12 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.validate_m1_manual_acceptance import ROOT, STEP_IDS, validate
+from scripts.validate_m1_manual_acceptance import (
+    RAYFORGE_COMMIT,
+    ROOT,
+    STEP_IDS,
+    validate,
+)
 
 
 TEMPLATE = ROOT / "tests" / "fixtures" / "m1-manual-acceptance-template.json"
@@ -41,6 +46,10 @@ class M1ManualAcceptanceTests(unittest.TestCase):
             "hardware_access": False,
             "executed_binaries": False,
             "manual_interaction_required": True,
+            "rayforge_commit": RAYFORGE_COMMIT,
+            "bundle_sha256": "1" * 64,
+            "installer_sha256": "2" * 64,
+            "verified_addon_files": 7,
         }
         verification_path = root / "artifact-verification.json"
         verification_path.write_text(json.dumps(verification), encoding="utf-8")
@@ -135,6 +144,23 @@ class M1ManualAcceptanceTests(unittest.TestCase):
             result = validate(self._write(root, report))
             self.assertEqual(result["status"], "failed")
             self.assertIn("acceptance-kit repository commit mismatch", result["errors"])
+
+    def test_wrong_artifact_pin_and_invalid_artifact_hashes_are_rejected(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / ".build") as directory:
+            root = Path(directory)
+            report = self._passing(root)
+            verification_path = root / report["artifact_verification"]["report_path"]
+            verification = json.loads(verification_path.read_text(encoding="utf-8"))
+            verification["rayforge_commit"] = "0" * 40
+            verification["installer_sha256"] = "invalid"
+            verification_path.write_text(json.dumps(verification), encoding="utf-8")
+            report["artifact_verification"]["report_sha256"] = hashlib.sha256(
+                verification_path.read_bytes()
+            ).hexdigest()
+            result = validate(self._write(root, report))
+        self.assertEqual("failed", result["status"])
+        self.assertIn("artifact verification uses the wrong Rayforge commit", result["errors"])
+        self.assertIn("artifact verification has an invalid installer SHA-256", result["errors"])
 
 
 if __name__ == "__main__":
