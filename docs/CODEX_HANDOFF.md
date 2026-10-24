@@ -54,11 +54,12 @@ python scripts/check_public_repo.py .
 The closed-application local settings directory is now preserved and hashed in
 PrivateStash; see `docs/research/lightburn-local-settings-2026-10-24.md`.
 The operator confirmed a 110 mm installed lens. General local project candidates
-remain excluded as unverified. The operator subsequently selected two specific
+remain excluded as unverified. The operator subsequently selected three specific
 successful projects; their verified private copies establish project-level
 `frequency` and `QPulseWidth` serialization. See
-`docs/research/lightburn-verified-projects-2026-10-24.md`. One layer omits
-`QPulseWidth`; its effective default remains unresolved.
+`docs/research/lightburn-verified-projects-2026-10-24.md`. One Scan setting and
+two `CutSetting_Img` image settings omit `QPulseWidth`; its effective default
+remains unresolved. Both image settings record `ditherMode="3dslice"`.
 
 M1 is not complete. Do not describe the repository as a finished desktop
 application until both gates below have real evidence:

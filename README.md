@@ -43,7 +43,7 @@ are preserved and analyzed. The operator confirmed a 110 mm lens; local test
 projects are unverified and must not be used as working-project evidence. See
 the [local settings acquisition](docs/research/lightburn-local-settings-2026-10-24.md).
 
-Two operator-verified projects now establish project-level `frequency` and
+Three operator-verified projects now establish project-level `frequency` and
 `QPulseWidth` serialization; see the
 [verified-project analysis](docs/research/lightburn-verified-projects-2026-10-24.md).
 Missing pulse width still requires explicit resolution before executable import.
