@@ -79,6 +79,12 @@ if ($PSCmdlet.ShouldProcess($addonDestination, "Stage no-device addon")) {
     New-Item -ItemType Directory -Force -Path $addonDestination | Out-Null
     Copy-Item -Path (Join-Path $addonSource "*") `
         -Destination $addonDestination -Recurse -Force
+    Get-ChildItem -LiteralPath $addonDestination -Recurse -Directory -Force |
+        Where-Object { $_.Name -eq "__pycache__" } |
+        Remove-Item -Recurse -Force
+    Get-ChildItem -LiteralPath $addonDestination -Recurse -File -Force |
+        Where-Object { $_.Extension -eq ".pyc" } |
+        Remove-Item -Force
 }
 
 $prepareArguments = @{
@@ -86,9 +92,20 @@ $prepareArguments = @{
     BuildWindowsBundle = $true
     AllowStagedPirateRayAddon = $true
 }
-& (Join-Path $PSScriptRoot "prepare_rayforge_build.ps1") @prepareArguments
-if ($LASTEXITCODE -ne 0) {
-    throw "Pinned Rayforge Windows bundle build failed"
+$pyInstallerSiteCustomize = Join-Path $PSScriptRoot "pyinstaller-sitecustomize"
+$previousPythonPath = $env:PYTHONPATH
+try {
+    $env:PYTHONPATH = if ($previousPythonPath) {
+        "$pyInstallerSiteCustomize;$previousPythonPath"
+    } else {
+        $pyInstallerSiteCustomize
+    }
+    & (Join-Path $PSScriptRoot "prepare_rayforge_build.ps1") @prepareArguments
+    if ($LASTEXITCODE -ne 0) {
+        throw "Pinned Rayforge Windows bundle build failed"
+    }
+} finally {
+    $env:PYTHONPATH = $previousPythonPath
 }
 
 $bundleName = "rayforge-vpirateray-$shortCommit"
@@ -132,6 +149,10 @@ if ($PSCmdlet.ShouldProcess($archive, "Create portable checkpoint archive")) {
 }
 
 $addonFiles = Get-ChildItem -LiteralPath $addonSource -Recurse -File |
+    Where-Object {
+        $_.Extension -ne ".pyc" -and
+        $_.FullName -notmatch '[\\/]__pycache__[\\/]'
+    } |
     Sort-Object FullName |
     ForEach-Object {
         [ordered]@{

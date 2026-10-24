@@ -6,6 +6,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ACCEPTANCE = ROOT / "scripts" / "run_m1_no_device_acceptance.py"
 BUILD = ROOT / "scripts" / "build_rayforge_windows_checkpoint.ps1"
+PYINSTALLER_SITE_CUSTOMIZE = (
+    ROOT / "scripts" / "pyinstaller-sitecustomize" / "sitecustomize.py"
+)
 VERIFY = ROOT / "scripts" / "verify_rayforge_windows_checkpoint.py"
 UPSTREAM = ROOT / "upstreams" / "rayforge.json"
 
@@ -54,6 +57,14 @@ class M1AcceptancePipelineTests(unittest.TestCase):
         self.assertIn("-LiteralPath $artifactInstaller", source)
         self.assertIn("checkout must be clean", source)
         self.assertIn("Artifact root must be absent or empty", source)
+        self.assertIn('Name -eq "__pycache__"', source)
+        self.assertIn('Extension -eq ".pyc"', source)
+        self.assertIn('Extension -ne ".pyc"', source)
+        self.assertIn("pyinstaller-sitecustomize", source)
+        self.assertIn("$env:PYTHONPATH", source)
+
+        site_customize = PYINSTALLER_SITE_CUSTOMIZE.read_text(encoding="utf-8")
+        self.assertIn("gi.disable_legacy_autoinit()", site_customize)
 
     def test_acceptance_has_no_hardware_commands(self):
         source = ACCEPTANCE.read_text(encoding="utf-8").lower()
