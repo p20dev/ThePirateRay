@@ -9,6 +9,7 @@ sys.path.insert(0, str(ADDON))
 from pirate_ray_jcz.import_preflight import (
     ImportPreflightError, assert_no_unresolved_imports, inspect_imported_workflow,
 )
+from pirate_ray_jcz.preflight_presentation import format_preflight_report
 from pirate_ray_jcz.workflow_import import METADATA_KEY
 
 
@@ -69,6 +70,31 @@ class ImportPreflightTests(unittest.TestCase):
         preflight = source.index("assert_no_unresolved_imports(doc)")
         prepare = source.index("self.offline_session.prepare(encoded)")
         self.assertLess(preflight, prepare)
+
+    def test_packaged_presentation_lists_stable_blocker_codes(self):
+        presentation = format_preflight_report(
+            inspect_imported_workflow(document(imported_step()))
+        )
+        self.assertEqual("blocked", presentation["status"])
+        self.assertEqual("Import preflight blocked", presentation["heading"])
+        self.assertIn("IMPORT_REVIEW_REQUIRED", presentation["body"])
+        self.assertIn("Output remains disabled", presentation["body"])
+
+    def test_packaged_presentation_fails_closed_on_malformed_report(self):
+        for report in (None, {}, {"ready": True, "issues": [{}]}):
+            with self.subTest(report=report):
+                presentation = format_preflight_report(report)
+                self.assertEqual("blocked", presentation["status"])
+                self.assertIn("malformed", presentation["body"])
+
+    def test_frontend_registers_read_only_tools_action(self):
+        source = (ADDON / "pirate_ray_jcz" / "frontend.py").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('ACTION_NAME = "pirateray-import-preflight"', source)
+        self.assertIn('menu_id="tools"', source)
+        self.assertIn("inspect_imported_workflow(action_manager.doc)", source)
+        self.assertNotIn("machine_cmd", source)
 
 
 if __name__ == "__main__":

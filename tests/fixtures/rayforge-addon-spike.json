@@ -17,8 +17,10 @@
   ],
   "packaged_files": [
     "pirate_ray_jcz/__init__.py",
+    "pirate_ray_jcz/frontend.py",
     "pirate_ray_jcz/import_preflight.py",
     "pirate_ray_jcz/offline_session.py",
+    "pirate_ray_jcz/preflight_presentation.py",
     "pirate_ray_jcz/profile_import.py",
     "pirate_ray_jcz/project_import.py",
     "pirate_ray_jcz/rayforge_compat.py",

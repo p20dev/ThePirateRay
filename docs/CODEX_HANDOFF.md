@@ -94,9 +94,10 @@ element types and applies the evidence-bound Hz/ns contract only to LightBurn
 2.1.03. The bridge binds source layer IDs, uses the host MOPA setters,
 serializes exact unit provenance and disables every staged step. Document
 preflight presents the remaining blockers and the offline driver rejects them
-before buffer preparation. It never authorizes encoding. The next import task
-is packaged GTK presentation; absent pulse width and image equivalence remain
-blockers.
+before buffer preparation. The packaged frontend now exposes that report as a
+read-only Tools-menu dialog with stable blocker codes. It never authorizes
+encoding. Packaged interaction evidence, absent pulse width and image
+equivalence remain blockers.
 
 If a Windows artifact is available, keep the machine disconnected and run, in
 order:

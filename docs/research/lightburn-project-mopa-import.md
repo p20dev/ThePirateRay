@@ -41,7 +41,9 @@ unverified. Rayforge's relevant Step and LaserStep files are included in the
 pinned upstream contract manifest.
 
 The addon now also exposes a transport-free document preflight report with
-stable issue codes and human-readable blocker messages. The offline driver
+stable issue codes and human-readable blocker messages. Its packaged frontend
+adds a read-only `PirateRay Import Preflight` action to Rayforge's Tools menu;
+the dialog renders those codes and keeps output disabled. The offline driver
 runs this check before it prepares encoded buffers. A staged import is rejected;
 manually re-enabling its step adds a distinct error, and malformed review data
 fails closed. There is intentionally no accepted or promoted import state yet.

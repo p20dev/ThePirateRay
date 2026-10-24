@@ -113,7 +113,8 @@ The remaining M1 release gates are deliberately narrow:
 - vector project frequency and `QPulseWidth` now use a LightBurn 2.1.03,
   evidence-bound Hz/ns contract; absent pulse width and image equivalence stay
   blocked;
-- packaged Windows/GTK interaction is blocked until a reviewed Rayforge
+- the addon now registers a read-only GTK Tools-menu preflight action, but
+  packaged Windows/GTK interaction is blocked until a reviewed Rayforge
   runtime with PyGObject and MSYS2/UCRT64 is available; the repository build
   entry point fetches pinned source but never installs that runtime;
 - three operator-verified projects establish project-level `frequency` and
