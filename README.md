@@ -36,12 +36,13 @@ Phase 0 has established a reproducible evidence and research baseline:
 - the public tests, provenance checks, leak guard, and clean-clone validation
   pass.
 
-Phase 0 remains open while we collect known-working LightBurn projects, device
-screenshots, machine photos, and operator notes directly from the actual control
-computer. The bundle, exported preferences and closed-application local settings
-are preserved and analyzed. The operator confirmed a 110 mm lens; local test
-projects are unverified and must not be used as working-project evidence. See
-the [local settings acquisition](docs/research/lightburn-local-settings-2026-10-24.md).
+Phase 0 remains open while we collect the remaining device screenshots, machine
+photos and operator notes directly from the actual control computer. The bundle,
+exported preferences, closed-application local settings and three explicitly
+operator-verified projects are preserved and analyzed. The operator confirmed a
+110 mm lens; other local test projects remain unverified. See the
+[local settings acquisition](docs/research/lightburn-local-settings-2026-10-24.md)
+and [control-machine observation](docs/research/lightburn-control-machine-observation-2026-10-24.md).
 
 Three operator-verified projects now establish project-level `frequency` and
 `QPulseWidth` serialization; see the
@@ -85,8 +86,8 @@ real-project gates in
 The initial offline architecture spikes have passed. The next work remains
 hardware-free:
 
-1. collect known-working `.lbrn2` projects and the remaining screenshots,
-   photos, preferences folder and operator notes;
+1. collect the remaining Device Settings screenshots, exterior labels and
+   startup/interlock notes;
 2. obtain or produce a reviewed Windows Rayforge build artifact without
    installing a toolchain through this repository;
 3. run and record the packaged no-device desktop interaction checklist;
@@ -122,6 +123,7 @@ project workspace or development destination.
 - [Upstream contract and license audit](docs/research/upstream-contract-and-license-audit.md)
 - [Live USB enumeration](docs/research/live-usb-enumeration-2026-10-17.md)
 - [LightBurn device-export analysis](docs/research/lightburn-device-exports-2026-10-19.md)
+- [LightBurn control-machine observation](docs/research/lightburn-control-machine-observation-2026-10-24.md)
 - [Sanitized machine profile](docs/research/machine-profile.yaml)
 - [110/300 configuration comparison](docs/research/config-comparison.md)
 - [Data handling policy](docs/data-handling.md)

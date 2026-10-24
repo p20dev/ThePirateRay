@@ -61,6 +61,14 @@ successful projects; their verified private copies establish project-level
 two `CutSetting_Img` image settings omit `QPulseWidth`; its effective default
 remains unresolved. Both image settings record `ditherMode="3dslice"`.
 
+The running control-machine application was also inspected while the laser was
+physically disconnected. LightBurn Pro 2.1.03 showed the JPT profile as
+`Disconnected`, the 110 mm material library, and explicit `Frequency (kHz)` /
+`Q-Pulse (ns)` UI labels. The live preferences and newest native backup are
+hashed in PrivateStash. The screenshot channel timed out, so the complete
+Device Settings tab set and exterior hardware photographs remain open; see
+`docs/research/lightburn-control-machine-observation-2026-10-24.md`.
+
 M1 is not complete. Do not describe the repository as a finished desktop
 application until both gates below have real evidence:
 

@@ -1,6 +1,6 @@
 # Phase 0 status
 
-Last updated: 2026-10-21
+Last updated: 2026-10-24
 
 ## Completed
 
@@ -32,19 +32,23 @@ Last updated: 2026-10-21
   area. A separate 500 x 300 mm Ruida profile remains physically unassigned.
 - No vendor executable, plugin, DLL, or driver was run. No USB capture, framing,
   machine command, or laser output was performed.
+- The actual control machine was inspected with the laser physically
+  disconnected. LightBurn Pro 2.1.03 showed the `100 JPT E2 MOPA` device,
+  `Disconnected` status, the `Mopa-100W-110mm` library and explicit kHz/ns MOPA
+  UI units. The live preferences and newest native backup were preserved and
+  hashed; see the [control-machine observation](../research/lightburn-control-machine-observation-2026-10-24.md).
 
 ## Pending external acquisition
 
 These items remain pending from the actual control machine:
 
-- closed-application preferences-folder archive;
-- Device Settings screenshots;
-- known-working `.lbrn2` examples;
+- Device Settings screenshots (the automation screenshot channel timed out);
 - safe exterior hardware/label photographs and startup/interlock notes;
 - stock-driver identity and version from the actual LightBurn control computer.
 
-An About screenshot is useful corroboration, but the imported bundle manifests
-already establish version `2.1.03`.
+An About screenshot is useful corroboration, but the window title and imported
+bundle manifests already establish version `2.1.03`. The closed-application
+preferences archive and three operator-verified `.lbrn2` examples are complete.
 
 Collect them directly into a dated directory under PrivateStash by following
 the [LightBurn checklist](../collection/lightburn.md). Do not use Google Drive
