@@ -53,9 +53,12 @@ python scripts/check_public_repo.py .
 
 The closed-application local settings directory is now preserved and hashed in
 PrivateStash; see `docs/research/lightburn-local-settings-2026-10-24.md`.
-The operator confirmed a 110 mm installed lens. Local project candidates are
-unverified test files and must not be used; temporary copies were removed
-before analysis or commit. No known-working project was collected.
+The operator confirmed a 110 mm installed lens. General local project candidates
+remain excluded as unverified. The operator subsequently selected two specific
+successful projects; their verified private copies establish project-level
+`frequency` and `QPulseWidth` serialization. See
+`docs/research/lightburn-verified-projects-2026-10-24.md`. One layer omits
+`QPulseWidth`; its effective default remains unresolved.
 
 M1 is not complete. Do not describe the repository as a finished desktop
 application until both gates below have real evidence:
@@ -63,8 +66,9 @@ application until both gates below have real evidence:
 1. A Windows artifact for the pinned Rayforge revision must be produced on a
    reviewed build runner, verified without execution, and pass the manual
    no-device desktop checklist.
-2. A known-working private JPT `.lbrn2` project must establish how project-level
-   frequency and `QPulseWidth` are serialized before those fields are mapped.
+2. The known-working private JPT `.lbrn2` serialization evidence gate is met.
+   Import mapping still requires explicit unit conversion and fail-closed
+   handling of absent pulse width, with synthetic offline tests.
 
 Raw projects, screenshots containing identifiers, machine data and build
 binaries stay out of the public repository.
@@ -81,8 +85,9 @@ order:
 4. `scripts/validate_m1_manual_acceptance.py`.
 
 If no artifact is available, do not install a build environment here. The next
-useful input is the private known-working `.lbrn2` collection or Kaz's explicit
-decision on ADR 0003. The M3 protocol can also be reviewed offline, but its
+offline implementation task is evidence-backed MOPA import mapping with
+synthetic tests; Kaz's explicit decision on ADR 0003 is also outstanding.
+The M3 protocol can also be reviewed offline, but its
 operation allowlist must stay empty until exact read-only request evidence is
 available. Until the external gates and separate hardware approval arrive,
 ADR 0002 remains Proposed and no controller backend, USB endpoint access,

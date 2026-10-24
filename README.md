@@ -43,12 +43,16 @@ are preserved and analyzed. The operator confirmed a 110 mm lens; local test
 projects are unverified and must not be used as working-project evidence. See
 the [local settings acquisition](docs/research/lightburn-local-settings-2026-10-24.md).
 
+Two operator-verified projects now establish project-level `frequency` and
+`QPulseWidth` serialization; see the
+[verified-project analysis](docs/research/lightburn-verified-projects-2026-10-24.md).
+Missing pulse width still requires explicit resolution before executable import.
+
 The offline M1 reuse proofs now pass as one consolidated acceptance checkpoint:
 the Rayforge/MeerK40t path has deterministic mock encoding, fail-closed JCZ
 profile and parameter gates, list buffering, cancellation/recovery, layer and
-recipe semantics, and a transport-free workflow preview. The remaining gates
-are a private known-working `.lbrn2` project and a reviewed Windows GTK runtime
-for the packaged no-device workflow test. See the
+recipe semantics, and a transport-free workflow preview. A reviewed Windows GTK
+runtime and the packaged no-device workflow test remain outstanding. See the
 [Phase 0 status](docs/status/phase-0.md) and
 [Rayforge GUI preflight](docs/research/rayforge-windows-gui-preflight.md).
 
