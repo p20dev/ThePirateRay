@@ -50,7 +50,7 @@ class PublicEvidenceTests(unittest.TestCase):
     def test_expected_manifest_entry_counts(self) -> None:
         expected = {
             "public-installer-configs.jsonl": 9,
-            "public-lightburn-control-machine-observation.jsonl": 2,
+            "public-lightburn-control-machine-observation.jsonl": 7,
             "public-lightburn-exports.jsonl": 4,
             "public-lightburn-local-settings.jsonl": 1,
             "public-lightburn-verified-projects.jsonl": 3,

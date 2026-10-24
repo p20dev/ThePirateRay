@@ -32,16 +32,25 @@ range of 1 to 4000 and has home-on-startup disabled.
 
 The active preferences file and LightBurn's newest native `.lbprefs` backup
 were copied into PrivateStash with before/source-after/copy SHA-256 equality
-checks. Their two sanitized public records are in
+checks. Five operator-supplied PNG screenshots preserve every tab in the
+general Settings dialog: Editor Settings, Units and Grids, Display,
+Import / Export, and Camera. Their sanitized public records are in
 [`public-lightburn-control-machine-observation.jsonl`](../../evidence/public-lightburn-control-machine-observation.jsonl).
 Exact local paths, raw preferences and machine-specific fields remain private.
 
+The screenshots corroborate version `2.1.03` and show millimeters as the design
+unit. DXF import has unit auto-detection enabled with millimeters selected as
+the fallback, while SVG import uses the 96 DPI Inkscape convention with
+auto-detection enabled. The visible output curve tolerance is `0.050 mm`.
+These are observed application settings, not machine-safe processing values.
+
 ## Collection limits
 
-The automation screenshot channel repeatedly returned `window capture timed
-out`; accessibility-only inspection remained available. Geometry-dependent
-controls therefore could not be safely invoked to capture every Device
-Settings tab. No substitute Support Data bundle was generated.
+The five supplied screenshots close the ordinary Settings-dialog item. The
+automation screenshot channel itself repeatedly returned `window capture timed
+out`; geometry-dependent controls therefore could not be safely invoked to
+capture every separate Device Settings tab. No substitute Support Data bundle
+was generated.
 
 No Start or Frame control was used, no USB endpoint or controller was opened,
 and no machine setting was intentionally changed. The operator's 110 mm lens

@@ -37,6 +37,8 @@ Last updated: 2026-10-24
   `Disconnected` status, the `Mopa-100W-110mm` library and explicit kHz/ns MOPA
   UI units. The live preferences and newest native backup were preserved and
   hashed; see the [control-machine observation](../research/lightburn-control-machine-observation-2026-10-24.md).
+- All five tabs of the ordinary LightBurn Settings dialog were supplied as
+  screenshots and preserved privately with SHA-256 records.
 
 ## Pending external acquisition
 
