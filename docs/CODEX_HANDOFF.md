@@ -82,9 +82,11 @@ synthetic tests now exist; see
 `docs/research/lightburn-project-mopa-import.md`. It preserves both process
 element types and requires an explicit unit contract for normalization. The
 bridge binds source layer IDs, uses the host MOPA setters, serializes review
-metadata and disables every staged step. It never authorizes encoding. The
-next import task is UI/preflight presentation plus independently established
-units; absent pulse width and image equivalence remain blockers.
+metadata and disables every staged step. Document preflight presents those
+blockers and the offline driver rejects them before buffer preparation. It
+never authorizes encoding. The next import task is GTK presentation plus an
+independently established unit contract; absent pulse width and image
+equivalence remain blockers.
 
 If a Windows artifact is available, keep the machine disconnected and run, in
 order:

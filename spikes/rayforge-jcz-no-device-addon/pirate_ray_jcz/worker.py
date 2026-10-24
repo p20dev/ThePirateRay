@@ -23,6 +23,7 @@ from .offline_session import (
     OfflineJCZSession,
     OfflineSessionState,
 )
+from .import_preflight import assert_no_unresolved_imports
 from .rayforge_compat import register_driver, unregister_driver
 
 
@@ -312,7 +313,8 @@ class PirateRayJCZNoDeviceDriver(NoDeviceDriver):
     async def run(
         self, encoded, doc, ops, on_command_done=None
     ) -> None:
-        del doc, ops
+        del ops
+        assert_no_unresolved_imports(doc)
         self.offline_session.prepare(encoded)
         self.offline_session.start()
         op_count = encoded.op_map.op_count if encoded.op_map else 0

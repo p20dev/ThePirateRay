@@ -35,6 +35,12 @@ machine, lens, correction and parameter limits before a separate reviewed
 promotion path can exist. Rayforge's relevant Step and LaserStep files are now
 included in the pinned upstream contract manifest.
 
+The addon now also exposes a transport-free document preflight report with
+stable issue codes and human-readable blocker messages. The offline driver
+runs this check before it prepares encoded buffers. A staged import is rejected;
+manually re-enabling its step adds a distinct error, and malformed review data
+fails closed. There is intentionally no accepted or promoted import state yet.
+
 Validation covers unit conversion, absent fields, case sensitivity, duplicate
 values, invalid numbers, image modes, mixed layers, exact layer binding,
 transactional rollback and malformed XML. Existing packaging, no-device and
