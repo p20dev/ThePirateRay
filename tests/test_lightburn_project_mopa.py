@@ -8,9 +8,9 @@ from pirate_ray_jcz.project_import import (
 )
 
 
-def project(fields, tag="CutSetting", kind="Scan"):
+def project(fields, tag="CutSetting", kind="Scan", layer_id="0"):
     return (f'<LightBurnProject FormatVersion="1"><{tag} type="{kind}">'
-            f'{fields}</{tag}></LightBurnProject>').encode()
+            f'<index Value="{layer_id}"/>{fields}</{tag}></LightBurnProject>').encode()
 
 
 FIELDS = '<frequency Value="125000"/><QPulseWidth Value="25"/>'
@@ -25,6 +25,7 @@ class ProjectMopaTests(unittest.TestCase):
         self.assertFalse(result["encoding_allowed"])
         self.assertFalse(result["hardware_use_allowed"])
         self.assertIsNone(result["transport"])
+        self.assertEqual(result["layers"][0]["source_layer_id"], "0")
 
     def test_units_are_never_inferred_from_magnitude(self):
         result = import_project_mopa(project(FIELDS))
@@ -69,10 +70,20 @@ class ProjectMopaTests(unittest.TestCase):
                 with self.assertRaises(ProjectImportError):
                     import_project_mopa(data)
 
+    def test_layer_indices_are_normalized_and_must_be_unique(self):
+        layer = import_project_mopa(project(FIELDS, layer_id="007"))["layers"][0]
+        self.assertEqual(layer["source_layer_id"], "7")
+        duplicate = ('<LightBurnProject FormatVersion="1">'
+                     '<CutSetting type="Cut"><index Value="1"/>'+FIELDS+'</CutSetting>'
+                     '<CutSetting type="Scan"><index Value="1"/>'+FIELDS+'</CutSetting>'
+                     '</LightBurnProject>').encode()
+        with self.assertRaisesRegex(ProjectImportError, "duplicate layer index"):
+            import_project_mopa(duplicate)
+
     def test_multiple_layers_preserve_order_and_missing_pulse(self):
         data = ('<LightBurnProject FormatVersion="1">'
-                '<CutSetting type="Cut">'+FIELDS+'</CutSetting>'
-                '<CutSetting_Img type="Image"><frequency Value="125000"/>'
+                '<CutSetting type="Cut"><index Value="0"/>'+FIELDS+'</CutSetting>'
+                '<CutSetting_Img type="Image"><index Value="1"/><frequency Value="125000"/>'
                 '</CutSetting_Img></LightBurnProject>').encode()
         layers = import_project_mopa(data, unit_contract=UNIT_CONTRACT)["layers"]
         self.assertEqual([x["type"] for x in layers], ["Cut", "Image"])

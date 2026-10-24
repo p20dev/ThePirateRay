@@ -20,13 +20,22 @@ settings remain blocked pending image-processing equivalence, including
 
 Every result has `encoding_allowed=False`, `hardware_use_allowed=False` and
 `transport=None`, even with complete normalized values. This is a callable
-offline metadata seam; it is not yet wired to Rayforge's project importer or
-workflow. Host integration must bind settings to layer indices, establish
-serialized units from independent evidence, resolve absent pulse width and
-validate exact machine, lens, correction and parameter limits. No existing
-golden lifecycle or upstream importer run was repeated; the package inventory
-was extended to include the new module.
+offline metadata seam. The companion workflow bridge matches the normalized
+LightBurn layer index to Rayforge's source-segment layer ID and stages complete
+vector MOPA values through the host's setters. Every staged step is disabled
+through `Step.set_visible(False)`, and its raw values, normalized values,
+review status and blockers are saved in the serializable `Step.extra` data.
+Image settings and incomplete settings remain disabled without applying MOPA
+values. Multi-step staging is preflighted and rolled back on setter failure.
+
+The bridge deliberately has no function that enables output or removes a
+blocker. Host UI and preflight integration must still establish serialized
+units from independent evidence, resolve absent pulse width and validate exact
+machine, lens, correction and parameter limits before a separate reviewed
+promotion path can exist. Rayforge's relevant Step and LaserStep files are now
+included in the pinned upstream contract manifest.
 
 Validation covers unit conversion, absent fields, case sensitivity, duplicate
-values, invalid numbers, image modes, mixed layers and malformed XML. Existing
-packaging, no-device and public evidence checks remain part of the test suite.
+values, invalid numbers, image modes, mixed layers, exact layer binding,
+transactional rollback and malformed XML. Existing packaging, no-device and
+public evidence checks remain part of the test suite.

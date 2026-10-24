@@ -59,6 +59,7 @@ its manifest and sidecar; installer-only publication is not accepted.
 | `register_machines` hook | Documented but unusable for this driver today | The hook exists, but the supplied manager does not expose driver-class registration |
 | `NoDeviceDriver`, `OpsEncoder`, `EncodedOutput`, `MachineCodeOpMap` | Imported host interfaces | Required by the addon; pin and contract-test them before upgrades |
 | `register_driver`, `drivers`, `driver_by_classname` | Internal registry | Functional but unsuitable as a permanent public contract; `register_driver` is not exported in `__all__` and no symmetric unregister function exists |
+| `Step.extra`, visibility serialization, MOPA setters | Imported host workflow interfaces | Used by the disabled-output import bridge; exact source files and symbols are pinned before host integration |
 | Addon-manager registry cleanup | Host lifecycle implementation | Other registries support addon-owned cleanup, but the driver registry is not part of that mechanism |
 | BalorMK `GalvoController` and `MockConnection` | Application-internal reference/test seam | Valid as a pinned behavioral oracle; not treated as a stable library API |
 

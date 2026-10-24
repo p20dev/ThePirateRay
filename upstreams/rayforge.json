@@ -38,6 +38,18 @@
       "sha256": "6f734a0246f35a7f18d8e4fa60b38f66193d9a5ece0982829cc269133e6ddd0b",
       "stability": "host-lifecycle-implementation",
       "required_symbols": ["AddonManager", "AddonManager._unregister_addon_items"]
+    },
+    {
+      "path": "rayforge/core/step.py",
+      "sha256": "4d25da9e4fb9f854562bfd33d238db3660c3056eeadfaa95c8669c6770d504f4",
+      "stability": "imported-host-workflow-interface",
+      "required_symbols": ["Step", "Step.set_visible", "Step.to_dict", "Step.from_dict"]
+    },
+    {
+      "path": "rayforge/builtin_addons/rayforge-addon-laser/laser_essentials/steps/laser_step.py",
+      "sha256": "59c94fec6861edc94383db856bba0c335e0e7c4d16a878e7c2a2c62b657e06c5",
+      "stability": "imported-host-workflow-interface",
+      "required_symbols": ["LaserStep", "LaserStep.set_frequency", "LaserStep.set_pulse_width", "LaserStep.to_dict", "LaserStep.from_dict"]
     }
   ],
   "purpose": "Pinned host application for offline reuse and JCZ addon validation"

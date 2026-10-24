@@ -29,6 +29,18 @@ def _number(element: ET.Element, field: str) -> str | None:
     return raw
 
 
+def _layer_id(element: ET.Element) -> str | None:
+    children = element.findall("index")
+    if not children:
+        return None
+    if len(children) != 1 or set(children[0].attrib) != {"Value"}:
+        raise ProjectImportError("ambiguous layer index")
+    raw = children[0].get("Value", "")
+    if not raw.isdecimal():
+        raise ProjectImportError("invalid layer index")
+    return str(int(raw))
+
+
 def import_project_mopa(data: bytes, *, unit_contract: str | None = None) -> dict:
     """Preserve observed XML fields and optionally normalize declared units.
 
@@ -51,6 +63,7 @@ def import_project_mopa(data: bytes, *, unit_contract: str | None = None) -> dic
     if root.tag != "LightBurnProject" or root.get("FormatVersion") != "1":
         raise ProjectImportError("unsupported project format")
     layers = []
+    layer_ids: set[str] = set()
     for setting in root:
         if setting.tag not in ("CutSetting", "CutSetting_Img"):
             continue
@@ -58,6 +71,11 @@ def import_project_mopa(data: bytes, *, unit_contract: str | None = None) -> dic
         expected = ("Image",) if setting.tag == "CutSetting_Img" else ("Cut", "Scan")
         if kind not in expected:
             raise ProjectImportError("unsupported layer type")
+        layer_id = _layer_id(setting)
+        if layer_id is not None and layer_id in layer_ids:
+            raise ProjectImportError("duplicate layer index")
+        if layer_id is not None:
+            layer_ids.add(layer_id)
         raw = {key: _number(setting, key) for key in ("frequency", "QPulseWidth")}
         blockers = []
         if unit_contract is None:
@@ -78,7 +96,8 @@ def import_project_mopa(data: bytes, *, unit_contract: str | None = None) -> dic
                 "frequency_khz": float(Decimal(raw["frequency"]) / 1000),
                 "pulse_width_ns": float(Decimal(raw["QPulseWidth"])),
             }
-        layers.append({"element": setting.tag, "type": kind, "raw": raw,
+        layers.append({"element": setting.tag, "type": kind,
+                       "source_layer_id": layer_id, "raw": raw,
                        "image_mode": image_mode,
                        "normalized": normalized, "blockers": blockers})
     if not layers:

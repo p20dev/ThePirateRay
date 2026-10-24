@@ -68,20 +68,23 @@ application until both gates below have real evidence:
    reviewed build runner, verified without execution, and pass the manual
    no-device desktop checklist.
 2. The known-working private JPT `.lbrn2` serialization evidence gate is met.
-   Import mapping still requires explicit unit conversion and fail-closed
-   handling of absent pulse width, with synthetic offline tests.
+   Offline mapping and disabled-output workflow staging now have synthetic
+   tests. Promotion still requires an independently established unit contract,
+   explicit resolution of absent pulse width and machine-context validation.
 
 Raw projects, screenshots containing identifiers, machine data and build
 binaries stay out of the public repository.
 
 ## Suggested first task
 
-An offline project MOPA seam and synthetic tests now exist; see
+An offline project MOPA seam, disabled-output Rayforge workflow bridge and
+synthetic tests now exist; see
 `docs/research/lightburn-project-mopa-import.md`. It preserves both process
-element types and requires an explicit unit contract for normalization. It is
-not wired into Rayforge's workflow and never authorizes encoding. The next
-import task is host integration with layer identity and independently
-established units; absent pulse width and image equivalence remain blockers.
+element types and requires an explicit unit contract for normalization. The
+bridge binds source layer IDs, uses the host MOPA setters, serializes review
+metadata and disables every staged step. It never authorizes encoding. The
+next import task is UI/preflight presentation plus independently established
+units; absent pulse width and image equivalence remain blockers.
 
 If a Windows artifact is available, keep the machine disconnected and run, in
 order:

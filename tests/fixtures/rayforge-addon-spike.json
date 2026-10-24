@@ -23,6 +23,7 @@
     "pirate_ray_jcz/rayforge_compat.py",
     "pirate_ray_jcz/recipe_metadata.py",
     "pirate_ray_jcz/worker.py",
+    "pirate_ray_jcz/workflow_import.py",
     "rayforge-addon.yaml"
   ],
   "registration_seam": "fail-closed API 23 compatibility adapter + on_unload cleanup"
