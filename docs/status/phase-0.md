@@ -39,12 +39,14 @@ Last updated: 2026-10-24
   hashed; see the [control-machine observation](../research/lightburn-control-machine-observation-2026-10-24.md).
 - All five tabs of the ordinary LightBurn Settings dialog were supplied as
   screenshots and preserved privately with SHA-256 records.
+- All three tabs of the JPT Device Settings dialog were subsequently supplied
+  and preserved privately. They confirm the 110 x 110 mm field, Q-pulse-width
+  enablement, visible 1-4000 kHz range and require-frame-before-start setting.
 
 ## Pending external acquisition
 
 These items remain pending from the actual control machine:
 
-- Device Settings screenshots (the automation screenshot channel timed out);
 - safe exterior hardware/label photographs and startup/interlock notes;
 - stock-driver identity and version from the actual LightBurn control computer.
 

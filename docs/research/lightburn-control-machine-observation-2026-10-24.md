@@ -44,16 +44,35 @@ the fallback, while SVG import uses the 96 DPI Inkscape convention with
 auto-detection enabled. The visible output curve tolerance is `0.050 mm`.
 These are observed application settings, not machine-safe processing values.
 
+## JPT Device Settings screenshots
+
+Three further operator-supplied screenshots preserve every tab in Device
+Settings for `100 JPT E2 MOPA`: Galvo and Basic Settings, Ports and Laser
+Settings, and Additional Settings. The first confirms a 110 x 110 mm field,
+linked metric control/design units, and enabled `Require Framing Before Start`.
+
+The laser-source pane identifies the source as `Fiber`, displays fiber type
+`IPG_YLPM`, enables Q-pulse-width control, and shows a UI frequency range of
+`1.000` to `4000.000 kHz`. The device name says JPT while the fiber-type field
+literally displays `IPG_YLPM`; this is recorded as an observed LightBurn value
+without interpreting it as a manufacturer identity or correcting it.
+
+The port assignments, correction coefficients, red-dot scaling, jump timing
+and laser timing are retained only in the private screenshots and preference
+snapshot. They are machine-specific evidence, not public defaults. The third
+tab explicitly labels its speed and acceleration fields as preview/simulation
+timing that does not affect the controller.
+
 ## Collection limits
 
-The five supplied screenshots close the ordinary Settings-dialog item. The
-automation screenshot channel itself repeatedly returned `window capture timed
-out`; geometry-dependent controls therefore could not be safely invoked to
-capture every separate Device Settings tab. No substitute Support Data bundle
+The five general Settings screenshots and three Device Settings screenshots
+close both application-dialog screenshot items. The automation screenshot
+channel itself repeatedly returned `window capture timed out`; the operator
+supplied the screenshots directly instead. No substitute Support Data bundle
 was generated.
 
 No Start or Frame control was used, no USB endpoint or controller was opened,
 and no machine setting was intentionally changed. The operator's 110 mm lens
 statement remains operator-confirmed rather than photographically verified.
-Exterior hardware labels and the complete Device Settings screenshot set remain
-open evidence items.
+Exterior hardware labels and startup/interlock notes remain open evidence
+items.

@@ -36,8 +36,8 @@ Phase 0 has established a reproducible evidence and research baseline:
 - the public tests, provenance checks, leak guard, and clean-clone validation
   pass.
 
-Phase 0 remains open while we collect the remaining device screenshots, machine
-photos and operator notes directly from the actual control computer. The bundle,
+Phase 0 remains open while we collect machine photos and operator notes directly
+from the actual control computer. The settings and device screenshots, bundle,
 exported preferences, closed-application local settings and three explicitly
 operator-verified projects are preserved and analyzed. The operator confirmed a
 110 mm lens; other local test projects remain unverified. See the
@@ -86,8 +86,7 @@ real-project gates in
 The initial offline architecture spikes have passed. The next work remains
 hardware-free:
 
-1. collect the remaining Device Settings screenshots, exterior labels and
-   startup/interlock notes;
+1. collect exterior labels and startup/interlock notes;
 2. obtain or produce a reviewed Windows Rayforge build artifact without
    installing a toolchain through this repository;
 3. run and record the packaged no-device desktop interaction checklist;
