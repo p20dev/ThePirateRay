@@ -1,0 +1,83 @@
+import sys
+import unittest
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parents[1] / "spikes/rayforge-jcz-no-device-addon"))
+from pirate_ray_jcz.project_import import (
+    ProjectImportError, UNIT_CONTRACT, import_project_mopa,
+)
+
+
+def project(fields, tag="CutSetting", kind="Scan"):
+    return (f'<LightBurnProject FormatVersion="1"><{tag} type="{kind}">'
+            f'{fields}</{tag}></LightBurnProject>').encode()
+
+
+FIELDS = '<frequency Value="125000"/><QPulseWidth Value="25"/>'
+
+
+class ProjectMopaTests(unittest.TestCase):
+    def test_explicit_contract_converts_without_authorizing_execution(self):
+        result = import_project_mopa(project(FIELDS), unit_contract=UNIT_CONTRACT)
+        self.assertEqual(result["layers"][0]["normalized"], {
+            "frequency_hz": 125000, "frequency_khz": 125, "pulse_width_ns": 25,
+        })
+        self.assertFalse(result["encoding_allowed"])
+        self.assertFalse(result["hardware_use_allowed"])
+        self.assertIsNone(result["transport"])
+
+    def test_units_are_never_inferred_from_magnitude(self):
+        result = import_project_mopa(project(FIELDS))
+        layer = result["layers"][0]
+        self.assertIsNone(layer["normalized"])
+        self.assertEqual(layer["raw"]["frequency"], "125000")
+        self.assertIn("serialized units unresolved", layer["blockers"])
+        with self.assertRaises(ProjectImportError):
+            import_project_mopa(project(FIELDS), unit_contract="kHz/us")
+
+    def test_missing_fields_remain_absent(self):
+        for fields in ('<frequency Value="125000"/>', '<QPulseWidth Value="25"/>', ''):
+            with self.subTest(fields=fields):
+                layer = import_project_mopa(project(fields), unit_contract=UNIT_CONTRACT)["layers"][0]
+                self.assertIsNone(layer["normalized"])
+                self.assertTrue(layer["blockers"])
+
+    def test_image_settings_remain_blocked_even_with_complete_parameters(self):
+        fields = FIELDS + '<ditherMode Value="3dslice"/>'
+        layer = import_project_mopa(project(fields, "CutSetting_Img", "Image"), unit_contract=UNIT_CONTRACT)["layers"][0]
+        self.assertIn("image processing equivalence unverified", layer["blockers"])
+        self.assertEqual(layer["image_mode"], "3dslice")
+
+    def test_invalid_and_ambiguous_values_fail_closed(self):
+        for field in ("frequency", "QPulseWidth"):
+            for value in ("0", "-1", "NaN", "Infinity", "1e999", "", "abc"):
+                with self.subTest(field=field, value=value):
+                    with self.assertRaises(ProjectImportError):
+                        import_project_mopa(project(f'<{field} Value="{value}"/>'))
+            with self.assertRaises(ProjectImportError):
+                import_project_mopa(project(FIELDS + f'<{field} Value="2"/>'))
+
+    def test_wrong_case_is_absent_not_guessed(self):
+        layer = import_project_mopa(project(FIELDS.replace("QPulseWidth", "qpulsewidth")))["layers"][0]
+        self.assertIsNone(layer["raw"]["QPulseWidth"])
+
+    def test_bad_xml_formats_and_declarations_rejected(self):
+        for data in (b'<broken', b'<Other/>', b'<LightBurnProject FormatVersion="2"/>',
+                     b'<!DOCTYPE x><LightBurnProject FormatVersion="1"/>',
+                     project(FIELDS, kind="Unknown")):
+            with self.subTest(data=data):
+                with self.assertRaises(ProjectImportError):
+                    import_project_mopa(data)
+
+    def test_multiple_layers_preserve_order_and_missing_pulse(self):
+        data = ('<LightBurnProject FormatVersion="1">'
+                '<CutSetting type="Cut">'+FIELDS+'</CutSetting>'
+                '<CutSetting_Img type="Image"><frequency Value="125000"/>'
+                '</CutSetting_Img></LightBurnProject>').encode()
+        layers = import_project_mopa(data, unit_contract=UNIT_CONTRACT)["layers"]
+        self.assertEqual([x["type"] for x in layers], ["Cut", "Image"])
+        self.assertIsNone(layers[1]["normalized"])
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -76,6 +76,13 @@ binaries stay out of the public repository.
 
 ## Suggested first task
 
+An offline project MOPA seam and synthetic tests now exist; see
+`docs/research/lightburn-project-mopa-import.md`. It preserves both process
+element types and requires an explicit unit contract for normalization. It is
+not wired into Rayforge's workflow and never authorizes encoding. The next
+import task is host integration with layer identity and independently
+established units; absent pulse width and image equivalence remain blockers.
+
 If a Windows artifact is available, keep the machine disconnected and run, in
 order:
 
