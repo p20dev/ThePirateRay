@@ -131,7 +131,7 @@ def run(source: Path) -> dict:
         "evidence": evidence,
         "remaining_manual_gates": [
             "packaged Windows GUI interaction",
-            "known-working private LightBurn project import",
+            "reviewed promotion of imported MOPA settings",
         ],
     }
 

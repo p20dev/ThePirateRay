@@ -1,7 +1,7 @@
 # Codex continuation brief
 
 - Updated: 2026-10-24
-- Current focus: M1 build, packaging and no-device acceptance
+- Current focus: produce and accept the packaged Windows M1 checkpoint
 - Hardware access: prohibited
 - Automatic toolchain installation: prohibited
 
@@ -30,7 +30,7 @@ The repository now provides:
 - pinned upstream contract/license manifests and a drift checker;
 - a fail-closed API-23 adapter isolating Rayforge's internal driver registry;
 - a proposed MIT project-license decision in ADR 0003; Kaz has not accepted
-  it, so the repository remains unlicensed.
+  it, so the repository remains unlicensed;
 - a fail-closed M3 hardware-research protocol, incomplete public plan template
   and validator; validation can reach only `ready_for_review` and never
   authorizes hardware access.
@@ -66,19 +66,20 @@ physically disconnected. LightBurn Pro 2.1.03 showed the JPT profile as
 `Disconnected`, the 110 mm material library, and explicit `Frequency (kHz)` /
 `Q-Pulse (ns)` UI labels. The live preferences, newest native backup, all five
 general Settings tabs and all three JPT Device Settings tabs are hashed in
-PrivateStash. Exterior hardware photographs and startup/interlock notes remain
-open; see `docs/research/lightburn-control-machine-observation-2026-10-24.md`.
+PrivateStash. Exterior hardware photographs and startup/interlock notes are
+deferred to M3 hardware readiness and do not block the offline product
+checkpoint; see
+`docs/research/lightburn-control-machine-observation-2026-10-24.md`.
 
-M1 is not complete. Do not describe the repository as a finished desktop
-application until both gates below have real evidence:
+M1 is not yet a packaged desktop checkpoint. Only these two result-oriented
+gates remain:
 
 1. A Windows artifact for the pinned Rayforge revision must be produced on a
    reviewed build runner, verified without execution, and pass the manual
    no-device desktop checklist.
-2. The known-working private JPT `.lbrn2` serialization evidence gate is met.
-   Offline mapping and disabled-output workflow staging now have synthetic
-   tests. Promotion still requires an independently established unit contract,
-   explicit resolution of absent pulse width and machine-context validation.
+2. Promote only complete vector MOPA imports after an explicit unit contract,
+   absent-pulse-width policy and exact machine-context validation. The private
+   serialization-evidence gate itself is complete.
 
 Raw projects, screenshots containing identifiers, machine data and build
 binaries stay out of the public repository.
@@ -105,11 +106,13 @@ order:
    `docs/research/m1-no-device-acceptance.md`;
 4. `scripts/validate_m1_manual_acceptance.py`.
 
-If no artifact is available, do not install a build environment here. The next
-offline implementation task is evidence-backed MOPA import mapping with
-synthetic tests; Kaz's explicit decision on ADR 0003 is also outstanding.
+If no artifact is available, send the external-builder handoff in
+`docs/research/m1-no-device-acceptance.md`; do not start another research
+branch or install a build environment here. Kaz's explicit decision on ADR
+0003 is also outstanding.
 The M3 protocol can also be reviewed offline, but its
 operation allowlist must stay empty until exact read-only request evidence is
-available. Until the external gates and separate hardware approval arrive,
-ADR 0002 remains Proposed and no controller backend, USB endpoint access,
-physical framing, galvo motion or laser output is authorized.
+available. ADR 0002 is accepted for the offline architecture. Until the
+external gates and separate hardware approval arrive, no controller backend,
+USB endpoint access, physical framing, galvo motion or laser output is
+authorized.

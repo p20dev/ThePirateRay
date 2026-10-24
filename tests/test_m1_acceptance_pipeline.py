@@ -32,7 +32,7 @@ class M1AcceptancePipelineTests(unittest.TestCase):
         source = ACCEPTANCE.read_text(encoding="utf-8")
         self.assertIn(manifest["commit"], source)
         self.assertIn("packaged Windows GUI interaction", source)
-        self.assertIn("known-working private LightBurn project import", source)
+        self.assertIn("reviewed promotion of imported MOPA settings", source)
         self.assertIn('"-m", "unittest", "discover"', source)
         self.assertIn("scripts/check_public_repo.py", source)
         self.assertIn("timeout=120", source)
@@ -50,6 +50,10 @@ class M1AcceptancePipelineTests(unittest.TestCase):
         self.assertIn("GetFullPath", source)
         self.assertIn("Remove-Item -LiteralPath $resolvedAddonDestination", source)
         self.assertIn("AllowStagedPirateRayAddon", source)
+        self.assertIn("Copy installer into checkpoint", source)
+        self.assertIn("-LiteralPath $artifactInstaller", source)
+        self.assertIn("checkout must be clean", source)
+        self.assertIn("Artifact root must be absent or empty", source)
 
     def test_acceptance_has_no_hardware_commands(self):
         source = ACCEPTANCE.read_text(encoding="utf-8").lower()

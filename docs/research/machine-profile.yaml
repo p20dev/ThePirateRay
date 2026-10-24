@@ -14,7 +14,7 @@ optics:
   active_field_mm:
     width: 110
     height: 110
-    status: assumed-pending-physical-verification
+    status: operator-confirmed-on-control-machine
   other_configurations_observed_mm:
     - width: 300
       height: 300
@@ -63,3 +63,4 @@ notes:
   - USB revision 0005 is a descriptor value, not a proven board or firmware version.
   - LightBurn bundle manifests establish version 2.1.03 but do not expose a separate build identifier.
   - Exported recipe values are observations, not certified hardware limits or safe operating parameters.
+  - The operator confirmed the installed 110 mm lens during the disconnected control-machine inspection on 2026-10-24.

@@ -55,4 +55,5 @@ test explicit unit conversions, field absence and invalid values. It must not
 copy private project geometry into public fixtures or enable hardware access.
 
 The reviewed Windows artifact and manual no-device desktop acceptance remain
-open. ADR 0002 remains Proposed until those gates have also passed.
+open as M1 release gates. ADR 0002 has accepted the Rayforge-addon architecture
+independently of those packaging gates.

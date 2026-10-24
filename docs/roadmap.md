@@ -1,6 +1,6 @@
 # Product and research roadmap
 
-Last updated: 2026-10-21
+Last updated: 2026-10-24
 
 ## Destination
 
@@ -65,8 +65,7 @@ It does **not** yet establish:
 - which values are controller settings versus laser-source settings;
 - status, interlock, error, abort, and recovery behavior;
 - whether an apparently harmless query can move a galvo or arm emission;
-- how a known-working `.lbrn2` project serializes JPT frequency and
-  `QPulseWidth` settings.
+- the effective pulse-width default for settings that omit `QPulseWidth`.
 
 The later LightBurn export collection now establishes version `2.1.03`, a
 110 x 110 mm `JCZFiber`/`LibUSB` JPT profile, and the `QPulseWidth` device
@@ -78,7 +77,7 @@ would be premature and would make the safety boundary impossible to audit.
 
 ## Milestones
 
-### M0 — Evidence baseline (current)
+### M0 — Evidence baseline (complete)
 
 Preserve and hash the installer snapshot, publish sanitized findings, and keep
 public/private provenance verifiable. Complete M0 with one local collection
@@ -90,7 +89,7 @@ Exit criteria:
 
 - exact LightBurn version, bundle, preferences, screenshots, and working
   project examples are present in PrivateStash;
-- mounted lens, startup, interlock, and USB device identity are confirmed;
+- mounted lens and USB device identity are confirmed;
 - sanitized metadata and new analysis are committed publicly;
 - both repositories pass their clean-clone validation.
 
@@ -100,7 +99,7 @@ Ecosystem research found that Rayforge already implements most of the desired
 application and MeerK40t BalorMK already implements the relevant controller.
 Validate those assets before defining competing application architecture. See
 the [open-source landscape](research/open-source-landscape.md) and
-[proposed ADR 0002](adr/0002-reuse-rayforge-and-balormk.md).
+[accepted ADR 0002](adr/0002-reuse-rayforge-and-balormk.md).
 
 The first work is entirely offline:
 
@@ -150,24 +149,21 @@ width, and unsupported Ops. Hardware-specific upper limits remain unknown and
 are deliberately not guessed.
 
 [The transport-free JCZ record spike](research/rayforge-jcz-packet-spike.md)
-packs the same operation stream into deterministic little-endian 12-byte
-records whose opcodes, values, coordinates and distances match the pinned
-BalorMK mock evidence. It deliberately omits list buffering and all transport;
-controller-safe state ordering remains an explicit evidence gap.
+now extends the deterministic 12-byte records with fixed-size list buffering
+and explicit state-before-motion ordering. Upload, execution and physical
+transport remain outside M1.
 
 [The synthetic LightBurn MOPA import spike](research/rayforge-lightburn-mopa-import-spike.md)
-confirms that Rayforge preserves geometry, power, speed and passes and retains
-an observed LightBurn frequency value in raw source metadata. Frequency is not
-mapped into workflow settings. A later real device export identifies
-`QPulseWidth` and its nanosecond UI contract, but project serialization remains
-unknown, so the job still deliberately fails the JCZ encoding gate. A private
-known-working `.lbrn2` fixture is required before implementing the missing
-MOPA mapping.
+confirms that Rayforge preserves geometry, power, speed and passes. Three later
+operator-verified projects establish project-level `frequency` and
+`QPulseWidth` fields. The addon now stages complete vector settings into
+disabled Rayforge steps and rejects them at preflight until units, defaults and
+machine context are explicitly approved.
 
-The architecture decision remains proposed until the packaged Windows
-interaction and known-working private-project gates produce evidence. An
-independent app requires a documented gap analysis showing why neither
-existing platform can be extended responsibly.
+ADR 0002 accepts the Rayforge-addon architecture with BalorMK as the pinned
+behavioral oracle. Packaged Windows interaction is a release gate, not an open
+architecture question. An independent app now requires a later ADR with
+concrete evidence that this accepted route cannot meet product needs.
 
 Exit criteria: a representative JPT job survives import/planning, MOPA
 parameters and units, validation and deterministic mock encoding; the chosen
@@ -266,26 +262,24 @@ Bodor BCL503MU. Each controller family gets its own evidence, protocol,
 capability, and hardware-validation track. A successful JPT backend does not
 imply compatible safety or control behavior on either CO2 machine.
 
-## Immediate next work package
+## Current completion track
 
-The next work package should be small enough to review in a few commits:
+The exploratory work package is complete: verified projects, device evidence,
+profile import, list buffering, cancellation/recovery, workflow modeling and
+the M3 protocol draft are all present. Work now converges on two deliverables:
 
-1. collect two or three known-working `.lbrn2` projects plus the remaining
-   device screenshots, preferences folder, photos and operator notes;
-2. add a sanitized synthetic JCZ `.lbdev` fixture and characterize the exact
-   gaps in Rayforge's device importer;
-3. implement and test the smallest evidence-backed JCZ profile-import seam,
-   keeping project `QPulseWidth` mapping gated until a real project confirms
-   its serialization;
-4. extend the offline JCZ encoder from semantic records to controller-list
-   buffering and explicit safe state ordering, still without transport;
-5. exercise cancellation/recovery and the graphical workflow against mock
-   backends, then accept, amend or reject ADR 0002;
-6. complete and independently review the written M3 hardware-research protocol
-   before seeking separate approval for any USB endpoint access or controller
-   command.
+1. produce the pinned Windows Rayforge checkpoint on a reviewed external build
+   runner, verify the transferred artifact set and complete the no-device
+   desktop interaction checklist;
+2. promote complete vector MOPA imports only after recording the explicit unit
+   contract, absent-pulse-width policy and exact machine-context validation.
 
-The draft, template, validator and regression tests for item 6 are present.
+Exterior photographs, additional screenshots and speculative protocol research
+are not M1 blockers. Hardware work remains separately gated by M3.
+
+### Completed implementation record
+
+The M3 draft, template, validator and regression tests are present.
 Hardware work still cannot proceed until the exact read-only operation evidence,
 driver/rollback plan, physical controls, distinct assigned roles and separate
 human approval are all in place.
@@ -299,8 +293,8 @@ profile model. The fixture and regression test remain transport-free.
 Item 3 now has a minimal external-addon seam: it recognizes only the synthetic
 `JCZFiber` fixture with explicit provenance and frame-before-start, binds it to
 the no-device JCZ driver, preserves process values as raw observations with
-unit uncertainty, and keeps encoding disabled until the remaining profile and
-project evidence exists.
+unit uncertainty, and keeps encoding disabled until the unit/default and exact
+machine-context review passes.
 
 Item 4 now covers transport-free fixed-size list buffering and an explicit
 state-before-motion order derived from pinned BalorMK. Port commands, upload,
@@ -318,7 +312,8 @@ generated settings UI exposes frequency and pulse width with Hz/ns contracts,
 the values survive step serialization, and the preview artifact is populated
 without machine code or transport. This is a headless UI-contract and pipeline
 proof, not a completed human GTK test. Packaged Windows interaction with the
-external addon remains open before item 5 or ADR 0002 can close.
+external addon remains the final desktop release gate; ADR 0002 has accepted
+the architecture independently of it.
 
 The first Windows launch preflight is recorded separately. It fails closed
 because the available spike venv has no PyGObject `gi` module and this machine

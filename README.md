@@ -7,7 +7,7 @@
 The Pirate Ray is Makerspace Næstved's clean-room effort to build an
 open-source, safe desktop workflow for its laser equipment. The first target
 is the **JPT 100 W E2/M7 MOPA fiber laser** with a JCZ/EZCAD2-compatible
-controller and the currently assumed 110 x 110 mm lens.
+controller and the operator-confirmed 110 x 110 mm lens.
 
 The destination is the useful core of a LightBurn-like workflow: import or
 create geometry, assign operations and MOPA parameters, preview and validate
@@ -36,8 +36,7 @@ Phase 0 has established a reproducible evidence and research baseline:
 - the public tests, provenance checks, leak guard, and clean-clone validation
   pass.
 
-Phase 0 remains open while we collect machine photos and operator notes directly
-from the actual control computer. The settings and device screenshots, bundle,
+Phase 0 is complete as an evidence baseline. The settings and device screenshots, bundle,
 exported preferences, closed-application local settings and three explicitly
 operator-verified projects are preserved and analyzed. The operator confirmed a
 110 mm lens; other local test projects remain unverified. See the
@@ -75,23 +74,22 @@ We do not need to begin with a blank-sheet LightBurn clone:
   material recipes, simulation, pre-flight checks, packaging, and an addon
   architecture. Its job model already represents frequency and pulse width.
 
-The leading route is therefore either to use and improve MeerK40t directly or
-to build a Rayforge JCZ/Balor addon using the narrowest practical layer from
-BalorMK. This remains a proposed decision until the packaged interaction and
-real-project gates in
-[ADR 0002](docs/adr/0002-reuse-rayforge-and-balormk.md) have passed.
+The accepted route is a Rayforge JCZ addon with BalorMK retained as the pinned
+behavioral oracle and reference boundary. Packaged interaction remains an M1
+release gate, not an architecture-decision gate; see
+[ADR 0002](docs/adr/0002-reuse-rayforge-and-balormk.md).
 
 ## Next steps
 
 The initial offline architecture spikes have passed. The next work remains
 hardware-free:
 
-1. collect exterior labels and startup/interlock notes;
-2. obtain or produce a reviewed Windows Rayforge build artifact without
+1. obtain or produce a reviewed Windows Rayforge build artifact without
    installing a toolchain through this repository;
-3. run and record the packaged no-device desktop interaction checklist;
-4. accept, revise, or reject the proposed reuse architecture from evidence;
-5. complete and independently review the M3 hardware-protocol template before
+2. run and record the packaged no-device desktop interaction checklist;
+3. promote only evidence-backed vector MOPA imports through the existing
+   fail-closed review boundary;
+4. complete and independently review the M3 hardware-protocol template before
    seeking separate approval for any live controller communication.
 
 An independent desktop application is the fallback only if both existing

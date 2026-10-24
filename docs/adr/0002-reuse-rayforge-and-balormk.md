@@ -1,7 +1,8 @@
 # ADR 0002: Prove reuse of Rayforge and BalorMK before building an app
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-10-17
+- Accepted: 2026-10-24
 
 ## Context
 
@@ -20,7 +21,7 @@ Creating another editor, geometry stack and controller implementation would
 duplicate large, safety-relevant bodies of work and permanently increase the
 maintenance burden.
 
-## Proposed decision
+## Decision
 
 Do not begin independent desktop product implementation. First run three
 offline, version-pinned proofs:
@@ -32,12 +33,11 @@ offline, version-pinned proofs:
 3. translate one synthetic Rayforge operation stream to JCZ/Balor commands and
    compare it with a BalorMK mock trace.
 
-If the proofs pass, prefer one of these outcomes in order:
-
-1. use and contribute to MeerK40t if its full application is adequate;
-2. implement and upstream a Rayforge JCZ/Balor addon, adapting the narrowest
-   practical layer from BalorMK;
-3. extract a small maintained controller library shared by either application.
+The proofs pass at the offline architecture boundary. Build the product as a
+Rayforge JCZ addon and retain pinned BalorMK behavior as the controller-level
+oracle. Adapt only the narrowest necessary implementation after licensing and
+attribution allow it. Packaged Windows interaction remains an M1 release gate,
+not a reason to defer the host-architecture decision.
 
 An independent desktop application requires a later ADR showing concrete,
 tested gaps in both existing applications.
@@ -121,14 +121,16 @@ Subsequent offline evidence:
 - [M1 no-device acceptance checkpoint](../research/m1-no-device-acceptance.md):
   the public regression suite and leak guard now form one transport-free gate
   over addon lifecycle, workflow, layers, recipes, encoding, negative cases,
-  cancellation/recovery and synthetic imports. The packaged Windows GUI and a
-  known-working private project remain external gates.
+  cancellation/recovery and synthetic imports. Packaged Windows interaction
+  remains a release gate.
 - [Upstream contract and license audit](../research/upstream-contract-and-license-audit.md):
   both pins and license notices are now machine-verifiable; the documented
   addon lifecycle is usable, but driver registration and cleanup still rely
   on an internal registry seam that should be replaced upstream.
 
-These results satisfy the current model, buffering and no-device integration
-proofs. They do not yet satisfy the packaged human-interaction or real-project
-import obligations, so this ADR remains proposed.
+Three operator-verified private projects subsequently established the
+project-level `frequency` and `QPulseWidth` serialization needed to implement
+the disabled-output import seam. Together, the evidence satisfies the host
+architecture decision. It does not authorize hardware access or claim that the
+packaged Windows interaction and import-promotion release gates have passed.
 

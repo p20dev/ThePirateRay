@@ -102,8 +102,9 @@ The PirateRay-specific work should remain narrow:
 
 ## Gaps that must not be papered over
 
-1. A known-working private galvo `.lbrn2` is still required to establish
-   project-level `QPulseWidth` serialization and omission/default behavior.
+1. Three known-working private galvo projects establish project-level
+   `QPulseWidth` serialization. Omission/default behavior still requires an
+   explicit policy before promotion to executable output.
 2. The current Windows environment has not launched the pinned Rayforge GTK
    application; the headless UI contract is not a human interaction test.
 3. `RequireFrameBeforeStart` is observed in a LightBurn device export and
@@ -111,8 +112,9 @@ The PirateRay-specific work should remain narrow:
    framing behavior.
 4. Machine-specific frequency, pulse-width, timing and correction limits are
    not established by LightBurn documentation or exported recipe values.
-5. Material recipes lack a proven contract for provenance, approval and
-   machine/lens/correction compatibility.
+5. PirateRay recipe metadata now supplies fail-closed provenance, approval and
+   machine/lens/correction compatibility checks; packaged UI interaction is
+   still part of the M1 desktop checklist.
 6. The HTML prototype named by the handoff is absent from the active checkout;
    its historical controls must not be treated as implemented capability.
 

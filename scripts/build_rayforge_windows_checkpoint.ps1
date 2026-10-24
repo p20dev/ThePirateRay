@@ -19,6 +19,22 @@ if (-not $ArtifactRoot) {
     $ArtifactRoot = Join-Path $repositoryRoot ".build\artifacts"
 }
 
+$repositoryStatus = @(
+    & git -C $repositoryRoot status --porcelain=v1 --untracked-files=all
+)
+if ($LASTEXITCODE -ne 0) {
+    throw "Could not inspect The Pirate Ray checkout state"
+}
+if ($repositoryStatus.Count -gt 0) {
+    throw "The Pirate Ray checkout must be clean before an external checkpoint build"
+}
+if (
+    (Test-Path -LiteralPath $ArtifactRoot) -and
+    @(Get-ChildItem -LiteralPath $ArtifactRoot -Force).Count -gt 0
+) {
+    throw "Artifact root must be absent or empty: $ArtifactRoot"
+}
+
 & (Join-Path $PSScriptRoot "prepare_rayforge_build.ps1") `
     -CacheRoot $CacheRoot `
     -AllowStagedPirateRayAddon
@@ -87,6 +103,10 @@ if (-not (Test-Path -LiteralPath $installer)) {
 }
 
 New-Item -ItemType Directory -Force -Path $ArtifactRoot | Out-Null
+$artifactInstaller = Join-Path $ArtifactRoot (Split-Path -Leaf $installer)
+if ($PSCmdlet.ShouldProcess($artifactInstaller, "Copy installer into checkpoint")) {
+    Copy-Item -LiteralPath $installer -Destination $artifactInstaller -Force
+}
 $licenseDirectory = Join-Path $bundleDirectory "THIRD_PARTY_LICENSES"
 $rayforgeLicense = Join-Path $checkout "LICENSE"
 $normalizedLicense = [IO.File]::ReadAllText($rayforgeLicense).Replace("`r`n", "`n").Replace("`r", "`n")
@@ -134,9 +154,9 @@ $result = [ordered]@{
         bytes = (Get-Item -LiteralPath $archive).Length
     }
     installer = [ordered]@{
-        path = Split-Path -Leaf $installer
-        sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $installer).Hash.ToLowerInvariant()
-        bytes = (Get-Item -LiteralPath $installer).Length
+        path = Split-Path -Leaf $artifactInstaller
+        sha256 = (Get-FileHash -Algorithm SHA256 -LiteralPath $artifactInstaller).Hash.ToLowerInvariant()
+        bytes = (Get-Item -LiteralPath $artifactInstaller).Length
     }
     license_files = @(
         [ordered]@{
@@ -152,3 +172,4 @@ $result = [ordered]@{
 $manifestPath = Join-Path $ArtifactRoot "rayforge-windows-checkpoint.json"
 $result | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $manifestPath -Encoding utf8
 Write-Output "Checkpoint manifest: $manifestPath"
+Write-Output "Transfer the complete artifact directory: $ArtifactRoot"

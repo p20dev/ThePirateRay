@@ -17,7 +17,7 @@ EXPECTED_TARGET = {
     "usb_pid": "9899",
     "device_description": "USBLMCV4",
     "lens_field_mm": 110,
-    "lens_status": "assumed-pending-physical-verification",
+    "lens_status": "operator-confirmed-on-control-machine",
 }
 PROHIBITED_CAPABILITIES = {
     "persistent_write",

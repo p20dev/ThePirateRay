@@ -1,4 +1,4 @@
-# Phase 0 status
+# Phase 0 status — complete
 
 Last updated: 2026-10-24
 
@@ -43,9 +43,10 @@ Last updated: 2026-10-24
   and preserved privately. They confirm the 110 x 110 mm field, Q-pulse-width
   enablement, visible 1-4000 kHz range and require-frame-before-start setting.
 
-## Pending external acquisition
+## Deferred hardware-readiness evidence
 
-These items remain pending from the actual control machine:
+These items are still useful before hardware work, but no longer block the
+completed Phase 0 evidence baseline or the offline M1 product checkpoint:
 
 - safe exterior hardware/label photographs and startup/interlock notes;
 - stock-driver identity and version from the actual LightBurn control computer.
@@ -58,13 +59,8 @@ Collect them directly into a dated directory under PrivateStash by following
 the [LightBurn checklist](../collection/lightburn.md). Do not use Google Drive
 as an intermediate project workspace and do not generate Support Data.
 
-Phase 0 remains open until the safety- and interoperability-relevant remainder
-is hashed, committed, pushed, and represented by sanitized public evidence.
-
-The work that does not depend on this acquisition can proceed in parallel.
-The [product and research roadmap](../roadmap.md) defines the offline application
-core, configuration analysis, protocol research, gated hardware experiments,
-and workshop release as separate milestones.
+Collect them when preparing an approved M3 hardware session. Do not expand the
+offline product scope merely to keep Phase 0 open.
 
 ## Offline M1 status
 
@@ -112,17 +108,20 @@ evidence for:
   commit, reviewer, bounded session and explicit safety statements while still
   requiring live preflight and returning no automatic hardware authorization.
 
-The remaining M1 gates are deliberately explicit:
+The remaining M1 release gates are deliberately narrow:
 
-- a private known-working `.lbrn2` project is still required before mapping
-  project-level `QPulseWidth` into workflow settings;
 - packaged Windows/GTK interaction is blocked until a reviewed Rayforge
   runtime with PyGObject and MSYS2/UCRT64 is available; the repository build
   entry point fetches pinned source but never installs that runtime;
-- graphical workflow, import, lens correction and controller protocol
-  behavior remain unproven at the physical boundary;
-- ADR 0002 remains **Proposed** until those gaps are resolved or rejected by
-  evidence.
+- three operator-verified projects establish project-level `frequency` and
+  `QPulseWidth` serialization, and the offline bridge stages complete vector
+  settings with output disabled; promotion still requires an explicit unit
+  contract, absent-pulse-width policy and exact machine-context validation;
+- graphical workflow, lens correction and controller behavior remain unproven
+  at the physical boundary and belong to later gated milestones.
+
+ADR 0002 is accepted for the offline product architecture. These release gates
+do not reopen that decision.
 
 No item in this section authorizes USB access, controller commands or laser
 output.

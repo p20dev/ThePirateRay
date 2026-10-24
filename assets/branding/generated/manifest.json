@@ -46,13 +46,13 @@
     },
     {
       "path": "android/mipmap-anydpi-v26/ic_launcher.xml",
-      "sha256": "e071a8516287e0bacccc1a14a62502f3e1eda8360b2aad3c88c390ccbfa77122",
-      "bytes": 275
+      "sha256": "32715ff646f6b9fef7c321138e4a14556c4a1f98a87b06070b56f41643dad718",
+      "bytes": 270
     },
     {
       "path": "android/mipmap-anydpi-v26/ic_launcher_round.xml",
-      "sha256": "e071a8516287e0bacccc1a14a62502f3e1eda8360b2aad3c88c390ccbfa77122",
-      "bytes": 275
+      "sha256": "32715ff646f6b9fef7c321138e4a14556c4a1f98a87b06070b56f41643dad718",
+      "bytes": 270
     },
     {
       "path": "android/mipmap-hdpi/ic_launcher.png",
@@ -136,8 +136,8 @@
     },
     {
       "path": "android/values/ic_launcher_background.xml",
-      "sha256": "1ff64d109f4173e84bf4d6ed9957b6f37f3456b0db3b19bb17d3a3c1de2687e4",
-      "bytes": 125
+      "sha256": "b54bc246c11f5e12b46926eef269f08b67cf612cc8e9a9580f86d95820b1a2b1",
+      "bytes": 121
     },
     {
       "path": "ios/AppIcon.appiconset/Contents.json",
@@ -980,8 +980,8 @@
     },
     {
       "path": "web/site.webmanifest",
-      "sha256": "ca7277912f7c8ccb373ca252c88050eecc217c355b05d5d6687517947812a32a",
-      "bytes": 699
+      "sha256": "e56c1cff35765833a1f4d8d543fdf117d9c6b1572103122340ff037e1fedbac6",
+      "bytes": 666
     },
     {
       "path": "windows/app.ico",

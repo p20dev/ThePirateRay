@@ -38,6 +38,17 @@ runtime is unavailable, it stops and reports the missing prerequisite. Any
 toolchain preparation remains a separate, explicitly invoked upstream action
 or should happen on a dedicated build runner.
 
+### External builder handoff
+
+The external builder needs only a clean checkout of this repository, Windows,
+and a reviewed Rayforge-compatible MSYS2/UCRT64 runtime. No laser or controller
+may be connected. Run `scripts/build_rayforge_windows_checkpoint.ps1` from the
+repository root with a clean checkout and an absent or empty artifact path. A
+successful run leaves one transferable directory,
+`.build/artifacts/`, containing exactly the portable ZIP, installer, Rayforge
+license sidecar and `rayforge-windows-checkpoint.json`. Transfer that directory
+as a unit; the receiving side verifies it before executing either binary.
+
 Before staging, the script rejects transport imports in the addon. The build
 entry point also rejects tracked Rayforge modifications and any unexpected
 untracked source. It removes and recreates only the validated addon staging
@@ -150,10 +161,12 @@ hardware, non-isolated app data, changed evidence, malformed review or any
 stop condition. Final `passed` requires a non-empty reviewer name and an
 ISO-8601 review timestamp with timezone. No status authorizes hardware access.
 
-## Remaining external gates
+## Remaining release gates
 
-- A known-working private `.lbrn2` is still required before implementing
-  project-level `QPulseWidth` mapping.
 - Human interaction results from the packaged build must be recorded before
-  ADR 0002 can be accepted.
+  M1 can be called a packaged desktop checkpoint.
+- The three known-working private projects establish serialized MOPA fields.
+  Promotion from disabled staging still requires the explicit unit contract,
+  absent-pulse-width policy and exact machine-context validation already
+  enforced by preflight.
 - Physical controller behavior remains outside M1.
