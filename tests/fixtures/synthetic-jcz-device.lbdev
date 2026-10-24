@@ -1,6 +1,7 @@
 {
   "FixtureProvenance": "synthetic public data; not a machine export",
   "SyntheticProfileId": "synthetic-jpt-mopa-110-v1",
+  "AppVersion": "2.1.03",
   "DeviceList": [
     {
       "DisplayName": "Synthetic JCZ MOPA",
@@ -10,7 +11,11 @@
       "Height": 110,
       "HomeOnStartup": false,
       "Settings": {
-        "RequireFrameBeforeStart": true
+        "RequireFrameBeforeStart": true,
+        "Laser_QPulseWidthEnabled": true,
+        "Laser_FiberType": 3,
+        "Laser_MinFreq": 1,
+        "Laser_MaxFreq": 4000
       },
       "CutList": [
         {

@@ -5,12 +5,15 @@ The addon's `project_import.py` reads observed `CutSetting` and
 It preserves raw `frequency`, `QPulseWidth`, layer order and image dither mode.
 The synthetic unit tests contain no private geometry or complete recipes.
 
-Normalization requires the caller to declare the serialized-unit contract
-`frequency=Hz;QPulseWidth=ns`. This is an explicit input, not an inference from
-numeric magnitude or an authorization claim. With that contract, frequency is
-represented in Hz and kHz (division by 1000), and pulse width in ns. Without
-it, only raw values are returned. The seam does not establish the contract on
-behalf of the caller or read machine limits from these values.
+Normalization requires the caller to opt into the evidence-backed serialized
+unit contract `frequency=Hz;QPulseWidth=ns`. The contract is restricted to
+LightBurn `AppVersion="2.1.03"`; a missing or different version fails closed.
+It comes from correlating an operator-verified project's raw
+`frequency=1000000` and `QPulseWidth=10` with LightBurn's visible `1000 kHz`
+and `10 ns` controls. This is not an inference from magnitude or an
+authorization claim. Frequency is represented in Hz and kHz (division by
+1000), while pulse width remains in ns. Without explicit contract selection,
+only raw values are returned.
 
 Absent fields remain absent, never zero or inherited defaults. Malformed,
 non-finite, non-positive, duplicate and excessively large values are rejected.
@@ -23,17 +26,19 @@ Every result has `encoding_allowed=False`, `hardware_use_allowed=False` and
 offline metadata seam. The companion workflow bridge matches the normalized
 LightBurn layer index to Rayforge's source-segment layer ID and stages complete
 vector MOPA values through the host's setters. Every staged step is disabled
-through `Step.set_visible(False)`, and its raw values, normalized values,
-review status and blockers are saved in the serializable `Step.extra` data.
+through `Step.set_visible(False)`, and its raw values, normalized values, exact
+unit-contract provenance, review status and blockers are saved in the
+serializable `Step.extra` data. Tampered or missing provenance is rejected
+before any step is mutated.
 Image settings and incomplete settings remain disabled without applying MOPA
 values. Multi-step staging is preflighted and rolled back on setter failure.
 
 The bridge deliberately has no function that enables output or removes a
-blocker. Host UI and preflight integration must still establish serialized
-units from independent evidence, resolve absent pulse width and validate exact
-machine, lens, correction and parameter limits before a separate reviewed
-promotion path can exist. Rayforge's relevant Step and LaserStep files are now
-included in the pinned upstream contract manifest.
+blocker. Host UI and preflight integration must still resolve absent pulse
+width and validate exact machine, lens, correction and parameter limits before
+a separate reviewed promotion path can exist. Image-layer equivalence remains
+unverified. Rayforge's relevant Step and LaserStep files are included in the
+pinned upstream contract manifest.
 
 The addon now also exposes a transport-free document preflight report with
 stable issue codes and human-readable blocker messages. The offline driver

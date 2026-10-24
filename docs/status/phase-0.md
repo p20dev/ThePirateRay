@@ -110,13 +110,17 @@ evidence for:
 
 The remaining M1 release gates are deliberately narrow:
 
+- vector project frequency and `QPulseWidth` now use a LightBurn 2.1.03,
+  evidence-bound Hz/ns contract; absent pulse width and image equivalence stay
+  blocked;
 - packaged Windows/GTK interaction is blocked until a reviewed Rayforge
   runtime with PyGObject and MSYS2/UCRT64 is available; the repository build
   entry point fetches pinned source but never installs that runtime;
 - three operator-verified projects establish project-level `frequency` and
   `QPulseWidth` serialization, and the offline bridge stages complete vector
-  settings with output disabled; promotion still requires an explicit unit
-  contract, absent-pulse-width policy and exact machine-context validation;
+  settings with output disabled; promotion still requires an
+  absent-pulse-width policy, image equivalence and exact machine-context
+  validation;
 - graphical workflow, lens correction and controller behavior remain unproven
   at the physical boundary and belong to later gated milestones.
 

@@ -159,8 +159,9 @@ Source inspection found particularly relevant implementation details:
   including speed, power, passes, offsets, raster interval/angle and dither;
 - `.lbdev` device profiles have a separate importer;
 - laser steps and recipes serialize `frequency` in Hz; the laser-step UI
-  describes `pulse_width` as nanoseconds, while the Ruida encoder calls the
-  same Ops value microseconds, so the unit contract requires clarification;
+  describes `pulse_width` as nanoseconds. Later LightBurn 2.1.03 evidence binds
+  the JPT import seam to raw Hz/display kHz and direct ns without changing the
+  separate Ruida encoder question;
 - the neutral `Ops` command set contains frequency and pulse-width commands;
 - binary rather than G-code drivers are supported through an `OpsEncoder`;
 - driver state, cancel/hold, discovery, machine profiles, simulator and
@@ -224,8 +225,9 @@ stability and binary-wheel review.
 ## Finding 4: LightBurn migration is mostly an extension problem
 
 Rayforge's existing LightBurn import removes the need to create a general
-`.lbrn2` parser. The focused task is to build a private, known-working fixture
-matrix and identify which galvo-specific fields are currently dropped.
+`.lbrn2` parser. The private known-working fixture matrix now identifies the
+vector MOPA fields and units; the focused remaining work is packaged GUI
+verification plus unsupported image and omitted-value behavior.
 
 Likely gaps to test include:
 

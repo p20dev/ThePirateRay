@@ -104,8 +104,9 @@ Subsequent offline evidence:
   external encoder deterministically packs controller-shaped command records
   matching the pinned BalorMK mock values, while retaining no transport.
 - [Synthetic LightBurn MOPA import spike](../research/rayforge-lightburn-mopa-import-spike.md):
-  geometry and common settings survive, but frequency is not mapped to the
-  workflow and pulse-width representation still lacks fixture evidence.
+  geometry and common settings survive; the external addon now maps complete
+  vector frequency and pulse width with a LightBurn 2.1.03 evidence contract,
+  while keeping every staged step disabled.
 - [Graphical workflow model spike](../research/rayforge-graphical-workflow-spike.md):
   Rayforge's generated settings contract exposes frequency and pulse width,
   preserves them through step serialization and supplies preview Ops without
@@ -130,7 +131,9 @@ Subsequent offline evidence:
 
 Three operator-verified private projects subsequently established the
 project-level `frequency` and `QPulseWidth` serialization needed to implement
-the disabled-output import seam. Together, the evidence satisfies the host
-architecture decision. It does not authorize hardware access or claim that the
-packaged Windows interaction and import-promotion release gates have passed.
+the disabled-output import seam. The running LightBurn 2.1.03 UI further binds
+those values to raw Hz/display kHz and direct ns. Together, the evidence
+satisfies the accepted host architecture decision. It does not authorize
+hardware access or claim that the packaged Windows interaction and
+import-promotion release gates have passed.
 

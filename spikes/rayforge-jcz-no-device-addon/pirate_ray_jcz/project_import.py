@@ -7,6 +7,19 @@ import xml.etree.ElementTree as ET
 
 
 UNIT_CONTRACT = "frequency=Hz;QPulseWidth=ns"
+UNIT_CONTRACT_APP_VERSION = "2.1.03"
+UNIT_CONTRACT_EVIDENCE = {
+    "status": "operator-verified-ui-project-correlation",
+    "lightburn_app_version": UNIT_CONTRACT_APP_VERSION,
+    "frequency_serialized_unit": "Hz",
+    "frequency_ui_unit": "kHz",
+    "frequency_serialized_units_per_ui_unit": 1000,
+    "q_pulse_width_serialized_unit": "ns",
+    "q_pulse_width_ui_unit": "ns",
+    "analysis_ref": (
+        "docs/research/lightburn-control-machine-observation-2026-10-24.md"
+    ),
+}
 
 
 class ProjectImportError(ValueError):
@@ -44,9 +57,10 @@ def _layer_id(element: ET.Element) -> str | None:
 def import_project_mopa(data: bytes, *, unit_contract: str | None = None) -> dict:
     """Preserve observed XML fields and optionally normalize declared units.
 
-    The caller must supply an independently established serialized-unit contract.
-    No unit is inferred from magnitude. Missing pulse width is never defaulted.
-    Results are offline metadata, not executable Rayforge workflow settings.
+    The caller must opt into the independently established LightBurn 2.1.03
+    serialized-unit contract. No unit is inferred from magnitude. Missing pulse
+    width is never defaulted. Results are offline metadata, not executable
+    Rayforge workflow settings.
     """
     if unit_contract not in (None, UNIT_CONTRACT):
         raise ProjectImportError("unsupported serialized-unit contract")
@@ -62,6 +76,12 @@ def import_project_mopa(data: bytes, *, unit_contract: str | None = None) -> dic
         raise ProjectImportError("invalid project XML") from exc
     if root.tag != "LightBurnProject" or root.get("FormatVersion") != "1":
         raise ProjectImportError("unsupported project format")
+    app_version = root.get("AppVersion")
+    if unit_contract is not None and app_version != UNIT_CONTRACT_APP_VERSION:
+        raise ProjectImportError(
+            "unit contract requires LightBurn AppVersion "
+            + UNIT_CONTRACT_APP_VERSION
+        )
     layers = []
     layer_ids: set[str] = set()
     for setting in root:
@@ -102,7 +122,10 @@ def import_project_mopa(data: bytes, *, unit_contract: str | None = None) -> dic
                        "normalized": normalized, "blockers": blockers})
     if not layers:
         raise ProjectImportError("project has no process settings")
-    return {"layers": layers, "unit_contract": unit_contract, "transport": None,
+    evidence = dict(UNIT_CONTRACT_EVIDENCE) if unit_contract else None
+    return {"layers": layers, "unit_contract": unit_contract,
+            "unit_contract_evidence": evidence,
+            "lightburn_app_version": app_version, "transport": None,
             "encoding_allowed": False, "hardware_use_allowed": False,
             "blockers": ["machine identity, correction and limits unverified",
                          "offline import seam is not wired to host workflow"]}

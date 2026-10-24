@@ -18,12 +18,13 @@ for JCZ use rather than receiving guessed defaults.
 
 The external addon now supplies the narrow profile seam missing from Rayforge
 core. It recognizes only the explicit public synthetic profile identity,
-requires `JCZFiber`, positive work-area dimensions and
-`RequireFrameBeforeStart: true`, and associates the result only with
-`PirateRayJCZNoDeviceDriver`. Frequency and `QPulseWidth` remain raw
-observations with unverified serialized-unit conversion. Encoding remains
-blocked because the physical profile, lens/correction match, project
-serialization and machine-specific limits are not yet verified.
+requires LightBurn 2.1.03, `JCZFiber`, the observed 110 x 110 mm work area,
+Q-pulse-width enablement, fiber-type code 3, a valid 1-4000 kHz profile range,
+and `RequireFrameBeforeStart: true`. It associates the result only with
+`PirateRayJCZNoDeviceDriver`. Cut-list frequency is normalized from serialized
+Hz to display kHz and `QPulseWidth` remains ns. Encoding stays blocked because
+physical identity, lens/correction match, certified limits and promotion
+review are not verified.
 
 The checked result is
 `tests/fixtures/rayforge-lightburn-device-import.json`. Two runs produced the
@@ -52,8 +53,8 @@ python scripts/spike_rayforge_lightburn_device_import.py C:\path\to\rayforge
 
 ## Next seam
 
-The next extension is offline controller-list buffering and explicit safe
-state ordering. Cut-list recipes and project-layer `QPulseWidth` mapping remain
-gated until a known-working `.lbrn2` fixture establishes project serialization.
+Offline controller-list buffering and explicit state ordering are complete.
+The next software gate is packaged Windows GTK interaction. Image-layer
+equivalence and absent `QPulseWidth` remain blocked rather than defaulted.
 
 No USB enumeration, controller command, motion, framing or emission occurred.

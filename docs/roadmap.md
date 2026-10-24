@@ -66,11 +66,15 @@ It does **not** yet establish:
 - status, interlock, error, abort, and recovery behavior;
 - whether an apparently harmless query can move a galvo or arm emission;
 - the effective pulse-width default for settings that omit `QPulseWidth`.
+- safe controller discovery, state and recovery behavior beyond the offline
+  mock evidence.
 
 The later LightBurn export collection now establishes version `2.1.03`, a
 110 x 110 mm `JCZFiber`/`LibUSB` JPT profile, and the `QPulseWidth` device
 library field. See the
 [device-export analysis](research/lightburn-device-exports-2026-10-19.md).
+The later verified-project and live-UI collection establishes LightBurn 2.1.03
+project frequency as serialized Hz/displayed kHz and `QPulseWidth` as ns.
 
 Consequently, treating a vendor DLL or opaque profile as a callable black box
 would be premature and would make the safety boundary impossible to audit.
@@ -154,11 +158,12 @@ and explicit state-before-motion ordering. Upload, execution and physical
 transport remain outside M1.
 
 [The synthetic LightBurn MOPA import spike](research/rayforge-lightburn-mopa-import-spike.md)
-confirms that Rayforge preserves geometry, power, speed and passes. Three later
-operator-verified projects establish project-level `frequency` and
-`QPulseWidth` fields. The addon now stages complete vector settings into
-disabled Rayforge steps and rejects them at preflight until units, defaults and
-machine context are explicitly approved.
+confirms that Rayforge preserves geometry, power, speed and passes. Three
+operator-verified LightBurn 2.1.03 projects plus the running UI establish the
+serialized Hz/display-kHz relationship and direct ns `QPulseWidth` contract.
+The external addon maps complete vector settings into disabled workflow steps
+with exact evidence provenance. Missing pulse width, image equivalence and
+every hardware gate still fail closed.
 
 ADR 0002 accepts the Rayforge-addon architecture with BalorMK as the pinned
 behavioral oracle. Packaged Windows interaction is a release gate, not an open
@@ -271,8 +276,8 @@ the M3 protocol draft are all present. Work now converges on two deliverables:
 1. produce the pinned Windows Rayforge checkpoint on a reviewed external build
    runner, verify the transferred artifact set and complete the no-device
    desktop interaction checklist;
-2. promote complete vector MOPA imports only after recording the explicit unit
-   contract, absent-pulse-width policy and exact machine-context validation.
+2. promote complete vector MOPA imports only after an absent-pulse-width
+   policy, image equivalence and exact machine-context validation.
 
 Exterior photographs, additional screenshots and speculative protocol research
 are not M1 blockers. Hardware work remains separately gated by M3.
@@ -291,10 +296,10 @@ Rayforge preserves the common name and work-area fields, but maps no
 profile model. The fixture and regression test remain transport-free.
 
 Item 3 now has a minimal external-addon seam: it recognizes only the synthetic
-`JCZFiber` fixture with explicit provenance and frame-before-start, binds it to
-the no-device JCZ driver, preserves process values as raw observations with
-unit uncertainty, and keeps encoding disabled until the unit/default and exact
-machine-context review passes.
+LightBurn 2.1.03 `JCZFiber` fixture with explicit provenance, the observed
+110 x 110 mm/Q-pulse/frequency/frame contract, and binds it to the no-device
+JCZ driver. Vector project values use the evidence-backed Hz/ns mapping, while
+encoding remains disabled pending physical compatibility and review.
 
 Item 4 now covers transport-free fixed-size list buffering and an explicit
 state-before-motion order derived from pinned BalorMK. Port commands, upload,

@@ -163,10 +163,13 @@ ISO-8601 review timestamp with timezone. No status authorizes hardware access.
 
 ## Remaining release gates
 
+- The known-working project gate and LightBurn 2.1.03 Hz/ns serialization
+  contract are complete. Missing pulse width and image equivalence remain
+  explicit blockers.
 - Human interaction results from the packaged build must be recorded before
   M1 can be called a packaged desktop checkpoint.
 - The three known-working private projects establish serialized MOPA fields.
-  Promotion from disabled staging still requires the explicit unit contract,
-  absent-pulse-width policy and exact machine-context validation already
-  enforced by preflight.
+  Promotion from disabled staging still requires an absent-pulse-width policy,
+  image equivalence and exact machine-context validation already enforced by
+  preflight.
 - Physical controller behavior remains outside M1.

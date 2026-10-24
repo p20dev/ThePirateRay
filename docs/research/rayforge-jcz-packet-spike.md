@@ -41,8 +41,8 @@ operations continue to fail closed.
 - Port-state commands are deliberately omitted because their machine-specific
   bit semantics can arm output and have not yet passed the hardware gate.
 - The 110 mm coordinate mapping is synthetic and has no lens correction.
-- Machine-specific bounds and the pulse-width unit contract still require
-  authoritative evidence; they are not guessed here.
+- The LightBurn 2.1.03 import unit contract is now evidenced, but certified
+  machine-specific bounds and physical behavior remain unknown and unguessed.
 - No hardware compatibility or safe marking behavior is established.
 
 ## Decision impact

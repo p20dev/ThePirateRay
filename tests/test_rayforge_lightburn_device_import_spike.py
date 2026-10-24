@@ -54,11 +54,20 @@ class RayforgeLightBurnDeviceImportSpikeTests(unittest.TestCase):
         self.assertEqual("PirateRayJCZNoDeviceDriver", seam["driver"])
         self.assertIsNone(seam["transport"])
         self.assertFalse(seam["encoding_allowed"])
-        self.assertEqual("preserved-raw-not-mapped", seam["process_metadata"]["status"])
+        self.assertEqual("normalized-offline-not-authorized", seam["process_metadata"]["status"])
         entry = seam["process_metadata"]["cut_list"][0]
         self.assertEqual(40000, entry["frequency"]["raw_value"])
+        self.assertEqual(40000, entry["frequency"]["value_hz"])
+        self.assertEqual(40, entry["frequency"]["value_khz"])
         self.assertEqual(100, entry["q_pulse_width"]["raw_value"])
-        self.assertEqual("unverified", entry["q_pulse_width"]["serialized_unit_conversion"])
+        self.assertEqual(100, entry["q_pulse_width"]["value_ns"])
+        contract = seam["observed_device_contract"]
+        self.assertEqual([1, 4000], contract["frequency_ui_range_khz"])
+        self.assertEqual("IPG_YLPM", contract["fiber_type_ui_label"])
+        self.assertEqual(
+            "label-is-not-manufacturer-identity",
+            contract["fiber_type_identity_status"],
+        )
 
     def test_addon_seam_rejects_wrong_backend_and_missing_frame_gate(self):
         source = json.loads(SOURCE.read_text(encoding="utf-8"))
@@ -85,6 +94,32 @@ class RayforgeLightBurnDeviceImportSpikeTests(unittest.TestCase):
         ] = True
         with self.assertRaises(JCZProfileImportError):
             import_lightburn_jcz_profile(ambiguous_frequency)
+
+        for frequency in (500, 4_001_000):
+            outside_range = deepcopy(source)
+            outside_range["DeviceList"][0]["CutList"][0]["frequency"] = frequency
+            with self.subTest(frequency=frequency):
+                with self.assertRaisesRegex(JCZProfileImportError, "outside"):
+                    import_lightburn_jcz_profile(outside_range)
+
+    def test_observed_profile_contract_fails_closed_on_mismatch(self):
+        source = json.loads(SOURCE.read_text(encoding="utf-8"))
+        mutations = (
+            ("wrong version", lambda doc: doc.update(AppVersion="2.2.00")),
+            ("wrong width", lambda doc: doc["DeviceList"][0].update(Width=300)),
+            ("q pulse disabled", lambda doc: doc["DeviceList"][0]["Settings"].update(
+                Laser_QPulseWidthEnabled=False)),
+            ("wrong fiber code", lambda doc: doc["DeviceList"][0]["Settings"].update(
+                Laser_FiberType=2)),
+            ("reversed frequency range", lambda doc: doc["DeviceList"][0]["Settings"].update(
+                Laser_MinFreq=4000, Laser_MaxFreq=1)),
+        )
+        for label, mutate in mutations:
+            candidate = deepcopy(source)
+            mutate(candidate)
+            with self.subTest(label=label):
+                with self.assertRaises(JCZProfileImportError):
+                    import_lightburn_jcz_profile(candidate)
 
 
 if __name__ == "__main__":

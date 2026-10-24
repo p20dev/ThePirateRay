@@ -44,7 +44,8 @@ operator-verified projects are preserved and analyzed. The operator confirmed a
 and [control-machine observation](docs/research/lightburn-control-machine-observation-2026-10-24.md).
 
 Three operator-verified projects now establish project-level `frequency` and
-`QPulseWidth` serialization; see the
+`QPulseWidth` serialization. Correlation with the running LightBurn 2.1.03 UI
+establishes raw Hz to displayed kHz and direct ns pulse width; see the
 [verified-project analysis](docs/research/lightburn-verified-projects-2026-10-24.md).
 Missing pulse width still requires explicit resolution before executable import.
 

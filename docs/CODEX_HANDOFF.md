@@ -77,9 +77,10 @@ gates remain:
 1. A Windows artifact for the pinned Rayforge revision must be produced on a
    reviewed build runner, verified without execution, and pass the manual
    no-device desktop checklist.
-2. Promote only complete vector MOPA imports after an explicit unit contract,
-   absent-pulse-width policy and exact machine-context validation. The private
-   serialization-evidence gate itself is complete.
+2. The known-working private JPT `.lbrn2` serialization and unit-contract gates
+   are met for LightBurn 2.1.03 vector settings. Promotion still requires
+   explicit resolution of absent pulse width, image equivalence and complete
+   machine-context validation.
 
 Raw projects, screenshots containing identifiers, machine data and build
 binaries stay out of the public repository.
@@ -89,13 +90,13 @@ binaries stay out of the public repository.
 An offline project MOPA seam, disabled-output Rayforge workflow bridge and
 synthetic tests now exist; see
 `docs/research/lightburn-project-mopa-import.md`. It preserves both process
-element types and requires an explicit unit contract for normalization. The
-bridge binds source layer IDs, uses the host MOPA setters, serializes review
-metadata and disables every staged step. Document preflight presents those
-blockers and the offline driver rejects them before buffer preparation. It
-never authorizes encoding. The next import task is GTK presentation plus an
-independently established unit contract; absent pulse width and image
-equivalence remain blockers.
+element types and applies the evidence-bound Hz/ns contract only to LightBurn
+2.1.03. The bridge binds source layer IDs, uses the host MOPA setters,
+serializes exact unit provenance and disables every staged step. Document
+preflight presents the remaining blockers and the offline driver rejects them
+before buffer preparation. It never authorizes encoding. The next import task
+is packaged GTK presentation; absent pulse width and image equivalence remain
+blockers.
 
 If a Windows artifact is available, keep the machine disconnected and run, in
 order:
@@ -108,8 +109,9 @@ order:
 
 If no artifact is available, send the external-builder handoff in
 `docs/research/m1-no-device-acceptance.md`; do not start another research
-branch or install a build environment here. Kaz's explicit decision on ADR
-0003 is also outstanding.
+branch or install a build environment here. The evidence-backed vector MOPA
+import mapping and synthetic tests are complete; Kaz's explicit decision on
+ADR 0003 is also outstanding.
 The M3 protocol can also be reviewed offline, but its
 operation allowlist must stay empty until exact read-only request evidence is
 available. ADR 0002 is accepted for the offline architecture. Until the

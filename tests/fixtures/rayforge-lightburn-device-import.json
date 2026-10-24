@@ -3,33 +3,49 @@
     "blockers": [
       "synthetic profile is not physical machine identity",
       "lens and correction profile are unverified",
-      "LightBurn project QPulseWidth serialization is unverified",
-      "machine-specific parameter limits are unverified"
+      "IPG_YLPM UI label is not manufacturer identity",
+      "observed profile ranges are not certified safe machine limits",
+      "image settings with absent QPulseWidth remain unresolved"
     ],
     "driver": "PirateRayJCZNoDeviceDriver",
     "encoding_allowed": false,
+    "observed_device_contract": {
+      "fiber_type_identity_status": "label-is-not-manufacturer-identity",
+      "fiber_type_raw": 3,
+      "fiber_type_ui_label": "IPG_YLPM",
+      "frequency_serialized_unit": "Hz",
+      "frequency_ui_range_khz": [
+        1,
+        4000
+      ],
+      "q_pulse_width_enabled": true,
+      "q_pulse_width_serialized_unit": "ns"
+    },
     "process_metadata": {
       "cut_list": [
         {
           "frequency": {
             "raw_value": 40000,
-            "unit_status": "serialized-unit-conversion-unverified"
+            "serialized_unit": "Hz",
+            "value_hz": 40000,
+            "value_khz": 40.0
           },
           "name": "Synthetic MOPA entry",
           "q_pulse_width": {
             "raw_value": 100,
-            "serialized_unit_conversion": "unverified",
-            "ui_unit_contract": "nanoseconds"
+            "serialized_unit": "ns",
+            "value_ns": 100
           }
         }
       ],
-      "status": "preserved-raw-not-mapped"
+      "status": "normalized-offline-not-authorized"
     },
     "profile_id": "synthetic-jpt-mopa-110-v1",
     "safety": {
       "require_frame_before_start": true
     },
     "source": {
+      "app_version": "2.1.03",
       "backend": "JCZFiber",
       "format": "LightBurn synthetic .lbdev",
       "provenance": "synthetic public data; not a machine export"
@@ -61,11 +77,18 @@
     ]
   },
   "raw_profile": {
+    "app_version": "2.1.03",
     "cut_entry": {
       "QPulseWidth": 100,
       "frequency": 40000
     },
+    "fiber_type_raw": 3,
+    "frequency_ui_range_khz": [
+      1,
+      4000
+    ],
     "name": "Synthetic JCZ MOPA",
+    "q_pulse_width_enabled": true,
     "require_frame_before_start": true,
     "type": "JCZFiber",
     "work_area_mm": [

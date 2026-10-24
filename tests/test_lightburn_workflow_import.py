@@ -30,7 +30,8 @@ class Step:
 
 
 def imported(fields, layer_id="3", kind="Cut", tag="CutSetting"):
-    data = (f'<LightBurnProject FormatVersion="1"><{tag} type="{kind}">'
+    data = (f'<LightBurnProject AppVersion="2.1.03" FormatVersion="1">'
+            f'<{tag} type="{kind}">'
             f'<index Value="{layer_id}"/>{fields}</{tag}></LightBurnProject>').encode()
     return import_project_mopa(data, unit_contract=UNIT_CONTRACT)
 
@@ -50,6 +51,10 @@ class WorkflowImportTests(unittest.TestCase):
         self.assertEqual(gate["status"], "staged-review-required")
         self.assertFalse(gate["encoding_allowed"])
         self.assertTrue(gate["blockers"])
+        self.assertEqual(gate["unit_contract"], UNIT_CONTRACT)
+        self.assertEqual(
+            gate["unit_contract_evidence"], imported(FIELDS)["unit_contract_evidence"]
+        )
 
     def test_missing_pulse_and_image_mode_do_not_apply_parameters(self):
         for result in (
@@ -74,7 +79,7 @@ class WorkflowImportTests(unittest.TestCase):
             stage_mopa_workflow_steps(imported(FIELDS), {"3": step})
 
         two_layers = import_project_mopa(
-            ('<LightBurnProject FormatVersion="1">'
+            ('<LightBurnProject AppVersion="2.1.03" FormatVersion="1">'
              '<CutSetting type="Cut"><index Value="1"/>'+FIELDS+'</CutSetting>'
              '<CutSetting type="Cut"><index Value="2"/>'+FIELDS+'</CutSetting>'
              '</LightBurnProject>').encode(), unit_contract=UNIT_CONTRACT)
@@ -84,7 +89,7 @@ class WorkflowImportTests(unittest.TestCase):
 
     def test_preflight_failure_does_not_mutate_any_step(self):
         result = import_project_mopa(
-            ('<LightBurnProject FormatVersion="1">'
+            ('<LightBurnProject AppVersion="2.1.03" FormatVersion="1">'
              '<CutSetting type="Cut"><index Value="1"/>'+FIELDS+'</CutSetting>'
              '<CutSetting type="Cut"><index Value="2"/>'+FIELDS+'</CutSetting>'
              '</LightBurnProject>').encode(), unit_contract=UNIT_CONTRACT)
@@ -94,9 +99,19 @@ class WorkflowImportTests(unittest.TestCase):
         self.assertTrue(first.visible)
         self.assertEqual((first.frequency, first.pulse_width), (1, 2))
 
+    def test_tampered_unit_evidence_is_rejected_before_mutation(self):
+        result = imported(FIELDS)
+        result["unit_contract_evidence"]["frequency_ui_unit"] = "MHz"
+        step = Step()
+        with self.assertRaisesRegex(WorkflowImportError, "exact evidence provenance"):
+            stage_mopa_workflow_steps(result, {"3": step})
+        self.assertTrue(step.visible)
+        self.assertEqual((step.frequency, step.pulse_width), (1, 2))
+        self.assertEqual(step.extra, {"preserved": True})
+
     def test_setter_failure_rolls_back_every_step(self):
         result = import_project_mopa(
-            ('<LightBurnProject FormatVersion="1">'
+            ('<LightBurnProject AppVersion="2.1.03" FormatVersion="1">'
              '<CutSetting type="Cut"><index Value="1"/>'+FIELDS+'</CutSetting>'
              '<CutSetting type="Cut"><index Value="2"/>'+FIELDS+'</CutSetting>'
              '</LightBurnProject>').encode(), unit_contract=UNIT_CONTRACT)

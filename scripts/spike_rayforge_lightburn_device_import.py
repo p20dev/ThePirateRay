@@ -60,11 +60,17 @@ def run(source: Path, fixture: Path, addon: Path) -> dict[str, object]:
         "fixture": fixture.name,
         "fixture_provenance": "synthetic public data",
         "raw_profile": {
+            "app_version": document["AppVersion"],
             "name": raw["DisplayName"],
             "type": raw["Type"],
             "work_area_mm": [raw["Width"], raw["Height"]],
             "require_frame_before_start": settings[
                 "RequireFrameBeforeStart"
+            ],
+            "q_pulse_width_enabled": settings["Laser_QPulseWidthEnabled"],
+            "fiber_type_raw": settings["Laser_FiberType"],
+            "frequency_ui_range_khz": [
+                settings["Laser_MinFreq"], settings["Laser_MaxFreq"]
             ],
             "cut_entry": {
                 "frequency": cut_entry["frequency"],

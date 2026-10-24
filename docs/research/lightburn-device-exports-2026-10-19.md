@@ -66,9 +66,10 @@ Across the 60 exported cut-list entries:
 LightBurn's official galvo cut-setting documentation presents frequency in
 kHz and Q-Pulse Width in nanoseconds. The larger integers stored by the export
 show that the serialized representation cannot simply be copied into a UI
-field without an explicit conversion contract. The exact field name and unit
-are now evidenced for a device-library export, but the representation inside
-a `.lbrn2` project remains unconfirmed.
+field without an explicit conversion contract. Subsequent operator-verified
+LightBurn 2.1.03 project/UI correlation establishes raw Hz to display kHz and
+direct-ns `QPulseWidth`; see the
+[control-machine observation](lightburn-control-machine-observation-2026-10-24.md).
 
 These observed recipe values and profile fields are **not certified hardware
 limits or safe operating parameters**. They must not be used to probe the
@@ -93,19 +94,16 @@ new general parser:
 
 1. add evidence-backed JCZ device-profile recognition;
 2. preserve source units and raw values at the import boundary;
-3. map frequency and `QPulseWidth` only after a real `.lbrn2` fixture confirms
-   project serialization;
+3. bind the now-confirmed LightBurn 2.1.03 Hz/ns contract to exact provenance;
 4. validate imported values against a separately verified machine profile;
 5. fail closed when units, profile identity or ranges are unknown.
 
 ## Remaining collection gaps
 
 The exports settle the exact LightBurn release and the two named device
-profiles. Phase 0 still needs:
+profiles. The known-working projects, Device Settings screenshots and closed
+preferences snapshot were subsequently collected. Phase 0 still needs:
 
-- two or three known-working `.lbrn2` projects, especially a MOPA/hatch job;
-- Device Settings and device-list screenshots;
-- the closed-application LightBurn preferences directory;
 - exterior machine, source, controller and installed-lens photographs;
 - mounted-lens, connection, startup and interlock notes;
 - the stock driver's identity and version on the control computer.

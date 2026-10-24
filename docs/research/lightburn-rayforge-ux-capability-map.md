@@ -67,7 +67,7 @@ required by real workshop jobs and supported by evidence.
 | Hide geometry without disabling output, and disable output without hiding geometry | LightBurn separates `Show` and `Output` | Rayforge separates `Layer.visible` canvas state from `Step.visible` job participation and serializes both; output is operation-level rather than a layer-level control | Proven offline at model/source level; aggregate UI untested | Add or propose a tri-state layer Output control over existing step states, then verify it in the packaged no-device GUI |
 | Edit common settings quickly | The layer list exposes mode, speed, power, passes and applicable galvo fields | Rayforge's generated laser-step settings expose power, speed, frequency and pulse width; serialization is proven offline | Proven offline at the model/UI-contract level | Confirm editing and save/reload in the packaged no-device GUI |
 | Reveal complexity progressively | LightBurn Beginner Mode hides some advanced settings; PirateRay calls for Beginner, Advanced and Expert levels without moving the canvas | Rayforge capability sections can hide machine-dependent fields, but three user-facing disclosure levels are not proven | Product requirement | Define the smallest beginner field set from real job needs before adding controls |
-| Preserve MOPA units and values | Galvo frequency is presented in kHz and Q-pulse width in ns | Rayforge's workflow uses Hz and ns and preserves both; LightBurn project import does not yet map frequency or pulse width into workflow settings | Partly proven; import gated | Keep explicit conversion at the import boundary and wait for a known-working `.lbrn2` before mapping `QPulseWidth` |
+| Preserve MOPA units and values | Galvo frequency is presented in kHz and Q-pulse width in ns | Rayforge's workflow uses Hz and ns; the addon maps complete LightBurn 2.1.03 vector settings with an evidence-bound raw-Hz/display-kHz and direct-ns contract | Proven offline for complete vector settings; image/absent-pulse cases gated | Verify editing and persistence in the packaged no-device GUI while retaining the version and provenance checks |
 | Apply a reusable material recipe | LightBurn libraries organize presets by material, thickness and description and apply/link them to layers | Rayforge recipes already match machine, head, material, thickness and step type and preserve Hz/ns settings; the external addon now validates versioned provenance plus exact source/lens/correction compatibility while withholding hardware authorization | Proven offline at model/source level; approval policy and portable collections remain | Integrate the validated metadata into recipe selection before changing the existing recipe UI |
 | Inspect planned behavior before any run | LightBurn Preview reflects enabled layers and planned order | Rayforge produced a populated `JobArtifact` with Ops, path length and no machine code | Proven offline; human interaction untested | Verify layer filtering, order, hatch and warnings in the packaged no-device GUI |
 | Reject a visibly invalid job | Preview/preflight should reveal unintended output; the target product must reject profile mismatch and out-of-field geometry | Existing JCZ negative tests reject profile mismatch, out-of-field geometry, invalid values and unsupported Ops | Proven offline at encoder boundary | Surface these failures as understandable preflight messages without weakening the fail-closed gate |
@@ -102,9 +102,10 @@ The PirateRay-specific work should remain narrow:
 
 ## Gaps that must not be papered over
 
-1. Three known-working private galvo projects establish project-level
-   `QPulseWidth` serialization. Omission/default behavior still requires an
-   explicit policy before promotion to executable output.
+1. Three known-working private galvo projects and the running LightBurn 2.1.03
+   UI establish the vector Hz/ns serialization contract. Missing
+   `QPulseWidth` remains absence, never a guessed default; image-processing
+   equivalence is also unproven.
 2. The current Windows environment has not launched the pinned Rayforge GTK
    application; the headless UI contract is not a human interaction test.
 3. `RequireFrameBeforeStart` is observed in a LightBurn device export and

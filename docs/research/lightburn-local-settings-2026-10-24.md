@@ -42,11 +42,11 @@ unverified test files and instructed us not to use them. Nine temporary copies
 were removed from this acquisition before analysis or commit. Their originals
 were unchanged; no project content was analyzed or retained as evidence.
 
-This collection closes the missing closed-application settings snapshot. It
-does **not** close the known-working JPT project gate: project-level frequency
-and pulse-width serialization still require independently identified,
-operator-verified project evidence. Do not derive an executable import mapping
-from these settings or the excluded test projects.
+This collection closes the missing closed-application settings snapshot. The
+gate was subsequently closed by three separately supplied, operator-verified
+projects plus the running LightBurn 2.1.03 UI. The excluded candidates remain
+unverified and are still not evidence. The resulting vector import mapping
+stays disabled and review-gated; it is not executable machine authorization.
 
 The reviewed Windows artifact and manual no-device desktop acceptance also
 remain outstanding. No controller, USB endpoint, framing, motion or laser

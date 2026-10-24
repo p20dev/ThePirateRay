@@ -6,6 +6,8 @@ from collections.abc import Mapping
 from copy import deepcopy
 from typing import Any
 
+from .project_import import UNIT_CONTRACT, UNIT_CONTRACT_EVIDENCE
+
 
 METADATA_KEY = "pirateray_import"
 
@@ -59,6 +61,8 @@ def stage_mopa_workflow_steps(
         isinstance(item, str) and item for item in global_blockers
     ):
         raise WorkflowImportError("global blockers are missing")
+    unit_contract = imported.get("unit_contract")
+    unit_contract_evidence = imported.get("unit_contract_evidence")
 
     plans = []
     step_identities: set[int] = set()
@@ -86,6 +90,10 @@ def stage_mopa_workflow_steps(
         apply_values = normalized is not None and not layer_blockers
         frequency = pulse_width = None
         if apply_values:
+            if unit_contract != UNIT_CONTRACT:
+                raise WorkflowImportError("normalized units lack the supported contract")
+            if unit_contract_evidence != UNIT_CONTRACT_EVIDENCE:
+                raise WorkflowImportError("normalized units lack exact evidence provenance")
             if not callable(getattr(step, "set_frequency", None)) or not callable(
                 getattr(step, "set_pulse_width", None)
             ):
@@ -114,6 +122,8 @@ def stage_mopa_workflow_steps(
                 "source_layer_id": layer_id,
                 "raw": deepcopy(layer.get("raw")),
                 "normalized": deepcopy(layer.get("normalized")),
+                "unit_contract": unit_contract,
+                "unit_contract_evidence": deepcopy(unit_contract_evidence),
                 "blockers": blockers,
                 "encoding_allowed": False,
                 "hardware_use_allowed": False,
