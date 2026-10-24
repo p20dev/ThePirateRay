@@ -37,9 +37,11 @@ Phase 0 has established a reproducible evidence and research baseline:
   pass.
 
 Phase 0 remains open while we collect known-working LightBurn projects, device
-screenshots, the closed-application preferences folder, machine photos, and
-operator notes directly from the actual control computer. The bundle and
-exported preferences are already preserved and analyzed.
+screenshots, machine photos, and operator notes directly from the actual control
+computer. The bundle, exported preferences and closed-application local settings
+are preserved and analyzed. The operator confirmed a 110 mm lens; local test
+projects are unverified and must not be used as working-project evidence. See
+the [local settings acquisition](docs/research/lightburn-local-settings-2026-10-24.md).
 
 The offline M1 reuse proofs now pass as one consolidated acceptance checkpoint:
 the Rayforge/MeerK40t path has deterministic mock encoding, fail-closed JCZ

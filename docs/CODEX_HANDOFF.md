@@ -1,6 +1,6 @@
 # Codex continuation brief
 
-- Updated: 2026-10-21
+- Updated: 2026-10-24
 - Current focus: M1 build, packaging and no-device acceptance
 - Hardware access: prohibited
 - Automatic toolchain installation: prohibited
@@ -50,6 +50,12 @@ python scripts/check_public_repo.py .
 ```
 
 ## External gates
+
+The closed-application local settings directory is now preserved and hashed in
+PrivateStash; see `docs/research/lightburn-local-settings-2026-10-24.md`.
+The operator confirmed a 110 mm installed lens. Local project candidates are
+unverified test files and must not be used; temporary copies were removed
+before analysis or commit. No known-working project was collected.
 
 M1 is not complete. Do not describe the repository as a finished desktop
 application until both gates below have real evidence:

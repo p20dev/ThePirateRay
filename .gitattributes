@@ -7,3 +7,4 @@
 *.yaml text eol=lf
 *.yml text eol=lf
 *.png binary
+third_party/licenses/*.txt text eol=lf

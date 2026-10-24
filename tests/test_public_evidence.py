@@ -51,6 +51,7 @@ class PublicEvidenceTests(unittest.TestCase):
         expected = {
             "public-installer-configs.jsonl": 9,
             "public-lightburn-exports.jsonl": 4,
+            "public-lightburn-local-settings.jsonl": 1,
         }
         actual = {
             path.name: len(path.read_text(encoding="utf-8").splitlines())
