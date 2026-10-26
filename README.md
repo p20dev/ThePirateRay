@@ -117,7 +117,7 @@ project workspace or development destination.
 - [Rayforge material-recipe model spike](docs/research/rayforge-recipe-model-spike.md)
 - [M1 no-device build and acceptance checkpoint](docs/research/m1-no-device-acceptance.md)
 - [Proposed Rayforge/BalorMK reuse decision](docs/adr/0002-reuse-rayforge-and-balormk.md)
-- [Proposed project license and upstream boundary](docs/adr/0003-project-license-and-upstream-boundary.md)
+- [Accepted project license and upstream boundary](docs/adr/0003-project-license-and-upstream-boundary.md)
 - [Upstream contract and license audit](docs/research/upstream-contract-and-license-audit.md)
 - [Live USB enumeration](docs/research/live-usb-enumeration-2026-10-17.md)
 - [LightBurn device-export analysis](docs/research/lightburn-device-exports-2026-10-19.md)
