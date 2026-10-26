@@ -1,7 +1,8 @@
 # ADR 0003: Project license and upstream attribution boundary
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-10-21
+- Accepted: 2026-10-23 by Kaz
 
 ## Context
 
@@ -33,7 +34,8 @@ separate project responsibilities.
 
 ## Consequences
 
-- A root project `LICENSE` can be added only after Kaz accepts this ADR.
+- The root project `LICENSE` grants MIT terms for original The Pirate Ray
+  code and documentation.
 - Source provenance becomes part of code review and release acceptance.
 - A Windows installer may not be published alone; its verified license
   sidecar and checkpoint manifest are part of the distribution set.
@@ -54,9 +56,10 @@ separate project responsibilities.
 
 ## Acceptance
 
-Kaz must explicitly choose the project license. Until then this ADR remains
-Proposed, the README's no-license statement remains authoritative, and no root
-`LICENSE` file is created.
+Kaz explicitly accepted the proposed MIT license on 2026-10-23. This ADR is
+therefore Accepted and the root `LICENSE` is authoritative for original The
+Pirate Ray code and documentation. Third-party material retains its own terms
+and attribution requirements.
 
 The compatibility-adapter part of item 5 is implemented for the offline addon
 and fails closed outside Rayforge addon API 23. This implementation evidence

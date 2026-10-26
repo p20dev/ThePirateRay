@@ -158,5 +158,7 @@ Windows toolchain; bundle creation requires an already reviewed runtime.
 - Vendor executables, DLLs, and drivers from the evidence snapshot are never
   run as part of analysis.
 
-No project license has been selected yet. Until that decision is recorded,
-the contents are not offered under an open-source license.
+The Pirate Ray's original code and documentation are available under the
+[MIT License](LICENSE). Bundled or referenced third-party material retains its
+own license and attribution requirements; see `third_party/licenses/` and
+[ADR 0003](docs/adr/0003-project-license-and-upstream-boundary.md).

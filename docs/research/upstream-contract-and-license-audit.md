@@ -44,8 +44,8 @@ and permission notice to accompany copies or substantial portions. Therefore:
   include the MeerK40t notice;
 - attribution must name the upstream project and exact revision without
   implying endorsement;
-- The Pirate Ray still needs its own explicit license before original project
-  code is offered under open-source terms.
+- The Pirate Ray's original code and documentation are licensed under MIT by
+  accepted ADR 0003; third-party notices remain separately required.
 
 Checkpoint schema 2 now requires a verified Rayforge license sidecar and the
 same notice inside the portable ZIP. The installer must be distributed with
@@ -86,10 +86,10 @@ Before adapting any BalorMK implementation code:
 5. review the resulting diff for copied comments, identifiers and substantial
    structure rather than assuming a rewrite has no attribution duty.
 
-## Recommendation requiring owner decision
+## Accepted owner decision
 
 MIT is the simplest project-license candidate because both principal
 upstreams use MIT and the intended addon is meant for upstream contribution.
-This audit does not select it. Kaz must explicitly approve the project license
-before a root `LICENSE` file is added or upstream implementation code is
-adapted.
+Kaz accepted MIT for The Pirate Ray on 2026-10-23 in ADR 0003. This does not
+waive the source provenance, upstream notice or adaptation-review requirements
+recorded above.

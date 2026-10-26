@@ -1,6 +1,6 @@
 # Codex continuation brief
 
-- Updated: 2026-10-24
+- Updated: 2026-10-26
 - Current focus: produce and accept the packaged Windows M1 checkpoint
 - Hardware access: prohibited
 - Automatic toolchain installation: prohibited
@@ -29,8 +29,8 @@ The repository now provides:
   timezone-stamped human review is recorded;
 - pinned upstream contract/license manifests and a drift checker;
 - a fail-closed API-23 adapter isolating Rayforge's internal driver registry;
-- a proposed MIT project-license decision in ADR 0003; Kaz has not accepted
-  it, so the repository remains unlicensed;
+- an accepted MIT project-license decision in ADR 0003 and a root `LICENSE`;
+  third-party notices and distribution-sidecar requirements remain in force;
 - a fail-closed M3 hardware-research protocol, incomplete public plan template
   and validator; validation can reach only `ready_for_review` and never
   authorizes hardware access.
@@ -111,8 +111,8 @@ order:
 If no artifact is available, send the external-builder handoff in
 `docs/research/m1-no-device-acceptance.md`; do not start another research
 branch or install a build environment here. The evidence-backed vector MOPA
-import mapping and synthetic tests are complete; Kaz's explicit decision on
-ADR 0003 is also outstanding.
+import mapping and synthetic tests are complete; ADR 0003 is accepted and the
+project's original code and documentation are licensed under MIT.
 The M3 protocol can also be reviewed offline, but its
 operation allowlist must stay empty until exact read-only request evidence is
 available. ADR 0002 is accepted for the offline architecture. Until the

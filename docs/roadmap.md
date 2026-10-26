@@ -354,7 +354,8 @@ The pinned upstream contracts and license notices are now machine-verifiable.
 Rayforge's documented addon lifecycle is viable, but production driver
 registration still needs a supported symmetric registry API. The current
 internal access is contained by a fail-closed API-23 compatibility adapter;
-project license selection remains an explicit owner decision in ADR 0003.
+the project license is MIT under accepted ADR 0003; upstream attribution and
+distribution notice requirements remain mandatory.
 
 ## Decision rules
 
