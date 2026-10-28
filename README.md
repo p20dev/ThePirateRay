@@ -52,8 +52,10 @@ Missing pulse width still requires explicit resolution before executable import.
 The offline M1 reuse proofs now pass as one consolidated acceptance checkpoint:
 the Rayforge/MeerK40t path has deterministic mock encoding, fail-closed JCZ
 profile and parameter gates, list buffering, cancellation/recovery, layer and
-recipe semantics, and a transport-free workflow preview. A reviewed Windows GTK
-runtime and the packaged no-device workflow test remain outstanding. See the
+recipe semantics, and a transport-free workflow preview. The Windows build
+environment is installed and the pinned package has passed non-executing
+verification; the packaged no-device workflow test remains outstanding. See the
+[Windows build record](docs/research/windows-build-environment-2026-10-28.md),
 [Phase 0 status](docs/status/phase-0.md) and
 [Rayforge GUI preflight](docs/research/rayforge-windows-gui-preflight.md).
 
@@ -85,8 +87,8 @@ release gate, not an architecture-decision gate; see
 The initial offline architecture spikes have passed. The next work remains
 hardware-free:
 
-1. obtain or produce a reviewed Windows Rayforge build artifact without
-   installing a toolchain through this repository;
+1. prepare the checksummed acceptance kit for the built and verified Windows
+   Rayforge artifact;
 2. run and record the packaged no-device desktop interaction checklist;
 3. promote only evidence-backed vector MOPA imports through the existing
    fail-closed review boundary;

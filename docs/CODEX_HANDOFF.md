@@ -1,11 +1,19 @@
 # Codex continuation brief
 
-- Updated: 2026-10-26
-- Current focus: produce and accept the packaged Windows M1 checkpoint
+- Updated: 2026-10-28
+- Current focus: accept the built and verified packaged Windows M1 checkpoint
 - Hardware access: prohibited
 - Automatic toolchain installation: prohibited
 
 ## Verified checkpoint
+
+The operator-authorized local Windows build environment is now installed.
+The pinned Windows checkpoint build and non-executing artifact verification
+passed, as did consolidated M1 automated acceptance using UCRT64 Python.
+The portable ZIP, installer, license sidecar and manifest are in ignored
+`.build/artifacts/`. Packaged desktop interaction remains untested. See
+[the build record](research/windows-build-environment-2026-10-28.md) for hashes,
+runtime versions and unresolved dependency/image-format warnings.
 
 The complete public unit-test suite and public-repository guard pass at this
 checkpoint. The offline Rayforge/MeerK40t evidence covers addon lifecycle, MOPA
@@ -74,9 +82,8 @@ checkpoint; see
 M1 is not yet a packaged desktop checkpoint. Only these two result-oriented
 gates remain:
 
-1. A Windows artifact for the pinned Rayforge revision must be produced on a
-   reviewed build runner, verified without execution, and pass the manual
-   no-device desktop checklist.
+1. The locally built Windows artifact has passed non-executing verification;
+   it must still pass the manual no-device desktop checklist.
 2. The known-working private JPT `.lbrn2` serialization and unit-contract gates
    are met for LightBurn 2.1.03 vector settings. Promotion still requires
    explicit resolution of absent pulse width, image equivalence and complete
